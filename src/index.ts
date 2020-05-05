@@ -1,1 +1,1 @@
-export const hello = "world!";
+// Export functions of this library.

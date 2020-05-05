@@ -1,10 +1,12 @@
 {
-	"name": "@iiitians/fjv",
-	"version": "1.0.0",
+	"name": "@kishorez/fjv",
+	"version": "0.0.1",
 	"description": "Flow based JSON validation to validate data based on flow.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
+		"prepare": "npm run build",
+		"build": "rm -rf ./dist && tsc",
 		"dev": "tsc -w",
 		"test": "jest --watch"
 	},

@@ -1,40 +1,34 @@
 import get from "lodash/get";
 
-export type IJSONLogicOperations =
-	| ["var", ["$data", string] | ["$context", string]]
+export type IJSONOperation =
+	| ["var", ["$data" | "$context", string, string?]]
 
 	// Logic and Boolean operators.
-	| ["?:", [IJSONLogic, IJSONLogic, IJSONLogic]]
-	// | ["==", [IJSONLogic, IJSONLogic]]
-	| ["===", [IJSONLogic, IJSONLogic]]
-	// | ["!=", [IJSONLogic, IJSONLogic]]
-	| ["!==", [IJSONLogic, IJSONLogic]]
-	| ["!", IJSONLogic]
-	| ["||", [IJSONLogic, IJSONLogic]]
-	| ["&&", [IJSONLogic, IJSONLogic]]
-
-	// Numeric Operators.
-	| [">", [IJSONLogic, IJSONLogic] | [IJSONLogic, IJSONLogic, IJSONLogic]]
-	| [">=", [IJSONLogic, IJSONLogic] | [IJSONLogic, IJSONLogic, IJSONLogic]]
-	| ["<", [IJSONLogic, IJSONLogic] | [IJSONLogic, IJSONLogic, IJSONLogic]]
-	| ["<=", [IJSONLogic, IJSONLogic] | [IJSONLogic, IJSONLogic, IJSONLogic]]
+	| ["!", IJSONExpression]
+	| ["?:", [IJSONExpression, IJSONExpression, IJSONExpression]]
+	// variable number of args.
+	| ["===", IJSONExpression[]]
+	| ["!==", IJSONExpression[]]
+	| [">", IJSONExpression[]]
+	| [">=", IJSONExpression[]]
+	| ["<", IJSONExpression[]]
+	| ["<=", IJSONExpression[]]
+	| ["||", IJSONExpression[]]
+	| ["&&", IJSONExpression[]]
 
 	// Arithmatic
-	| ["+", IJSONLogic[]]
-	| ["-", [IJSONLogic, IJSONLogic] | IJSONLogic]
-	| ["*", IJSONLogic[]]
-	| ["/", [IJSONLogic, IJSONLogic]]
-	| ["%", [IJSONLogic, IJSONLogic]]
+	| ["+", IJSONExpression[]]
+	| ["-", IJSONExpression[]]
+	| ["*", IJSONExpression[]]
+	| ["/", IJSONExpression[]]
+	| ["%", IJSONExpression[]];
 
-	// String operations.
-	| ["in", [IJSONLogic, IJSONLogic]]
-	| ["cat", IJSONLogic[]]
-	| ["log", IJSONLogic];
+// String operations.
 
-export type IJSONLogic = number | string | boolean | IJSONLogicOperations;
+export type IJSONExpression = number | string | boolean | IJSONOperation;
 
-export const execJSONLogic = <IData, IContext>(
-	logic: IJSONLogic,
+export const execJSONExpression = <IData, IContext>(
+	logic: IJSONExpression,
 	data: { data: IData; context: IContext }
 ): any => {
 	if (
@@ -44,39 +38,137 @@ export const execJSONLogic = <IData, IContext>(
 	) {
 		return logic;
 	}
-	// Now logic is IJSONLogicOperations.
 	switch (logic[0]) {
 		case "var": {
-			const [type, value] = logic[1];
+			const [type, value, defaultValue] = logic[1];
 			if (type === "$data") {
-				return get(data.data, value);
+				return get(data.data, value, defaultValue);
 			} else {
-				return get(data.context, value);
+				return get(data.context, value, defaultValue);
 			}
+		}
+		case "!": {
+			return !execJSONExpression(logic[1], data);
 		}
 
 		// Logical operators
 		case "?:": {
-			const [cond, step1, step2] = logic[1];
-			if (execJSONLogic(cond, data)) {
-				return execJSONLogic(step1, data);
+			const [cond, case1, case2] = logic[1];
+			if (execJSONExpression(cond, data)) {
+				return execJSONExpression(case1, data);
 			}
-			return execJSONLogic(step2, data);
+			return execJSONExpression(case2, data);
 		}
+
+		// ASSERT CHAIN OPS
 		case "===": {
-			const [val1, val2] = logic[1];
-			return execJSONLogic(val1, data) === execJSONLogic(val2, data);
+			return helper.assertChainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 === v2
+			);
 		}
 		case "!==": {
-			const [val1, val2] = logic[1];
-			return execJSONLogic(val1, data) !== execJSONLogic(val2, data);
+			return helper.assertChainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 !== v2
+			);
 		}
-		case "!": {
+		case ">": {
+			return helper.assertChainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 > v2
+			);
+		}
+		case ">=": {
+			return helper.assertChainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 >= v2
+			);
+		}
+		case "<": {
+			return helper.assertChainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 < v2
+			);
+		}
+		case "<=": {
+			return helper.assertChainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 <= v2
+			);
+		}
+
+		// CHAIN OPS
+		case "||": {
+			return helper.chainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 || v2
+			);
 		}
 		case "&&": {
+			return helper.chainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 && v2
+			);
 		}
-		case "||": {
+		case "+": {
+			return helper.chainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 + v2
+			);
+		}
+		case "-": {
+			return helper.chainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 - v2
+			);
+		}
+		case "*": {
+			return helper.chainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 * v2
+			);
+		}
+		case "/": {
+			return helper.chainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 / v2
+			);
+		}
+		case "%": {
+			return helper.chainOp(
+				helper.mapExpToValue(logic[1], data),
+				(v1, v2) => v1 % v2
+			);
 		}
 	}
-	return true;
+};
+
+const helper = {
+	mapExpToValue: (exps: IJSONExpression[], data: any) => {
+		return exps.map((exp) => execJSONExpression(exp, data));
+	},
+	chainOp: (values: any[], operation: (v1: any, v2: any) => any) => {
+		if (values.length <= 1) {
+			throw new Error("Atleast one value should be present.");
+		}
+		return values.reduce(
+			(agg, v, i) => (i === 0 ? agg : operation(agg, v)),
+			values[0]
+		);
+	},
+	assertChainOp: (
+		values: any[],
+		operation: (v1: any, v2: any) => boolean
+	) => {
+		if (values.length <= 1) {
+			throw new Error("Atleast one value should be present.");
+		}
+		for (let i = 1; i < values.length; i++) {
+			if (!operation(values[i - 1], values[i])) {
+				return false;
+			}
+		}
+		return true;
+	},
 };

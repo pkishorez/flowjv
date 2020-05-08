@@ -1,12 +1,21 @@
 import get from "lodash/get";
 
 export type IJSONOperation =
-	| ["var", ["$data" | "$context", string, string?]]
+	| IJSONDataAccessOperation
+	| IJSONNegationOperation
+	| IJSONTernaryOperation
+	| IJSONChainedOperation;
 
-	// Logic and Boolean operators.
-	| ["!", IJSONExpression]
-	| ["?:", [IJSONExpression, IJSONExpression, IJSONExpression]]
-	// variable number of args.
+export type IJSONDataAccessOperation = [
+	"var",
+	["$data" | "$context", string, string?]
+];
+export type IJSONNegationOperation = ["!", IJSONExpression];
+export type IJSONTernaryOperation = [
+	"?:",
+	[IJSONExpression, IJSONExpression, IJSONExpression]
+];
+export type IJSONChainedOperation =
 	| ["===", IJSONExpression[]]
 	| ["!==", IJSONExpression[]]
 	| [">", IJSONExpression[]]
@@ -15,15 +24,12 @@ export type IJSONOperation =
 	| ["<=", IJSONExpression[]]
 	| ["||", IJSONExpression[]]
 	| ["&&", IJSONExpression[]]
-
-	// Arithmatic
 	| ["+", IJSONExpression[]]
 	| ["-", IJSONExpression[]]
 	| ["*", IJSONExpression[]]
 	| ["/", IJSONExpression[]]
-	| ["%", IJSONExpression[]];
-
-// String operations.
+	| ["%", IJSONExpression[]]
+	| ["str:fmt:email", IJSONExpression[]];
 
 export type IJSONExpression = number | string | boolean | IJSONOperation;
 
@@ -141,6 +147,9 @@ export const execJSONExpression = <IData, IContext>(
 				(v1, v2) => v1 % v2
 			);
 		}
+		case "str:fmt:email": {
+			throw new Error("Need to implement still.");
+		}
 	}
 };
 
@@ -150,7 +159,7 @@ const helper = {
 	},
 	chainOp: (values: any[], operation: (v1: any, v2: any) => any) => {
 		if (values.length <= 1) {
-			throw new Error("Atleast one value should be present.");
+			throw new Error("Atleast 2 values should be present.");
 		}
 		return values.reduce(
 			(agg, v, i) => (i === 0 ? agg : operation(agg, v)),
@@ -162,7 +171,7 @@ const helper = {
 		operation: (v1: any, v2: any) => boolean
 	) => {
 		if (values.length <= 1) {
-			throw new Error("Atleast one value should be present.");
+			throw new Error("Atleast 2 values should be present.");
 		}
 		for (let i = 1; i < values.length; i++) {
 			if (!operation(values[i - 1], values[i])) {

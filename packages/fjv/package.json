@@ -1,30 +1,33 @@
 {
-	"name": "@kishorez/fjv",
-	"version": "0.0.2",
-	"description": "Flow based JSON validation to validate data based on flow.",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"scripts": {
-		"prepare": "npm run build",
-		"build": "rm -rf ./dist && tsc",
-		"dev": "tsc -w",
-		"test": "jest --watch"
-	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"keywords": [],
-	"files": [
-		"dist/**"
-	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/kishoreiiitn/cjv"
-	},
-	"author": "Kishore",
-	"license": "ISC",
-	"dependencies": {
-		"lodash": "^4.17.15"
-	},
-	"gitHead": "30be1a5aaf13eb6e18e318c2588d9492bb05650a"
+  "name": "@kishorez/fjv",
+  "version": "0.0.2",
+  "description": "Flow based JSON validation to validate data based on flow.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepare": "npm run snyk-protect && npm run build",
+    "build": "rm -rf ./dist && tsc",
+    "dev": "tsc -w",
+    "test": "jest --watch",
+    "snyk-protect": "snyk protect"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "files": [
+    "dist/**"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kishoreiiitn/cjv"
+  },
+  "author": "Kishore",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "snyk": "^1.320.2"
+  },
+  "gitHead": "30be1a5aaf13eb6e18e318c2588d9492bb05650a",
+  "snyk": true
 }

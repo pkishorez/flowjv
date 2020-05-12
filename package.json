@@ -1,7 +1,15 @@
 {
 	"name": "fjv",
 	"private": true,
+	"dependencies": {
+		"@kishorez/fjv": "file:packages/fjv"
+	},
 	"devDependencies": {
-		"lerna": "^3.20.2"
+		"@types/jest": "^25.2.1",
+		"@types/lodash": "^4.14.150",
+		"jest": "^25.5.4",
+		"lerna": "^3.20.2",
+		"ts-jest": "^25.4.0",
+		"typescript": "^3.8.3"
 	}
 }

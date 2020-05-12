@@ -10,6 +10,9 @@
 		"dev": "tsc -w",
 		"test": "jest --watch"
 	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"keywords": [],
 	"files": [
 		"dist/**"
@@ -29,5 +32,6 @@
 		"jest": "^25.5.4",
 		"ts-jest": "^25.4.0",
 		"typescript": "^3.8.3"
-	}
+	},
+	"gitHead": "30be1a5aaf13eb6e18e318c2588d9492bb05650a"
 }

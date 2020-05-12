@@ -1,42 +1,57 @@
 import get from "lodash/get";
 
-export type IJSONOperation =
-	| IJSONDataAccessOperation
-	| IJSONNegationOperation
-	| IJSONTernaryOperation
-	| IJSONChainedOperation;
+export type IExpression = number | string | boolean | IOperation;
 
-export type IJSONDataAccessOperation = [
-	"var",
-	["$data" | "$context", string, string?]
-];
-export type IJSONNegationOperation = ["!", IJSONExpression];
-export type IJSONTernaryOperation = [
-	"?:",
-	[IJSONExpression, IJSONExpression, IJSONExpression]
-];
-export type IJSONChainedOperation =
-	| ["===", IJSONExpression[]]
-	| ["!==", IJSONExpression[]]
-	| [">", IJSONExpression[]]
-	| [">=", IJSONExpression[]]
-	| ["<", IJSONExpression[]]
-	| ["<=", IJSONExpression[]]
-	| ["||", IJSONExpression[]]
-	| ["&&", IJSONExpression[]]
-	| ["+", IJSONExpression[]]
-	| ["-", IJSONExpression[]]
-	| ["*", IJSONExpression[]]
-	| ["/", IJSONExpression[]]
-	| ["%", IJSONExpression[]]
-	| ["str:fmt:email", IJSONExpression[]];
+type IMin2ElemArray<T> = [T, T, ...T[]];
+export type IOperation =
+	| IDataAccessOperation
+	| ITernaryOperation
+	| INegationOperation
+	| ILogicalOperation
+	| IComparisonOperation
+	| INumberOperation
+	| IStringOperation;
 
-export type IJSONExpression = number | string | boolean | IJSONOperation;
+export type IDataAccessOperation =
+	| ["var", ["$data" | "$context", string, string?]]
+	| ["$ref"];
+export type ITernaryOperation = ["?:", [IExpression, IExpression, IExpression]];
 
-export const execJSONExpression = <IData, IContext>(
-	logic: IJSONExpression,
-	data: { data: IData; context: IContext }
-): any => {
+export type INegationOperation = ["!", IExpression];
+
+export type ILogicalOperation =
+	| ["enum", IExpression, IExpression[]]
+	| ["===", IMin2ElemArray<IExpression>]
+	| ["!==", IMin2ElemArray<IExpression>]
+	| ["||", IMin2ElemArray<IExpression>]
+	| ["&&", IMin2ElemArray<IExpression>];
+
+export type IComparisonOperation =
+	| [">", IMin2ElemArray<IExpression>]
+	| [">=", IMin2ElemArray<IExpression>]
+	| ["<", IMin2ElemArray<IExpression>]
+	| ["<=", IMin2ElemArray<IExpression>];
+
+export type INumberOperation =
+	| ["+", IMin2ElemArray<IExpression>]
+	| ["-", IMin2ElemArray<IExpression>]
+	| ["*", IMin2ElemArray<IExpression>]
+	| ["/", IMin2ElemArray<IExpression>]
+	| ["%", IMin2ElemArray<IExpression>];
+
+export type IStringOperation =
+	| ["str:fmt:email", IExpression[]]
+	| ["str:len", IExpression];
+
+export interface IJSONExpressionData<IData, IContext> {
+	data?: IData;
+	context?: IContext;
+	ref?: any;
+}
+export const execJSONExpression = <IData = any, IContext = any>(
+	logic: IExpression,
+	data: IJSONExpressionData<IData, IContext>
+): string | number | boolean | null => {
 	if (
 		typeof logic === "number" ||
 		typeof logic === "string" ||
@@ -45,13 +60,28 @@ export const execJSONExpression = <IData, IContext>(
 		return logic;
 	}
 	switch (logic[0]) {
+		// Data Access Operation.
+		case "$ref": {
+			if (typeof data.ref === "undefined") return null;
+			return data.ref;
+		}
 		case "var": {
-			const [type, value, defaultValue] = logic[1];
+			const [type, key, defaultValue] = logic[1];
+			let value: string | null;
 			if (type === "$data") {
-				return get(data.data, value, defaultValue);
+				value =
+					key === ""
+						? data.data || defaultValue
+						: get(data.data, key, defaultValue);
+			} else if (type === "$context") {
+				value =
+					key === ""
+						? data.context || defaultValue
+						: get(data.context, key, defaultValue);
 			} else {
-				return get(data.context, value, defaultValue);
+				value = null;
 			}
+			return value;
 		}
 		case "!": {
 			return !execJSONExpression(logic[1], data);
@@ -64,6 +94,18 @@ export const execJSONExpression = <IData, IContext>(
 				return execJSONExpression(case1, data);
 			}
 			return execJSONExpression(case2, data);
+		}
+
+		case "enum": {
+			const [_, val, enums] = logic;
+			const value = execJSONExpression(val, data);
+			const enumValues = new Set(
+				enums.map((v) => execJSONExpression(v, data))
+			);
+			if (enumValues.has(value)) {
+				return true;
+			}
+			return false;
 		}
 
 		// ASSERT CHAIN OPS
@@ -150,17 +192,23 @@ export const execJSONExpression = <IData, IContext>(
 		case "str:fmt:email": {
 			throw new Error("Need to implement still.");
 		}
+		case "str:len": {
+			const value = execJSONExpression(logic[1], data);
+			if (typeof value !== "string") {
+				throw new Error(
+					`Cannot find length of string on type : ${typeof value}`
+				);
+			}
+			return value.length;
+		}
 	}
 };
 
 const helper = {
-	mapExpToValue: (exps: IJSONExpression[], data: any) => {
+	mapExpToValue: (exps: IExpression[], data: any) => {
 		return exps.map((exp) => execJSONExpression(exp, data));
 	},
 	chainOp: (values: any[], operation: (v1: any, v2: any) => any) => {
-		if (values.length <= 1) {
-			throw new Error("Atleast 2 values should be present.");
-		}
 		return values.reduce(
 			(agg, v, i) => (i === 0 ? agg : operation(agg, v)),
 			values[0]
@@ -170,9 +218,6 @@ const helper = {
 		values: any[],
 		operation: (v1: any, v2: any) => boolean
 	) => {
-		if (values.length <= 1) {
-			throw new Error("Atleast 2 values should be present.");
-		}
 		for (let i = 1; i < values.length; i++) {
 			if (!operation(values[i - 1], values[i])) {
 				return false;

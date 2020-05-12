@@ -21,7 +21,6 @@ describe("JSON Logic Test cases::", () => {
 		expect(
 			execJSONExpression(["var", ["$data", "name"]], {
 				data: { name: "Kishore" },
-				context: {},
 			})
 		).toBe("Kishore");
 		expect(
@@ -35,9 +34,20 @@ describe("JSON Logic Test cases::", () => {
 						{ id: 1, posted_by: "Hello" },
 					],
 				},
-				context: {},
 			})
 		).toBe("hello");
+
+		expect(
+			execJSONExpression([">", [["$ref"], 10]], {
+				ref: 8,
+			})
+		).toBe(false);
+	});
+
+	// Enum Operation
+	it("Enum check", () => {
+		expect(execJSONExpression(["enum", 1, [1, 2, 3]], {})).toBe(true);
+		expect(execJSONExpression(["enum", 5, [1, 2, 3]], {})).toBe(false);
 	});
 
 	it("Chained Assertion === Check.", () => {
@@ -72,10 +82,6 @@ describe("JSON Logic Test cases::", () => {
 	it("Chained Assertion < invalid", () => {
 		expect(execJSONExpression(["<", [1, 1]], ctx)).toBe(false);
 	});
-	it("Chained Assertion <= invalid args", () => {
-		expect(() => execJSONExpression(["<=", [0]], ctx)).toThrow();
-		expect(() => execJSONExpression(["<=", []], ctx)).toThrow();
-	});
 	it("Chained Assertion <= valid", () => {
 		expect(execJSONExpression(["<=", [0, 1, 2, 2, 4]], ctx)).toBe(true);
 	});
@@ -106,5 +112,23 @@ describe("JSON Logic Test cases::", () => {
 	});
 	it("Chained Operation: %", () => {
 		expect(execJSONExpression(["%", [5, 2]], ctx)).toBe(1);
+	});
+
+	// String operations here!
+	it("String operations:", () => {
+		expect(execJSONExpression(["str:len", "Kishore"], ctx)).toBe(7);
+		expect(
+			execJSONExpression(["str:len", ["var", ["$data", ""]]], {
+				data: "Kishore",
+			})
+		).toBe(7);
+		expect(
+			execJSONExpression(["str:len", ["var", ["$data", "name"]]], {
+				data: {
+					name: "Kishore",
+				},
+				context: 1,
+			})
+		).toBe(7);
 	});
 });

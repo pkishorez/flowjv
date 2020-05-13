@@ -1,6 +1,6 @@
 {
 	"name": "flowjv",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"description": "Flow based JSON validation.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -27,5 +27,9 @@
 	"license": "ISC",
 	"dependencies": {
 		"lodash": "^4.17.15"
+	},
+	"gitHead": "ee5443f698bd758a564be07b3b202ed20e0dd019",
+	"devDependencies": {
+		"typescript": "^3.9.2"
 	}
 }

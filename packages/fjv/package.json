@@ -1,7 +1,7 @@
 {
-	"name": "@kishorez/fjv",
-	"version": "0.0.2",
-	"description": "Flow based JSON validation to validate data based on flow.",
+	"name": "flowjv",
+	"version": "0.0.0",
+	"description": "Flow based JSON validation.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
@@ -13,7 +13,9 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"keywords": [],
+	"keywords": [
+		"json-validation"
+	],
 	"files": [
 		"dist/**"
 	],
@@ -25,6 +27,5 @@
 	"license": "ISC",
 	"dependencies": {
 		"lodash": "^4.17.15"
-	},
-	"gitHead": "30be1a5aaf13eb6e18e318c2588d9492bb05650a"
+	}
 }

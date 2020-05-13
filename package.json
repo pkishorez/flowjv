@@ -1,8 +1,8 @@
 {
-	"name": "fjv",
+	"name": "flowjv-workspace",
 	"private": true,
-	"dependencies": {
-		"@kishorez/fjv": "file:packages/fjv"
+	"scripts": {
+		"test": "jest --watch"
 	},
 	"devDependencies": {
 		"@types/jest": "^25.2.1",
@@ -11,5 +11,8 @@
 		"lerna": "^3.20.2",
 		"ts-jest": "^25.4.0",
 		"typescript": "^3.8.3"
+	},
+	"dependencies": {
+		"flowjv": "file:packages/fjv"
 	}
 }

@@ -2,13 +2,16 @@
 	"name": "flowjv-builder",
 	"version": "0.0.3",
 	"description": "",
-	"main": "index.js",
+	"main": "lib/index.js",
 	"scripts": {
 		"dev": "NODE_ENV=development next dev",
 		"build": "NODE_ENV=production next build",
 		"export": "NODE_ENV=production next build && NODE_ENV=production next export",
 		"publish-pages": "npm run export && mv out ../../docs && git add ../../docs && git commit -m 'PUBLISH DOCS!'",
 		"prepublish": "npm run publish-pages"
+	},
+	"publishConfig": {
+		"access": "public"
 	},
 	"files": [
 		"lib"
@@ -25,5 +28,5 @@
 		"gh-pages": "^2.2.0",
 		"sass": "^1.26.5"
 	},
-	"gitHead": "179d472b7ef47113d607c43dc87dcf08e622ab1c"
+	"gitHead": "2db9d3cab359dc25fd3217df138b101ec89f9420"
 }

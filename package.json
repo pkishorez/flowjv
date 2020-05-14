@@ -1,18 +1,22 @@
 {
-	"name": "flowjv-workspace",
-	"private": true,
-	"scripts": {
-		"test": "jest --watch"
-	},
-	"devDependencies": {
-		"@types/jest": "^25.2.1",
-		"@types/lodash": "^4.14.150",
-		"jest": "^25.5.4",
-		"lerna": "^3.20.2",
-		"ts-jest": "^25.4.0",
-		"typescript": "^3.8.3"
-	},
-	"dependencies": {
-		"flowjv": "file:packages/fjv"
-	}
+  "name": "flowjv-workspace",
+  "private": true,
+  "scripts": {
+    "test": "jest --watch",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@types/lodash": "^4.14.150",
+    "jest": "^25.5.4",
+    "lerna": "^3.20.2",
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "flowjv": "file:packages/fjv",
+    "snyk": "^1.320.3"
+  },
+  "snyk": true
 }

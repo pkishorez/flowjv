@@ -7,7 +7,7 @@
 		"dev": "NODE_ENV=development next dev",
 		"build": "NODE_ENV=production next build",
 		"export": "NODE_ENV=production next build && NODE_ENV=production next export",
-		"publish-pages": "npm run export && mv out ../../docs && git add ../../docs && git commit -m 'PUBLISH DOCS!'",
+		"publish-pages": "npm run export && rm -rf ../../docs && mv out ../../docs && git add ../../docs && git commit -m 'PUBLISH DOCS!'",
 		"prepublish": "npm run publish-pages"
 	},
 	"publishConfig": {
@@ -28,5 +28,5 @@
 		"gh-pages": "^2.2.0",
 		"sass": "^1.26.5"
 	},
-	"gitHead": "2db9d3cab359dc25fd3217df138b101ec89f9420"
+	"gitHead": "91fef9908bcef4fd4b63798d53cd083fdef0a3a6"
 }

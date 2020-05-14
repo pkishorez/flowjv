@@ -6,7 +6,7 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"prepare": "npm run build",
-		"build": "rm -rf ./dist && tsc",
+		"build": "rm -rf ./dist && ../../node_modules/.bin/tsc",
 		"dev": "tsc -w",
 		"test": "jest --watch"
 	},
@@ -28,8 +28,5 @@
 	"dependencies": {
 		"lodash": "^4.17.15"
 	},
-	"gitHead": "ee5443f698bd758a564be07b3b202ed20e0dd019",
-	"devDependencies": {
-		"typescript": "^3.9.2"
-	}
+	"gitHead": "ee5443f698bd758a564be07b3b202ed20e0dd019"
 }

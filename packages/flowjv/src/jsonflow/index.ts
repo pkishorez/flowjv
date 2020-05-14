@@ -4,17 +4,26 @@ import {
 	IJSONExpressionData,
 } from "../jsonlogic/index";
 import get from "lodash/get";
+
+type IAtomFlow = {
+	type: "text" | "number" | "boolean";
+	validations?: { logic: IExpression; err?: string }[];
+};
+type IObjectFlow = {
+	type: "object";
+	properties: { key: string; value: IJSONFlow; ignoreKey?: IExpression }[];
+};
 export type IJSONFlow =
-	| ["text" | "number" | "boolean", ...{ logic: IExpression; err?: string }[]]
-	| ["object", ...[string, { type: IJSONFlow; ignoreKey?: IExpression }][]]
-	| ["if", IExpression, IJSONFlow, IJSONFlow?]
-	| [
-			"switch",
-			IExpression,
-			{
+	| IAtomFlow
+	| IObjectFlow
+	| { type: "if"; cond: [IExpression, IJSONFlow, IJSONFlow?] }
+	| {
+			type: "switch";
+			cond: IExpression;
+			flowMap: {
 				[key: string]: IJSONFlow;
-			}
-	  ];
+			};
+	  };
 
 export const execJSONFlow = <IData, IContext>(
 	flow: IJSONFlow,
@@ -27,11 +36,11 @@ const _execJSONFlow = <IData, IContext>(
 	flow: IJSONFlow,
 	data: IJSONExpressionData<IData, IContext>
 ): { isValid: boolean; errors: string[] | null } => {
-	switch (flow[0]) {
+	switch (flow.type) {
 		case "number":
 		case "text":
 		case "boolean": {
-			const [_, ...validations] = flow;
+			const { validations = [] } = flow;
 			const errors = validations
 				.map(({ logic, err }) => {
 					const result = !!execJSONExpression(logic, data);
@@ -44,13 +53,14 @@ const _execJSONFlow = <IData, IContext>(
 			};
 		}
 		case "object": {
-			const [_, ...objectFlow] = flow;
-			for (let [
+			const { properties } = flow;
+			for (let {
 				key,
-				{ type: keyFlow, ignoreKey: keyLogic },
-			] of objectFlow) {
-				const ignoreKey = keyLogic
-					? execJSONExpression(keyLogic, data)
+				value: keyFlow,
+				ignoreKey: ignoreKeyLogic,
+			} of properties) {
+				const ignoreKey = ignoreKeyLogic
+					? execJSONExpression(ignoreKeyLogic, data)
 					: false;
 				if (ignoreKey) {
 					// ignore key.
@@ -67,8 +77,10 @@ const _execJSONFlow = <IData, IContext>(
 			break;
 		}
 		case "if": {
-			const [_, cond, case1, case2] = flow;
-			if (execJSONExpression(cond, data)) {
+			const {
+				cond: [expression, case1, case2],
+			} = flow;
+			if (execJSONExpression(expression, data)) {
 				return _execJSONFlow(case1, data);
 			}
 			if (case2) {

@@ -10,6 +10,9 @@
 		"publish-pages": "npm run export && mv out ../../docs && git add ../../docs && git commit -m 'PUBLISH DOCS!'",
 		"prepublish": "npm run publish-pages"
 	},
+	"files": [
+		"lib"
+	],
 	"keywords": [],
 	"author": "Kishore",
 	"license": "ISC",
@@ -21,5 +24,6 @@
 	"devDependencies": {
 		"gh-pages": "^2.2.0",
 		"sass": "^1.26.5"
-	}
+	},
+	"gitHead": "179d472b7ef47113d607c43dc87dcf08e622ab1c"
 }

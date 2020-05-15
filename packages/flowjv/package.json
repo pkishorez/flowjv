@@ -21,12 +21,12 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/kishoreiiitn/cjv"
+		"url": "https://github.com/kishoreiiitn/flowjv"
 	},
 	"author": "Kishore",
 	"license": "ISC",
 	"dependencies": {
 		"lodash": "^4.17.15"
 	},
-	"gitHead": "91fef9908bcef4fd4b63798d53cd083fdef0a3a6"
+	"gitHead": "7a2bdb50b819aa0f6da6a045c015354d2860323c"
 }

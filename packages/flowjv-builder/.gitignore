@@ -2,4 +2,3 @@ node_modules
 .next
 out
 .DS_Store
-package-lock.json

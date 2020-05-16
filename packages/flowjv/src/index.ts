@@ -1,4 +1,7 @@
 // Export functions of this library.
 
-export { execJSONExpression } from "./jsonlogic";
-export { execJSONFlow } from "./jsonflow";
+export {
+	execJSONExpression,
+	IExpression as IJSONExpression,
+} from "./jsonlogic";
+export { validateJSONFlow, IJSONFlow } from "./jsonflow";

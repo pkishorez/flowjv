@@ -2,7 +2,8 @@
 	"name": "flowjv-workspace",
 	"private": true,
 	"scripts": {
-		"test": "jest --watch"
+		"test": "jest --watch",
+		"publish-docs": "sh ./publish-docs.sh"
 	},
 	"devDependencies": {
 		"@fullhuman/postcss-purgecss": "^2.2.0",
@@ -14,7 +15,9 @@
 		"autoprefixer": "^9.7.6",
 		"jest": "^25.5.4",
 		"lerna": "^3.20.2",
+		"majestic": "^1.7.0",
 		"postcss-import": "^12.0.1",
+		"sass": "^1.26.5",
 		"tailwindcss": "^1.4.6",
 		"ts-jest": "^25.4.0",
 		"ts-node": "^8.10.1",
@@ -22,6 +25,7 @@
 	},
 	"dependencies": {
 		"flowjv": "file:packages/flowjv",
-		"flowjv-builder": "file:packages/flowjv-builder"
+		"flowjv-builder": "file:packages/flowjv-builder",
+		"flowjv-react": "file:packages/flowjv-react"
 	}
 }

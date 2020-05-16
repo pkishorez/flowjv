@@ -1,4 +1,4 @@
-import { execJSONFlow, IJSONFlow } from "../index";
+import { IJSONFlow, validateJSONFlow } from "../index";
 
 const profileFlow: IJSONFlow = {
 	type: "object",
@@ -6,7 +6,7 @@ const profileFlow: IJSONFlow = {
 		{
 			key: "name",
 			value: {
-				type: "text",
+				type: "string",
 				validations: [
 					{
 						logic: ["===", [["$ref"], "Kishore"]],
@@ -30,7 +30,7 @@ const profileFlow: IJSONFlow = {
 		{
 			key: "gender",
 			value: {
-				type: "text",
+				type: "string",
 				validations: [
 					{
 						logic: ["enum", ["$ref"], ["male", "female"]],
@@ -42,7 +42,7 @@ const profileFlow: IJSONFlow = {
 		{
 			key: "password",
 			value: {
-				type: "text",
+				type: "string",
 				validations: [
 					{
 						logic: [">", [["str:len", ["$ref"]], 5]],
@@ -54,7 +54,7 @@ const profileFlow: IJSONFlow = {
 		{
 			key: "cnfPassword",
 			value: {
-				type: "text",
+				type: "string",
 				validations: [
 					{
 						logic: [
@@ -69,16 +69,15 @@ const profileFlow: IJSONFlow = {
 	],
 };
 describe("Flow Test", () => {
-	it("Basic Profile json test", () => {
-		expect(execJSONFlow(profileFlow, {}).isValid).toBe(false);
-	});
 	it("Basic Profile json test2", () => {
-		const result = execJSONFlow(profileFlow, {
-			name: "Kishore",
-			age: 21,
-			password: "passwd",
-			cnfPassword: "passwd",
-			gender: "male",
+		const result = validateJSONFlow(profileFlow, {
+			data: {
+				name: "Kishore",
+				age: 21,
+				password: "passwd",
+				cnfPassword: "passwd",
+				gender: "male",
+			},
 		});
 		expect(result.isValid).toBe(true);
 	});

@@ -6,8 +6,7 @@
 	"scripts": {
 		"dev": "NODE_ENV=development next dev",
 		"build": "NODE_ENV=production next build",
-		"export": "NODE_ENV=production next build && NODE_ENV=production next export",
-		"gh-pages": "npm run export && rm -rf ../../docs && mv out ../../docs && git add ../../docs && git commit -m 'PUBLISH DOCS!'"
+		"export": "NODE_ENV=production next build && NODE_ENV=production next export"
 	},
 	"publishConfig": {
 		"access": "public"
@@ -22,10 +21,6 @@
 		"next": "^9.4.0",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1"
-	},
-	"devDependencies": {
-		"gh-pages": "^2.2.0",
-		"sass": "^1.26.5"
 	},
 	"gitHead": "7a2bdb50b819aa0f6da6a045c015354d2860323c"
 }

@@ -1,0 +1,22 @@
+{
+	"name": "flowjv-react",
+	"version": "0.0.6",
+	"description": "React integration for flowjv",
+	"main": "index.js",
+	"scripts": {
+		"prepare": "npm run build",
+		"build": "rm -rf ./dist && ../../node_modules/.bin/tsc",
+		"dev": "../../node_modules/.bin/tsc -w"
+	},
+	"files": [
+		"dist"
+	],
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"peerDependencies": {
+		"flowjv": "^0.0.6",
+		"react": "^16.13.1",
+		"react-dom": "^16.13.1"
+	}
+}

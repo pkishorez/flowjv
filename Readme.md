@@ -1,10 +1,9 @@
-# FlowJV
+![FlowJV](packages/flowjv-builder/public/logo.svg)
 
-### Schema based JSON validators.
+###### A Flow based JSON Validation Library.
 
-Typical JSON validators ensure the json data's adherence to JSON schema.
-If it doesn't adhere, gives tons of errors about how it failed to do so!
+_NOTE: The library is still in active development._
 
 ### Introducing Flow based JSON validation!
 
-Moving validation from schema based to flow based, open's up lot of possibilities not just in terms of performance, but also in terms of rich user experience when validating data.
+Moving validation from schema based to flow based, open's up lot of possibilities not just in terms of rich user experience, but also in terms of rich developer experience in creating complex forms.

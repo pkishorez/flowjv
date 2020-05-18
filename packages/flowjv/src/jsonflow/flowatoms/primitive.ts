@@ -7,6 +7,7 @@ import { IJSONFlowReturnType, IFlowContext } from "../index";
 
 export type IPrimitiveFlow = {
 	type: "string" | "number" | "boolean";
+	label?: string;
 	validations?: { logic: IExpression; err?: string }[];
 };
 

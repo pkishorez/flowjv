@@ -5,66 +5,47 @@ const profileFlow: IJSONFlow = {
 	properties: [
 		{
 			key: "name",
-			value: {
-				type: "string",
-				validations: [
-					{
-						logic: ["===", [["$ref"], "Kishore"]],
-						err: "Name should be kishore",
-					},
-				],
-			},
+			type: "string",
 		},
 		{
 			key: "age",
-			value: {
-				type: "number",
-				validations: [
-					{
-						logic: ["<=", [20, ["$ref"], 30]],
-						err: "Age should be between 20 and 30.",
-					},
-				],
-			},
+			type: "number",
+			validations: [
+				{
+					logic: ["<=", [20, ["$ref"], 30]],
+					err: "Age should be between 20 and 30.",
+				},
+			],
 		},
 		{
 			key: "gender",
-			value: {
-				type: "string",
-				validations: [
-					{
-						logic: ["enum", ["$ref"], ["male", "female"]],
-						err: "Gender should be either male or female",
-					},
-				],
-			},
+			type: "string",
+			validations: [
+				{
+					logic: ["enum", ["$ref"], ["male", "female"]],
+					err: "Gender should be either male or female",
+				},
+			],
 		},
 		{
 			key: "password",
-			value: {
-				type: "string",
-				validations: [
-					{
-						logic: [">", [["str:len", ["$ref"]], 5]],
-						err: "Password length should be minimum 5 characters.",
-					},
-				],
-			},
+			type: "string",
+			validations: [
+				{
+					logic: [">", [["str:len", ["$ref"]], 5]],
+					err: "Password length should be minimum 5 characters.",
+				},
+			],
 		},
 		{
 			key: "cnfPassword",
-			value: {
-				type: "string",
-				validations: [
-					{
-						logic: [
-							"===",
-							[["var", ["$data", "password"]], ["$ref"]],
-						],
-						err: "Should match password!",
-					},
-				],
-			},
+			type: "string",
+			validations: [
+				{
+					logic: ["===", [["var", ["$data", "password"]], ["$ref"]]],
+					err: "Should match password!",
+				},
+			],
 		},
 	],
 };

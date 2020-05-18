@@ -11,21 +11,38 @@ export default function Index() {
 					<div className="text-center text-teal-800">
 						{/* <div className="font-bold">Helloo</div> */}
 						<div className="inline-flex items-start font-bold">
-							<h1>FlowJV</h1>
-							<div
-								className="text-6xl"
-								style={{ lineHeight: "1em" }}
-							>
-								!
-							</div>
+							{/* <h1>FlowJV</h1> */}
+							<img src="/logo.svg" className="h-20" />
 						</div>
 					</div>
-					<div className="text-center text-black text-xs">
-						Still Work in progress
-						<br /> Check this space for updates.
+					<div className="text-center text-black mt-3">
+						A Flow based JSON validation library.
+					</div>
+					<div className="flex justify-center mt-3">
+						<HyperLink href="https://pkishoez.gitbook.io/flowjv/">
+							Docs
+						</HyperLink>
+						<HyperLink className="ml-2" href="demo">
+							Demo
+						</HyperLink>
 					</div>
 				</div>
 			</div>
 		</>
 	);
 }
+
+const HyperLink = ({ href, children, className = "", ...props }) => {
+	return (
+		<a
+			{...props}
+			href={href}
+			className={
+				"py-2 px-3 bg-gray-700 text-white hover:bg-gray-800 " +
+				className
+			}
+		>
+			{children}
+		</a>
+	);
+};

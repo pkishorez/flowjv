@@ -6,10 +6,10 @@ import {
 import { IJSONFlow, IJSONFlowReturnType, execJSONFlow } from "../index";
 import get from "lodash/get";
 import { IFlowContext } from "../index";
+import { IPrimitiveFlow, execPrimitiveFlow } from "./primitive";
 
-type IObjectProperty = {
+type IObjectProperty = (IPrimitiveFlow | IObjectFlow) & {
 	key: string;
-	value: IJSONFlow;
 	ignoreKey?: IExpression;
 };
 export type IObjectFlow = {
@@ -24,21 +24,35 @@ export const execObjectFlow = <IData, IContext>(
 ): IJSONFlowReturnType => {
 	const { properties } = flow;
 	for (let config of properties) {
-		const { key, value, ignoreKey } = config;
+		const { ignoreKey, key } = config;
 		if (ignoreKey) {
 			const ignore = !!execJSONExpression(ignoreKey, data);
 			if (ignore) continue;
 		}
-		const nestedRef = get(data.ref, key);
-		const result = execJSONFlow(
-			value,
-			{ ...data, ref: nestedRef },
-			{ ...flowContext, refPath: [...flowContext.refPath, key] }
-		);
+		const refPath = [...flowContext.refPath, key];
+		switch (config.type) {
+			case "object": {
+				return execObjectFlow(config, data, {
+					...flowContext,
+					refPath,
+				});
+			}
 
-		// Return error if any.
-		if (!result.isValid) {
-			return result;
+			// Default specifies a primitive value type!
+			default: {
+				const result = execPrimitiveFlow(
+					config,
+					{ ...data, ref: get(data.data, key) },
+					{
+						...flowContext,
+						refPath,
+					}
+				);
+				if (!result.isValid) {
+					return result;
+				}
+				break;
+			}
 		}
 	}
 	return { errors: null, isValid: true, refPath: flowContext.refPath };

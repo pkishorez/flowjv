@@ -195,9 +195,7 @@ export const execJSONExpression = <IData = any, IContext = any>(
 		case "str:len": {
 			const value = execJSONExpression(logic[1], data);
 			if (typeof value !== "string") {
-				throw new Error(
-					`Cannot find length of string on type : ${typeof value}`
-				);
+				return 0;
 			}
 			return value.length;
 		}

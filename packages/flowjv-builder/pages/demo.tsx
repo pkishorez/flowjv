@@ -72,7 +72,7 @@ export default function () {
 				`}
 			</style>
 			<img
-				src="/logo-square.svg"
+				src="logo-square.svg"
 				className="h-20 block mx-auto w-16 mt-16"
 			/>
 			<div className="max-w-sm mx-auto w-full bg-white p-5 shadow-md">

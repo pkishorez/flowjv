@@ -12,7 +12,7 @@ export default function Index() {
 						{/* <div className="font-bold">Helloo</div> */}
 						<div className="inline-flex items-start font-bold">
 							{/* <h1>FlowJV</h1> */}
-							<img src="/logo.svg" className="h-20" />
+							<img src="logo.svg" className="h-20" />
 						</div>
 					</div>
 					<div className="text-center text-black mt-3">

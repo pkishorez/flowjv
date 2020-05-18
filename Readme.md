@@ -1,8 +1,10 @@
-![FlowJV](packages/flowjv-builder/public/logo.svg)
-
-###### A Flow based JSON Validation Library.
-
-_NOTE: The library is still in active development._
+<p align="center">
+    <img width="200" src="packages/flowjv-builder/public/logo.svg">
+    <center>A Flow based JSON Validation Library.</center>
+    <center style="font-size: 12px;margin-top: 10px;">
+        <i>NOTE: The library is still in active development.</i>
+    </center>
+</p>
 
 ### Introducing Flow based JSON validation!
 

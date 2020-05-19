@@ -33,6 +33,7 @@ export const execJSONFlow = <IData, IContext>(
 	switch (flow.type) {
 		case "string":
 		case "number":
+		case "enum":
 		case "boolean":
 			return execPrimitiveFlow(flow, data, flowContext);
 		case "object":

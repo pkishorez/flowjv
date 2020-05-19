@@ -8,10 +8,17 @@ import get from "lodash/get";
 import { IFlowContext } from "../index";
 import { IPrimitiveFlow, execPrimitiveFlow } from "./primitive";
 
-type IObjectProperty = (IPrimitiveFlow | IObjectFlow) & {
-	key: string;
-	ignoreKey?: IExpression;
-};
+type IObjectProperty =
+	| ((IPrimitiveFlow | IObjectFlow) & {
+			key: string;
+			ignoreKey?: IExpression;
+	  })
+	| {
+			type: "if";
+			cond: IExpression;
+			true: IObjectProperty[];
+			false?: IObjectProperty[];
+	  };
 export type IObjectFlow = {
 	type: "object";
 	properties: IObjectProperty[];
@@ -24,6 +31,21 @@ export const execObjectFlow = <IData, IContext>(
 ): IJSONFlowReturnType => {
 	const { properties } = flow;
 	for (let config of properties) {
+		if (config.type === "if") {
+			const cond = !!execJSONExpression(config.cond, data);
+			const flow = cond ? config.true : config.false;
+			if (flow) {
+				const result = execObjectFlow(
+					{ type: "object", properties: flow },
+					data,
+					flowContext
+				);
+				if (!result.isValid) {
+					return result;
+				}
+			}
+			continue;
+		}
 		const { ignoreKey, key } = config;
 		if (ignoreKey) {
 			const ignore = !!execJSONExpression(ignoreKey, data);

@@ -1,83 +1,164 @@
-import React, { useState } from "react";
-import { IJSONFlow, execJSONExpression } from "flowjv";
+import React, { useState, useRef, useEffect } from "react";
+import { IJSONFlow, execJSONExpression, IValidation } from "flowjv";
 import get from "lodash/get";
 import set from "lodash/set";
-import deepClone from "lodash/cloneDeep";
-import { defaultConfig, IConfig } from "./config";
+import cloneDeep from "lodash/cloneDeep";
+import { defaultConfig } from "./config";
+import unset from "lodash/unset";
 
 interface IFlowJVProps<IContext> {
 	schema: IJSONFlow;
-	defaultValue: any;
+	defaultValue?: any;
 	context?: IContext;
 	className?: string;
+	value?: any;
+	onChange?: (value: any) => void;
+	onSubmit?: (value: any) => void;
 }
 
-export const setupFlowJV = (config: IConfig = defaultConfig) => {
+export function setupFlowJV(Config = defaultConfig) {
 	return function <IContext = any>({
 		schema,
 		defaultValue,
 		context,
+		value,
+		onChange,
+		onSubmit,
 	}: IFlowJVProps<IContext>) {
-		const [formValue, setFormValue] = useState(defaultValue);
+		const [formValue, _setFormValue] = useState(defaultValue);
 		const [touchMap, _setTouchMap] = useState<any>({});
+
+		// Using ref of value to avoid async nature of JS error.
+		const valueRef = useRef<any>(value);
+		useEffect(() => {
+			valueRef.current = value;
+		}, [value]);
 		const setTouch = (refPath: string) => {
 			_setTouchMap({ ...touchMap, [refPath]: true });
+		};
+		const setValue = (key: string, v: any) => {
+			if (value) {
+				const clonedValue = cloneDeep(valueRef.current);
+				const newValue = set(clonedValue, key, v);
+				valueRef.current = newValue;
+				onChange?.(newValue);
+				console.log("SET VLAUE ", JSON.stringify(newValue));
+			} else {
+				_setFormValue(set(formValue, key, v));
+			}
+		};
+		const unsetValue = (key: string) => {
+			if (value) {
+				const clonedValue = cloneDeep(valueRef.current);
+				unset(clonedValue, key);
+				valueRef.current = clonedValue;
+				onChange?.(cloneDeep(clonedValue));
+				console.log(JSON.stringify(clonedValue));
+			} else {
+				unset(formValue, key);
+				_setFormValue(cloneDeep(formValue));
+			}
+		};
+		const getValue = (key: string = "", def = "") => {
+			if (key === "") {
+				return value ? valueRef.current : formValue;
+			}
+			return value
+				? get(valueRef.current, key, def)
+				: get(formValue, key, def);
 		};
 		function render(schema: IJSONFlow, ref: string[] = []) {
 			switch (schema.type) {
 				case "object": {
 					// Loop over all the elements.
-					return schema.properties.map((v) => {
-						switch (v.type) {
+					return schema.properties.map((objconfig) => {
+						switch (objconfig.type) {
+							case "if": {
+								const cond = !!execJSONExpression(
+									objconfig.cond,
+									{
+										data: getValue(),
+										context,
+										ref: getValue(ref.join(".")),
+									}
+								);
+								const flow = cond
+									? objconfig.true
+									: objconfig.false;
+								if (flow) {
+									return render(
+										{ type: "object", properties: flow },
+										ref
+									);
+								}
+								break;
+							}
 							default: {
-								return render(v, [...ref, v.key]);
+								return render(objconfig, [
+									...ref,
+									objconfig.key,
+								]);
 							}
 						}
 					});
 				}
+			}
+			const validate = (validations: IValidation[], refValue: any) =>
+				(
+					validations?.map(({ logic, err }) =>
+						!!execJSONExpression(logic, {
+							data: getValue(),
+							context,
+							ref: refValue,
+						})
+							? null
+							: err || null
+					) || []
+				).filter((v) => v !== null) as string[];
+			const refValue = getValue(ref.join(""));
+			const refPath = ref.join(".");
+			const touched = touchMap[refPath];
+
+			let validations = schema.validations || [];
+			switch (schema.type) {
+				case "enum":
 				case "boolean":
 				case "number":
 				case "string": {
 					// Render the components here!
-
-					const refValue = get(formValue, ref.join("."));
-					const errors = (
-						schema.validations?.map(({ logic, err }) =>
-							!!execJSONExpression(logic, {
-								data: formValue,
-								context,
-								ref: refValue,
-							})
-								? null
-								: err || null
-						) || []
-					).filter((v) => v !== null) as string[];
-					const refPath = ref.join(".");
-					const touched = touchMap[refPath];
-					const Component = config.string;
+					const errors = validate(validations || [], refValue);
 					return (
-						<Component
+						<Config
 							key={refPath}
-							label={schema.label}
-							errors={touched ? errors : []}
-							success={touched ? !errors.length : false}
-							type="text"
-							value={get(formValue, refPath, "")}
-							onFocus={(e) => setTouch(refPath)}
-							onChange={(e) => {
-								const value = set(
-									deepClone(formValue),
-									refPath,
-									e.target.value
-								);
-								setTouch(refPath);
-								setFormValue(value);
+							schema={schema}
+							ui={{
+								label: schema.label,
+								errors: touched ? errors : [],
+								success: touched ? !errors.length : false,
+								value: getValue(refPath),
+								onChange: (v) => {
+									setValue(refPath, v);
+								},
+								onUnmount: () => {
+									unsetValue(refPath);
+								},
+								setTouch: () => {
+									setTouch(refPath);
+								},
 							}}
 						/>
 					);
 				}
 			}
 		}
-		return <div>{render(schema)}</div>;
+		return (
+			<form
+				onSubmit={() => {
+					onSubmit?.(valueRef.current);
+				}}
+			>
+				{render(schema)}
+			</form>
+		);
 	};
-};
+}

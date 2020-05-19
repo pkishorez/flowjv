@@ -5,22 +5,35 @@ import {
 } from "../../jsonlogic";
 import { IJSONFlowReturnType, IFlowContext } from "../index";
 
-export type IPrimitiveFlow = {
-	type: "string" | "number" | "boolean";
-	label?: string;
-	validations?: { logic: IExpression; err?: string }[];
-};
+export interface IValidation {
+	logic: IExpression;
+	err?: string;
+}
+export type IPrimitiveFlow =
+	| {
+			type: "string" | "number" | "boolean";
+			label?: string;
+			validations?: IValidation[];
+	  }
+	| {
+			type: "enum";
+			label?: string;
+			err?: string;
+			items: { label?: string; value: any }[];
+			validations?: IValidation[];
+	  };
 
 export const execPrimitiveFlow = <IData, IContext>(
 	flow: IPrimitiveFlow,
 	data: IJSONExpressionData<IData, IContext>,
 	flowContext: IFlowContext
 ): IJSONFlowReturnType => {
+	let validations = flow.validations || [];
 	switch (flow.type) {
+		case "enum":
 		case "boolean":
 		case "number":
 		case "string": {
-			const { validations = [] } = flow;
 			const errors = validations
 				.map(({ logic, err }) => {
 					const result = !!execJSONExpression(logic, data);

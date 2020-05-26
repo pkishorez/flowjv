@@ -5,7 +5,7 @@
 	"main": "dist/index.js",
 	"scripts": {
 		"prepare": "npm run build",
-		"build": "rm -rf ./dist && ../../node_modules/.bin/tsc",
+		"build": "rm -rf ./dist && ../../node_modules/.bin/tsc && ../../node_modules/.bin/postcss styles/index.scss -o dist/main.css",
 		"dev": "../../node_modules/.bin/tsc -w"
 	},
 	"files": [
@@ -16,6 +16,7 @@
 	"license": "ISC",
 	"peerDependencies": {
 		"flowjv": "^0.0.6",
+		"framer-motion": "^1.11.0",
 		"lodash": "^4.17.15",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1"

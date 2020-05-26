@@ -42,7 +42,7 @@ const profileFlow: IJSONFlow = {
 			type: "string",
 			validations: [
 				{
-					logic: ["===", [["var", ["$data", "password"]], ["$ref"]]],
+					logic: ["===", [["$data", "password"], ["$ref"]]],
 					err: "Should match password!",
 				},
 			],

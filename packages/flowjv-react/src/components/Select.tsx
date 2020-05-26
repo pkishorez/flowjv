@@ -45,6 +45,7 @@ export const SelectField = ({
 					className
 				)}
 			>
+				<option value={undefined}>Select</option>
 				{options.map((v, i) => (
 					<option value={v.value} key={i}>
 						{v.label || v.value}

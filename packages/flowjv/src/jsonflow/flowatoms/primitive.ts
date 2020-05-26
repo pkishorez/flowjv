@@ -12,11 +12,13 @@ export interface IValidation {
 export type IPrimitiveFlow =
 	| {
 			type: "string" | "number" | "boolean";
+			uiType?: "number" | "text" | "password";
 			label?: string;
 			validations?: IValidation[];
 	  }
 	| {
 			type: "enum";
+			uiType?: "select" | "radio";
 			label?: string;
 			err?: string;
 			items: { label?: string; value: any }[];

@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, useEffect } from "react";
 import cx from "classnames";
 
 interface IRadioProps {
@@ -7,9 +7,10 @@ interface IRadioProps {
 	checked?: boolean;
 	name?: string;
 	className?: string;
+	onFocus?: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 export const Radio = forwardRef<any, IRadioProps>(
-	({ onChange, value, checked, name, className }, ref) => {
+	({ onChange, value, checked, name, className, onFocus }, ref) => {
 		return (
 			<input
 				name={name}
@@ -22,6 +23,7 @@ export const Radio = forwardRef<any, IRadioProps>(
 				checked={checked}
 				ref={ref}
 				onChange={onChange}
+				onFocus={onFocus}
 			/>
 		);
 	}
@@ -33,22 +35,32 @@ interface IRadioGroupProps {
 	onChange?: (v: string) => any;
 	options: { label?: string; value: string }[];
 	inputProps?: IRadioProps;
+	onUnmount?: any;
+	onMount?: any;
+	label?: string;
 }
 export const RadioGroup = ({
 	value,
 	className,
 	options,
 	onChange,
+	label,
+	onUnmount,
+	onMount,
 }: IRadioGroupProps) => {
+	useEffect(() => {
+		onMount?.();
+		return onUnmount;
+	}, []);
 	const change = (e) => {
-		const v = e.target.value;
-		onChange && onChange(v);
+		onChange?.(e.target.value);
 	};
 	return (
-		<div>
+		<div className="mt-3">
+			<div className="text-lg">{label}</div>
 			{options.map(({ label, value: v }, i) => (
 				<label
-					className={cx("flex items-center p-2 w-full", className)}
+					className={cx("flex items-center py-1 px-2", className)}
 					key={i}
 				>
 					<Radio value={v} onChange={change} checked={value === v} />

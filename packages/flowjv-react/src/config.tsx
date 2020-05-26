@@ -3,6 +3,7 @@ import { TextField } from "./components/TextField";
 import { IPrimitiveFlow } from "flowjv";
 import { Checkbox } from "./components/Checkbox";
 import { SelectField } from "./components/Select";
+import { RadioGroup } from "./components/Radio";
 
 export interface IUIConfig {
 	errors: string[];
@@ -21,22 +22,15 @@ export const defaultConfig = ({
 	ui: IUIConfig;
 }) => {
 	switch (schema.type) {
-		case "string": {
-			return (
-				<TextField
-					{...ui}
-					type="text"
-					onFocus={setTouch}
-					onChange={(e) => onChange(e.target.value)}
-				/>
-			);
-		}
+		case "string":
 		case "number": {
+			let { uiType } = schema;
+			uiType = uiType || (schema.type === "number" ? "number" : "text");
 			return (
 				<TextField
-					type="number"
-					onChange={(e) => onChange(e.target.value)}
+					type={uiType}
 					onFocus={setTouch}
+					onChange={(e) => onChange(e.target.value)}
 					{...ui}
 				/>
 			);
@@ -51,14 +45,32 @@ export const defaultConfig = ({
 			);
 		}
 		case "enum": {
-			return (
-				<SelectField
-					{...ui}
-					onFocus={setTouch}
-					onChange={(e) => onChange(e.target.value)}
-					options={schema.items}
-				/>
-			);
+			const { uiType = "select" } = schema;
+			switch (uiType) {
+				case "radio": {
+					return (
+						<RadioGroup
+							{...ui}
+							inputProps={{
+								onFocus: setTouch,
+							}}
+							onChange={(v) => onChange(v)}
+							options={schema.items}
+						/>
+					);
+				}
+				case "select": {
+					return (
+						<SelectField
+							{...ui}
+							label={schema.label}
+							onFocus={setTouch}
+							onChange={(e) => onChange(e.target.value)}
+							options={schema.items}
+						/>
+					);
+				}
+			}
 		}
 	}
 };

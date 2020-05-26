@@ -27,7 +27,7 @@ export const Checkbox = ({
 		return onUnmount;
 	}, []);
 	return (
-		<label className={cx("mb-2 flex items-center p-2", className)}>
+		<label className={cx("mt-3 flex items-center p-2", className)}>
 			<input
 				{...props}
 				type="checkbox"

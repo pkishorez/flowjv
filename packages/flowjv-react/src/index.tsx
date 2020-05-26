@@ -1,22 +1,27 @@
 import React, { useState, useRef, useEffect } from "react";
-import { IJSONFlow, execJSONExpression, IValidation } from "flowjv";
+import { IFlowSchema, execJSONExpression, IValidation } from "flowjv";
 import get from "lodash/get";
 import set from "lodash/set";
 import cloneDeep from "lodash/cloneDeep";
 import { defaultConfig } from "./config";
 import unset from "lodash/unset";
+import { RadioGroup } from "./components/Radio";
 
 interface IFlowJVProps<IContext> {
-	schema: IJSONFlow;
+	schema: IFlowSchema;
 	defaultValue?: any;
 	context?: IContext;
 	className?: string;
 	value?: any;
 	onChange?: (value: any) => void;
 	onSubmit?: (value: any) => void;
+	formProps?: React.DetailedHTMLProps<
+		React.FormHTMLAttributes<HTMLFormElement>,
+		HTMLFormElement
+	>;
 }
 
-export function setupFlowJV(Config = defaultConfig) {
+export const setupFlowJV = (Config = defaultConfig) => {
 	return function <IContext = any>({
 		schema,
 		defaultValue,
@@ -24,6 +29,7 @@ export function setupFlowJV(Config = defaultConfig) {
 		value,
 		onChange,
 		onSubmit,
+		formProps,
 	}: IFlowJVProps<IContext>) {
 		const [formValue, _setFormValue] = useState(defaultValue);
 		const [touchMap, _setTouchMap] = useState<any>({});
@@ -67,7 +73,7 @@ export function setupFlowJV(Config = defaultConfig) {
 				? get(valueRef.current, key, def)
 				: get(formValue, key, def);
 		};
-		function render(schema: IJSONFlow, ref: string[] = []) {
+		function render(schema: IFlowSchema, ref: string[] = []) {
 			switch (schema.type) {
 				case "object": {
 					// Loop over all the elements.
@@ -153,6 +159,7 @@ export function setupFlowJV(Config = defaultConfig) {
 		}
 		return (
 			<form
+				{...formProps}
 				onSubmit={() => {
 					onSubmit?.(valueRef.current);
 				}}
@@ -161,4 +168,4 @@ export function setupFlowJV(Config = defaultConfig) {
 			</form>
 		);
 	};
-}
+};

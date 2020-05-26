@@ -13,7 +13,7 @@ export type IOperation =
 	| IStringOperation;
 
 export type IDataAccessOperation =
-	| ["var", ["$data" | "$context", string, string?]]
+	| ["$data" | "$context", string, string?]
 	| ["$ref"];
 export type ITernaryOperation = ["?:", [IExpression, IExpression, IExpression]];
 
@@ -40,7 +40,7 @@ export type INumberOperation =
 	| ["%", IMin2ElemArray<IExpression>];
 
 export type IStringOperation =
-	| ["str:fmt:email", IExpression[]]
+	| ["str:fmt:email", IExpression]
 	| ["str:len", IExpression];
 
 export interface IJSONExpressionData<IData, IContext> {
@@ -65,15 +65,16 @@ export const execJSONExpression = <IData = any, IContext = any>(
 			if (typeof data.ref === "undefined") return null;
 			return data.ref;
 		}
-		case "var": {
-			const [type, key, defaultValue] = logic[1];
+		case "$context":
+		case "$data": {
+			const [_, key, defaultValue] = logic;
 			let value: string | null;
-			if (type === "$data") {
+			if (logic[0] === "$data") {
 				value =
 					key === ""
 						? data.data || defaultValue
 						: get(data.data, key, defaultValue);
-			} else if (type === "$context") {
+			} else if (logic[0] === "$context") {
 				value =
 					key === ""
 						? data.context || defaultValue
@@ -190,7 +191,10 @@ export const execJSONExpression = <IData = any, IContext = any>(
 			);
 		}
 		case "str:fmt:email": {
-			throw new Error("Need to implement still.");
+			const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			const value = execJSONExpression(logic[1], data);
+			if (typeof value === "string") return regex.test(value);
+			else return false;
 		}
 		case "str:len": {
 			const value = execJSONExpression(logic[1], data);

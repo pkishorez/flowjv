@@ -19,12 +19,12 @@ describe("JSON Logic Test cases::", () => {
 	// Variables.
 	it("Variable", () => {
 		expect(
-			execJSONExpression(["var", ["$data", "name"]], {
+			execJSONExpression(["$data", "name"], {
 				data: { name: "Kishore" },
 			})
 		).toBe("Kishore");
 		expect(
-			execJSONExpression(["var", ["$data", "likes[2].demo[0]"]], {
+			execJSONExpression(["$data", "likes[2].demo[0]"], {
 				data: {
 					name: "Kishore",
 					likes: [
@@ -118,12 +118,12 @@ describe("JSON Logic Test cases::", () => {
 	it("String operations:", () => {
 		expect(execJSONExpression(["str:len", "Kishore"], ctx)).toBe(7);
 		expect(
-			execJSONExpression(["str:len", ["var", ["$data", ""]]], {
+			execJSONExpression(["str:len", ["$data", ""]], {
 				data: "Kishore",
 			})
 		).toBe(7);
 		expect(
-			execJSONExpression(["str:len", ["var", ["$data", "name"]]], {
+			execJSONExpression(["str:len", ["$data", "name"]], {
 				data: {
 					name: "Kishore",
 				},

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import cx from "classnames";
+import { ErrorUI } from "./utils/InputErrors";
 
 interface ICheckboxProps
 	extends React.DetailedHTMLProps<
@@ -27,24 +28,25 @@ export const Checkbox = ({
 		return onUnmount;
 	}, []);
 	return (
-		<label className={cx("mt-3 flex items-center p-2", className)}>
-			<input
-				{...props}
-				type="checkbox"
-				className={cx(
-					"outline-none border-2 border-solid border-gray-300 pr-2 text-gray-800"
-				)}
-				checked={!!value}
-			/>
-			<span
-				className={cx("ml-2 flex-grow select-none", {
-					"text-red-700": !!errors.length,
-					"text-green-700": success,
-				})}
-			>
-				{label}
-			</span>
-			<div>{errors.join(".")}</div>
+		<label>
+			<div className={className}>
+				<div className={cx("flex items-center px-2 pb-0")}>
+					<div className="fjv-checkbox">
+						<input {...props} type="checkbox" checked={!!value} />
+						<div className="mark"></div>
+					</div>
+					<span
+						className={cx("ml-2 flex-grow select-none", {
+							"text-red-700": !!errors.length,
+							"text-green-700": success,
+						})}
+					>
+						{label}
+					</span>
+				</div>
+
+				<ErrorUI errors={errors} />
+			</div>
 		</label>
 	);
 };

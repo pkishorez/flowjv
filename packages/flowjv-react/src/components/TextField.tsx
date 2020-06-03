@@ -1,5 +1,6 @@
 import React, { forwardRef, useEffect } from "react";
 import cx from "classnames";
+import { ErrorUI } from "./utils/InputErrors";
 
 type IInputProps = React.DetailedHTMLProps<
 	React.InputHTMLAttributes<HTMLInputElement>,
@@ -29,8 +30,15 @@ export const TextField = ({
 		return onUnmount;
 	}, []);
 	return (
-		<label className="mt-3 block flex flex-col">
-			<div className="text-lg">{label}</div>
+		<label className={cx("block flex flex-col", className)}>
+			<div
+				className={cx("text-lg", {
+					"text-red-700": hasErrors && !readOnly,
+					"text-green-800": success && !readOnly,
+				})}
+			>
+				{label}
+			</div>
 			<input
 				value={value}
 				{...props}
@@ -44,19 +52,10 @@ export const TextField = ({
 						"border-gray-400 focus:border-gray-900":
 							!hasErrors && !readOnly,
 						"cursor-default text-gray-600 pointer-events-none focus:border-gray-400": readOnly,
-					},
-					className
+					}
 				)}
 			/>
-			{hasErrors ? (
-				<div>
-					{errors?.map((err, i) => (
-						<div key={i} className="text-xs mt-1 text-red-700">
-							{err}
-						</div>
-					))}
-				</div>
-			) : null}
+			<ErrorUI errors={errors} />
 		</label>
 	);
 };

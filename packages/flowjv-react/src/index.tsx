@@ -1,79 +1,168 @@
-import React, { useState, useRef, useEffect } from "react";
-import { IFlowSchema, execJSONExpression, IValidation } from "flowjv";
+import React from "react";
+import { IFlowSchema, execJSONExpression, validateJSONFlow } from "flowjv";
 import get from "lodash/get";
-import set from "lodash/set";
 import cloneDeep from "lodash/cloneDeep";
-import { defaultConfig } from "./config";
 import unset from "lodash/unset";
-import { RadioGroup } from "./components/Radio";
+import setWith from "lodash/setWith";
+import clone from "lodash/clone";
+import throttle from "lodash/throttle";
+import { IUIConfig } from "./config";
+import { AnimateHeight } from "./components/utils/Animate";
+import { AnimatePresence } from "framer-motion";
 
-interface IFlowJVProps<IContext> {
+interface IFlowJVProps {
 	schema: IFlowSchema;
 	defaultValue?: any;
-	context?: IContext;
+	context?: any;
 	className?: string;
 	value?: any;
-	onChange?: (value: any) => void;
-	onSubmit?: (value: any) => void;
+	onChange?: (v: { isValid: boolean; value: any }) => void;
+	onSubmit?: (value: { value: any; isValid: boolean }) => void;
 	formProps?: React.DetailedHTMLProps<
 		React.FormHTMLAttributes<HTMLFormElement>,
 		HTMLFormElement
 	>;
 }
 
-export const setupFlowJV = (Config = defaultConfig) => {
-	return function <IContext = any>({
-		schema,
-		defaultValue,
-		context,
-		value,
-		onChange,
-		onSubmit,
-		formProps,
-	}: IFlowJVProps<IContext>) {
-		const [formValue, _setFormValue] = useState(defaultValue);
-		const [touchMap, _setTouchMap] = useState<any>({});
+const gett = (obj: any, key: string, defaultValue?: any) => {
+	if (key === "") {
+		return obj || defaultValue;
+	}
+	return get(obj, key, defaultValue);
+};
+const sett = (obj, key, value) => {
+	return setWith(clone(obj), key, value, clone);
+};
+const unsett = (obj, key) => {
+	const cloned = cloneDeep(obj);
+	unset(cloned, key);
+	return cloned;
+};
 
-		// Using ref of value to avoid async nature of JS error.
-		const valueRef = useRef<any>(value);
-		useEffect(() => {
-			valueRef.current = value;
-		}, [value]);
-		const setTouch = (refPath: string) => {
-			_setTouchMap({ ...touchMap, [refPath]: true });
-		};
-		const setValue = (key: string, v: any) => {
-			if (value) {
-				const clonedValue = cloneDeep(valueRef.current);
-				const newValue = set(clonedValue, key, v);
-				valueRef.current = newValue;
-				onChange?.(newValue);
-				console.log("SET VLAUE ", JSON.stringify(newValue));
+interface IFlowJVState {
+	value: any;
+	isValid: boolean;
+	touchMap: {
+		[id: string]: boolean;
+	};
+	errorMap: {
+		[id: string]: string[];
+	};
+}
+export const setupFlowJV = (Config: IUIConfig) => {
+	return class extends React.Component<IFlowJVProps, IFlowJVState> {
+		refSet: Set<string> = new Set();
+		constructor(props) {
+			super(props);
+			this.state = {
+				value: this.props.defaultValue,
+				isValid: false,
+				touchMap: {},
+				errorMap: {},
+			};
+		}
+		componentDidMount() {
+			this.validate(this.getValue(), () => {
+				this.props.onChange?.({
+					value: this.getValue(),
+					isValid: this.state.isValid,
+				});
+			});
+		}
+
+		getValue(key = "") {
+			if (this.props.value) {
+				return gett(this.props.value, key);
+			}
+			return gett(this.state.value, key);
+		}
+		setValue(key, value) {
+			if (this.props.value) {
+				const newvalue = sett(this.props.value, key, value);
+				this.validate(newvalue, () => {
+					this.props.onChange?.({
+						value: newvalue,
+						isValid: this.state.isValid,
+					});
+				});
 			} else {
-				_setFormValue(set(formValue, key, v));
+				const newvalue = sett(this.state.value, key, value);
+				this.setState({
+					value: newvalue,
+				});
+				this.validate(this.state.value, () =>
+					this.props.onChange?.({
+						value: newvalue,
+						isValid: this.state.isValid,
+					})
+				);
 			}
-		};
-		const unsetValue = (key: string) => {
-			if (value) {
-				const clonedValue = cloneDeep(valueRef.current);
-				unset(clonedValue, key);
-				valueRef.current = clonedValue;
-				onChange?.(cloneDeep(clonedValue));
-				console.log(JSON.stringify(clonedValue));
+		}
+		unsetValue = (key: string) => () => {
+			if (this.props.value) {
+				this.props.onChange?.({
+					value: unsett(this.props.value, key),
+					isValid: this.state.isValid,
+				});
 			} else {
-				unset(formValue, key);
-				_setFormValue(cloneDeep(formValue));
+				this.setState({
+					value: unsett(this.state.value, key),
+				});
 			}
 		};
-		const getValue = (key: string = "", def = "") => {
-			if (key === "") {
-				return value ? valueRef.current : formValue;
-			}
-			return value
-				? get(valueRef.current, key, def)
-				: get(formValue, key, def);
+		setTouch = (refPath: string) => {
+			this.refSet.add(refPath);
+			return () => {
+				if (!this.state.touchMap[refPath]) {
+					this.setState((state) => ({
+						touchMap: {
+							...state.touchMap,
+							[refPath]: true,
+						},
+					}));
+					this.validate(
+						this.props.value ? this.props.value : this.state.value
+					);
+				}
+			};
 		};
-		function render(schema: IFlowSchema, ref: string[] = []) {
+		touchAll = () => {
+			this.setState({
+				touchMap: Array.from(this.refSet).reduce(
+					(agg, v) => ({ ...agg, [v]: true }),
+					{}
+				),
+			});
+		};
+		validate = (value: any, func?: () => void) => {
+			const result = validateJSONFlow(this.props.schema, {
+				context: this.props.context,
+				data: value,
+				options: { aggressive: true },
+			});
+			if (!result.isValid) {
+				const errorMap = result.errors.reduce(
+					(agg, v) => ({ ...agg, [v.refPath.join(".")]: v.msgs }),
+					{}
+				);
+				this.setState(
+					{
+						isValid: false,
+						errorMap,
+					},
+					func
+				);
+			} else {
+				this.setState(
+					{
+						isValid: true,
+						errorMap: {},
+					},
+					func
+				);
+			}
+		};
+		renderFlow = (schema: IFlowSchema, ref: string[]) => {
 			switch (schema.type) {
 				case "object": {
 					// Loop over all the elements.
@@ -83,16 +172,47 @@ export const setupFlowJV = (Config = defaultConfig) => {
 								const cond = !!execJSONExpression(
 									objconfig.cond,
 									{
-										data: getValue(),
-										context,
-										ref: getValue(ref.join(".")),
+										data: this.getValue(),
+										context: this.props.context,
+										ref: this.getValue(ref.join(".")),
 									}
 								);
 								const flow = cond
 									? objconfig.true
 									: objconfig.false;
+								return (
+									<Config
+										schema={{ type: "conditionWrapper" }}
+										ui={{
+											errors: [],
+											success: false,
+											// className: "ml-10",
+										}}
+									>
+										{flow &&
+											this.renderFlow(
+												{
+													type: "object",
+													properties: flow,
+												},
+												ref
+											)}
+									</Config>
+								);
+								break;
+							}
+							case "switch": {
+								const cond = execJSONExpression(
+									objconfig.cond,
+									{
+										data: this.getValue(),
+										context: this.props.context,
+										ref: this.getValue(ref.join(".")),
+									}
+								) as any;
+								const flow = objconfig.cases[cond];
 								if (flow) {
-									return render(
+									return this.renderFlow(
 										{ type: "object", properties: flow },
 										ref
 									);
@@ -100,7 +220,7 @@ export const setupFlowJV = (Config = defaultConfig) => {
 								break;
 							}
 							default: {
-								return render(objconfig, [
+								return this.renderFlow(objconfig, [
 									...ref,
 									objconfig.key,
 								]);
@@ -108,64 +228,61 @@ export const setupFlowJV = (Config = defaultConfig) => {
 						}
 					});
 				}
+				case "array": {
+					return <h3>Not implemented yet.</h3>;
+				}
 			}
-			const validate = (validations: IValidation[], refValue: any) =>
-				(
-					validations?.map(({ logic, err }) =>
-						!!execJSONExpression(logic, {
-							data: getValue(),
-							context,
-							ref: refValue,
-						})
-							? null
-							: err || null
-					) || []
-				).filter((v) => v !== null) as string[];
-			const refValue = getValue(ref.join(""));
 			const refPath = ref.join(".");
-			const touched = touchMap[refPath];
+			const touched = !!this.state.touchMap[refPath];
 
-			let validations = schema.validations || [];
 			switch (schema.type) {
 				case "enum":
 				case "boolean":
 				case "number":
 				case "string": {
 					// Render the components here!
-					const errors = validate(validations || [], refValue);
+					const errors = this.state.errorMap[refPath] || [];
 					return (
 						<Config
 							key={refPath}
 							schema={schema}
 							ui={{
+								className: "pt-3",
 								label: schema.label,
 								errors: touched ? errors : [],
 								success: touched ? !errors.length : false,
-								value: getValue(refPath),
+								value: this.getValue(refPath),
 								onChange: (v) => {
-									setValue(refPath, v);
+									this.setValue(refPath, v);
 								},
-								onUnmount: () => {
-									unsetValue(refPath);
-								},
-								setTouch: () => {
-									setTouch(refPath);
-								},
+								onUnmount: this.unsetValue(refPath),
+								setTouch: this.setTouch(refPath),
 							}}
 						/>
 					);
 				}
 			}
+		};
+		render() {
+			const { formProps, schema } = this.props;
+			return (
+				<form
+					{...formProps}
+					onSubmit={(e) => {
+						e.preventDefault();
+						this.touchAll();
+						this.validate(this.getValue(), () => {
+							this.props.onSubmit?.({
+								value: this.getValue(),
+								isValid: this.state.isValid,
+							});
+						});
+					}}
+				>
+					{this.renderFlow(schema, [])}
+					{this.props.children}
+				</form>
+			);
 		}
-		return (
-			<form
-				{...formProps}
-				onSubmit={() => {
-					onSubmit?.(valueRef.current);
-				}}
-			>
-				{render(schema)}
-			</form>
-		);
 	};
 };

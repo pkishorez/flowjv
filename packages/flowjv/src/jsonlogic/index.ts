@@ -1,7 +1,16 @@
 import get from "lodash/get";
 
-export type IExpression = number | string | boolean | IOperation;
+export type IExpression<IData = any, IContext = any> =
+	| number
+	| string
+	| boolean
+	| IOperation
+	| IFunctionExectution<IData, IContext>;
 
+type IFunctionExectution<IData, IContext> = (
+	data: IData,
+	context: IContext
+) => any;
 type IMin2ElemArray<T> = [T, T, ...T[]];
 export type IOperation =
 	| IDataAccessOperation
@@ -58,6 +67,9 @@ export const execJSONExpression = <IData = any, IContext = any>(
 		typeof logic === "boolean"
 	) {
 		return logic;
+	}
+	if (typeof logic === "function") {
+		return logic(data.data, data.context);
 	}
 	switch (logic[0]) {
 		// Data Access Operation.

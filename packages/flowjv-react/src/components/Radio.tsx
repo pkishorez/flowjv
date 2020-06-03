@@ -12,19 +12,22 @@ interface IRadioProps {
 export const Radio = forwardRef<any, IRadioProps>(
 	({ onChange, value, checked, name, className, onFocus }, ref) => {
 		return (
-			<input
-				name={name}
-				type="radio"
-				className={cx(
-					"outline-none border-2 border-solid border-gray-300 pr-2 text-gray-800",
-					className
-				)}
-				value={value}
-				checked={checked}
-				ref={ref}
-				onChange={onChange}
-				onFocus={onFocus}
-			/>
+			<div className="fjv-checkbox radio">
+				<input
+					type="radio"
+					checked={checked}
+					name={name}
+					className={cx(
+						"outline-none border-2 border-solid border-gray-300 pr-2 text-gray-800",
+						className
+					)}
+					value={value}
+					ref={ref}
+					onChange={onChange}
+					onFocus={onFocus}
+				/>
+				<div className="mark"></div>
+			</div>
 		);
 	}
 );
@@ -38,6 +41,9 @@ interface IRadioGroupProps {
 	onUnmount?: any;
 	onMount?: any;
 	label?: string;
+	errors: string[];
+	success?: boolean;
+	onFocus?: any;
 }
 export const RadioGroup = ({
 	value,
@@ -47,6 +53,9 @@ export const RadioGroup = ({
 	label,
 	onUnmount,
 	onMount,
+	success,
+	errors,
+	onFocus,
 }: IRadioGroupProps) => {
 	useEffect(() => {
 		onMount?.();
@@ -56,15 +65,27 @@ export const RadioGroup = ({
 		onChange?.(e.target.value);
 	};
 	return (
-		<div className="mt-3">
-			<div className="text-lg">{label}</div>
+		<div className={className}>
+			<div
+				className={cx("text-lg", {
+					"text-green-700": success,
+					"text-red-700": !!errors.length,
+				})}
+			>
+				{label}
+			</div>
 			{options.map(({ label, value: v }, i) => (
 				<label
-					className={cx("flex items-center py-1 px-2", className)}
+					className={cx("flex items-center py-1 px-2")}
+					onFocus={onFocus}
 					key={i}
 				>
 					<Radio value={v} onChange={change} checked={value === v} />
-					<span className={cx("ml-2 flex-grow select-none", {})}>
+					<span
+						className={cx("ml-2 flex-grow select-none", {
+							"text-green-700": value === v,
+						})}
+					>
 						{label}
 					</span>
 				</label>

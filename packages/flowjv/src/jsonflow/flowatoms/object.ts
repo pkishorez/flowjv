@@ -3,7 +3,7 @@ import {
 	IJSONExpressionData,
 	execJSONExpression,
 } from "../../jsonlogic";
-import { IJSONFlow, IJSONFlowReturnType, execJSONFlow } from "../index";
+import { IFlowReturnType, IFlowOptions } from "../index";
 import get from "lodash/get";
 import { IFlowContext } from "../index";
 import { IPrimitiveFlow, execPrimitiveFlow } from "./primitive";
@@ -18,6 +18,13 @@ type IObjectProperty =
 			cond: IExpression;
 			true: IObjectProperty[];
 			false?: IObjectProperty[];
+	  }
+	| {
+			type: "switch";
+			cond: IExpression;
+			cases: {
+				[key: string]: IObjectProperty[];
+			};
 	  };
 export type IObjectFlow = {
 	type: "object";
@@ -27,10 +34,35 @@ export type IObjectFlow = {
 export const execObjectFlow = <IData, IContext>(
 	flow: IObjectFlow,
 	data: IJSONExpressionData<IData, IContext>,
-	flowContext: IFlowContext
-): IJSONFlowReturnType => {
+	flowContext: IFlowContext,
+	options?: IFlowOptions
+): IFlowReturnType => {
 	const { properties } = flow;
+	let errorStore: IFlowReturnType = { errors: [], isValid: true };
 	for (let config of properties) {
+		if (config.type === "switch") {
+			const cond = execJSONExpression(config.cond, data) as string;
+			const flow = config.cases[cond];
+			if (flow) {
+				const result = execObjectFlow(
+					{ type: "object", properties: flow },
+					data,
+					flowContext,
+					options
+				);
+				if (!result.isValid) {
+					if (options?.aggressive) {
+						errorStore = {
+							isValid: false,
+							errors: [...errorStore.errors, ...result.errors],
+						};
+					} else {
+						return result;
+					}
+				}
+			}
+			continue;
+		}
 		if (config.type === "if") {
 			const cond = !!execJSONExpression(config.cond, data);
 			const flow = cond ? config.true : config.false;
@@ -38,10 +70,18 @@ export const execObjectFlow = <IData, IContext>(
 				const result = execObjectFlow(
 					{ type: "object", properties: flow },
 					data,
-					flowContext
+					flowContext,
+					options
 				);
 				if (!result.isValid) {
-					return result;
+					if (options?.aggressive) {
+						errorStore = {
+							isValid: false,
+							errors: [...errorStore.errors, ...result.errors],
+						};
+					} else {
+						return result;
+					}
 				}
 			}
 			continue;
@@ -71,11 +111,19 @@ export const execObjectFlow = <IData, IContext>(
 					}
 				);
 				if (!result.isValid) {
+					if (options?.aggressive) {
+						// If aggressive, collect all errors!
+						errorStore = {
+							isValid: false,
+							errors: [...errorStore.errors, ...result.errors],
+						};
+						continue;
+					}
 					return result;
 				}
 				break;
 			}
 		}
 	}
-	return { errors: null, isValid: true, refPath: flowContext.refPath };
+	return errorStore;
 };

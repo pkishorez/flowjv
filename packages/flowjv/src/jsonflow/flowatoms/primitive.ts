@@ -3,7 +3,7 @@ import {
 	execJSONExpression,
 	IJSONExpressionData,
 } from "../../jsonlogic";
-import { IJSONFlowReturnType, IFlowContext } from "../index";
+import { IFlowReturnType, IFlowContext } from "../index";
 
 export interface IValidation {
 	logic: IExpression;
@@ -29,24 +29,27 @@ export const execPrimitiveFlow = <IData, IContext>(
 	flow: IPrimitiveFlow,
 	data: IJSONExpressionData<IData, IContext>,
 	flowContext: IFlowContext
-): IJSONFlowReturnType => {
+): IFlowReturnType => {
 	let validations = flow.validations || [];
+	let errorMsgs: string[] = [];
 	switch (flow.type) {
 		case "enum":
 		case "boolean":
 		case "number":
 		case "string": {
-			const errors = validations
-				.map(({ logic, err }) => {
-					const result = !!execJSONExpression(logic, data);
-					return result ? null : err || "Error";
-				})
-				.filter((v) => v !== null) as string[];
-			return {
-				errors: errors.length > 0 ? errors : null,
-				isValid: errors.length === 0,
-				refPath: flowContext.refPath,
-			};
+			errorMsgs = [
+				...errorMsgs,
+				...(validations
+					.map(({ logic, err }) => {
+						const result = !!execJSONExpression(logic, data);
+						return result ? null : err || "Error";
+					})
+					.filter((v) => v !== null) as string[]),
+			];
 		}
 	}
+	return {
+		errors: [{ msgs: errorMsgs, refPath: flowContext.refPath }],
+		isValid: errorMsgs.length === 0,
+	};
 };

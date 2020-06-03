@@ -1,35 +1,50 @@
 import { IJSONExpressionData } from "../jsonlogic/index";
 import { IObjectFlow, execObjectFlow } from "./flowatoms/object";
 import { IPrimitiveFlow, execPrimitiveFlow } from "./flowatoms/primitive";
+import { IArrayFlow } from "./flowatoms/array";
 
-export type IJSONFlow = IPrimitiveFlow | IObjectFlow;
+export type IFlowSchema = IPrimitiveFlow | IObjectFlow | IArrayFlow;
 
 export const validateJSONFlow = <IData, IContext>(
-	flow: IJSONFlow,
+	flow: IFlowSchema,
 	{
 		data,
 		context,
+		options,
 	}: {
 		data?: IData;
 		context?: IContext;
+		options?: IFlowOptions;
 	}
 ) => {
-	return execJSONFlow(flow, { data, context, ref: data }, { refPath: [] });
+	return execJSONFlow(
+		flow,
+		{ data, context, ref: data },
+		{ refPath: [] },
+		options
+	);
 };
 
 export interface IFlowContext {
 	refPath: string[];
 }
-export interface IJSONFlowReturnType {
+export interface IFlowReturnType {
 	isValid: boolean;
-	errors: string[] | null;
-	refPath: string[];
+	errors: {
+		msgs: string[];
+		refPath: string[];
+	}[];
+}
+
+export interface IFlowOptions {
+	aggressive?: boolean;
 }
 export const execJSONFlow = <IData, IContext>(
-	flow: IJSONFlow,
+	flow: IFlowSchema,
 	data: IJSONExpressionData<IData, IContext>,
-	flowContext: IFlowContext
-): IJSONFlowReturnType => {
+	flowContext: IFlowContext,
+	options?: IFlowOptions
+): IFlowReturnType => {
 	switch (flow.type) {
 		case "string":
 		case "number":
@@ -37,6 +52,9 @@ export const execJSONFlow = <IData, IContext>(
 		case "boolean":
 			return execPrimitiveFlow(flow, data, flowContext);
 		case "object":
-			return execObjectFlow(flow, data, flowContext);
+			return execObjectFlow(flow, data, flowContext, options);
+		case "array":
+			throw new Error("TODO");
 	}
+	return { isValid: true, errors: [] };
 };

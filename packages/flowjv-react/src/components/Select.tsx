@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import cx from "classnames";
+import { ErrorUI } from "./utils/InputErrors";
 
 type IInputProps = React.DetailedHTMLProps<
 	React.SelectHTMLAttributes<HTMLSelectElement>,
@@ -30,7 +31,7 @@ export const SelectField = ({
 		return onUnmount;
 	}, []);
 	return (
-		<label className="mt-3 block flex flex-col">
+		<label className={cx("flex flex-col", className)}>
 			<div className="text-lg">{label}</div>
 			<select
 				value={value}
@@ -52,15 +53,7 @@ export const SelectField = ({
 					</option>
 				))}
 			</select>
-			{hasErrors ? (
-				<div>
-					{errors?.map((err, i) => (
-						<div key={i} className="text-xs mt-1 text-red-700">
-							{err}
-						</div>
-					))}
-				</div>
-			) : null}
+			<ErrorUI errors={errors} />
 		</label>
 	);
 };

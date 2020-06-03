@@ -69,5 +69,13 @@ export const flowSchema: IFlowSchema = {
 				{ type: "number", key: "yoe", label: "Years of Experience" },
 			],
 		},
+		{
+			type: "boolean",
+			key: "terms",
+			label: "Accept Terms and Conditions?",
+			validations: [
+				{ logic: ["$ref"], err: "Please accept terms and conditions." },
+			],
+		},
 	],
 };

@@ -1,6 +1,6 @@
-import { IJSONFlow, validateJSONFlow } from "../index";
+import { IFlowSchema, validateJSONFlow } from "../index";
 
-const profileFlow: IJSONFlow = {
+const profileFlow: IFlowSchema = {
 	type: "object",
 	properties: [
 		{

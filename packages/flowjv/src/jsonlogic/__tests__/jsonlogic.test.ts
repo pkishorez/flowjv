@@ -1,6 +1,15 @@
 import { execJSONExpression } from "..";
 
 const ctx = { data: {}, context: {} };
+
+interface IData {
+	name: string;
+	nested: {
+		data: {
+			age: number;
+		};
+	};
+}
 describe("JSON Logic Test cases::", () => {
 	it("Negation operation : !", () => {
 		expect(execJSONExpression(["!", 2], ctx)).toBe(false);
@@ -42,6 +51,16 @@ describe("JSON Logic Test cases::", () => {
 				ref: 8,
 			})
 		).toBe(false);
+	});
+	it("Function Expression", () => {
+		expect(
+			execJSONExpression<IData>(
+				(data, context) => data?.nested?.data?.age,
+				{
+					data: { name: "Kishore", nested: { data: { age: 25 } } },
+				}
+			)
+		).toBe(25);
 	});
 
 	// Enum Operation

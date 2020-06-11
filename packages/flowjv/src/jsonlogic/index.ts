@@ -4,16 +4,16 @@ export type IExpression<IData = any, IContext = any> =
 	| number
 	| string
 	| boolean
-	| IOperation
+	| IOperation<IData, IContext>
 	| IFunctionExectution<IData, IContext>;
 
 type IFunctionExectution<IData, IContext> = (
-	data: IData,
+	data: Partial<IData>,
 	context: IContext
 ) => any;
 type IMin2ElemArray<T> = [T, T, ...T[]];
-export type IOperation =
-	| IDataAccessOperation
+export type IOperation<IData = any, IContext = any> =
+	| IDataAccessOperation<IData, IContext>
 	| ITernaryOperation
 	| INegationOperation
 	| ILogicalOperation
@@ -21,8 +21,9 @@ export type IOperation =
 	| INumberOperation
 	| IStringOperation;
 
-export type IDataAccessOperation =
-	| ["$data" | "$context", string, string?]
+export type IDataAccessOperation<IData, IContext> =
+	| ["$data", string, string?]
+	| ["$context", string, string?]
 	| ["$ref"];
 export type ITernaryOperation = ["?:", [IExpression, IExpression, IExpression]];
 
@@ -57,10 +58,12 @@ export interface IJSONExpressionData<IData, IContext> {
 	context?: IContext;
 	ref?: any;
 }
+
+type IJSONExpressionReturnType = string | number | boolean | null;
 export const execJSONExpression = <IData = any, IContext = any>(
-	logic: IExpression,
+	logic: IExpression<IData, IContext>,
 	data: IJSONExpressionData<IData, IContext>
-): string | number | boolean | null => {
+): IJSONExpressionReturnType => {
 	if (
 		typeof logic === "number" ||
 		typeof logic === "string" ||
@@ -69,7 +72,7 @@ export const execJSONExpression = <IData = any, IContext = any>(
 		return logic;
 	}
 	if (typeof logic === "function") {
-		return logic(data.data, data.context);
+		return logic(data.data as Partial<IData>, data.context as IContext);
 	}
 	switch (logic[0]) {
 		// Data Access Operation.
@@ -78,23 +81,19 @@ export const execJSONExpression = <IData = any, IContext = any>(
 			return data.ref;
 		}
 		case "$context":
+			const [_, key, defaultValue] = logic;
+			return (
+				(key === ""
+					? data.context || defaultValue
+					: get(data.context, key, defaultValue)) || null
+			);
 		case "$data": {
 			const [_, key, defaultValue] = logic;
-			let value: string | null;
-			if (logic[0] === "$data") {
-				value =
-					key === ""
-						? data.data || defaultValue
-						: get(data.data, key, defaultValue);
-			} else if (logic[0] === "$context") {
-				value =
-					key === ""
-						? data.context || defaultValue
-						: get(data.context, key, defaultValue);
-			} else {
-				value = null;
-			}
-			return value;
+			return (
+				(key === ""
+					? data.data || defaultValue
+					: get(data.data, key, defaultValue)) || null
+			);
 		}
 		case "!": {
 			return !execJSONExpression(logic[1], data);

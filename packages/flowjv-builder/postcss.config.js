@@ -20,9 +20,10 @@ module.exports = {
 	plugins: [
 		"postcss-import",
 		"tailwindcss",
+		"precss",
 		"autoprefixer",
-		process.env.NODE_ENV === "production"
-			? ["@fullhuman/postcss-purgecss", options]
-			: null,
-	].filter((v) => v !== null),
+		...(process.env.NODE_ENV === "production"
+			? ["cssnano", ["@fullhuman/postcss-purgecss", options]]
+			: []),
+	],
 };

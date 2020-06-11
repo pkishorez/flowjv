@@ -1,10 +1,10 @@
 import { setupFlowJV } from "flowjv-react";
-import { defaultConfig } from "flowjv-react/dist/default";
+import { FormConfig } from "flowjv-react/dist/bindings";
 import { useState } from "react";
 import cx from "classnames";
 import { flowSchema } from "./schema";
 
-const FlowJVForm = setupFlowJV(defaultConfig);
+const FlowJVForm = setupFlowJV(FormConfig);
 
 export function DemoForm() {
 	const [data, setData] = useState({ value: {}, isValid: false });

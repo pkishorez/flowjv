@@ -7,7 +7,7 @@ import { IFlowReturnType, IFlowContext } from "../index";
 
 export interface IValidation {
 	logic: IExpression;
-	err?: string;
+	err: string;
 }
 export type IPrimitiveFlow =
 	| {

@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="200" src="packages/flowjv-builder/public/logo.svg">
+    <img width="200" alt="FlowJV" src="packages/flowjv-builder/public/logo-teal.svg">
     <p align="center">A Flow based JSON Validation Library.</p>
     <p align="center" style="font-size: 12px; margin-top: 10px;">
         <i>NOTE: The library is still in active development.</i>

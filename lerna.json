@@ -2,5 +2,14 @@
 	"packages": [
 		"packages/*"
 	],
-	"version": "0.0.10"
+	"command": {
+		"publish": {
+			"conventionalCommits": true,
+			"message": "chore(release): release"
+		},
+		"version": {
+			"message": "chore(release): release"
+		}
+	},
+	"version": "0.1.0"
 }

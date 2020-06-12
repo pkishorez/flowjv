@@ -1,11 +1,6 @@
 import React from "react";
 import { IFlowSchema, execJSONExpression, validateJSONFlow } from "flowjv";
-import get from "lodash/get";
-import cloneDeep from "lodash/cloneDeep";
-import unset from "lodash/unset";
-import setWith from "lodash/setWith";
-import clone from "lodash/clone";
-import throttle from "lodash/throttle";
+import { gett, sett, unsett } from "./utils";
 import { IUIConfig } from "./config";
 
 interface IFlowJVProps {
@@ -21,21 +16,6 @@ interface IFlowJVProps {
 		HTMLFormElement
 	>;
 }
-
-const gett = (obj: any, key: string, defaultValue?: any) => {
-	if (key === "") {
-		return obj || defaultValue;
-	}
-	return get(obj, key, defaultValue);
-};
-const sett = (obj, key, value) => {
-	return setWith(clone(obj), key, value, clone);
-};
-const unsett = (obj, key) => {
-	const cloned = cloneDeep(obj);
-	unset(cloned, key);
-	return cloned;
-};
 
 interface IFlowJVState {
 	value: any;

@@ -7,6 +7,7 @@ import {
 } from "flowjv";
 import { gett, sett, unsett } from "./utils";
 import { IFormUIConfigFunc } from "./config";
+import { lookup } from "flowjv";
 
 interface IFlowJVProps {
 	schema: IFlowSchema;
@@ -146,10 +147,12 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 				);
 			}
 		};
-		getConfigForRefPath = (ref: string[], schema: IAtom) => {
+		getConfigForRefPath = (ref: string[]) => {
 			const refPath = ref.join(".");
 			const touched = !!this.state.touchMap[refPath];
 			const errors = this.state.errorMap[refPath] || [];
+			const schema = lookup.atom(this.props.schema, ref);
+			if (schema === null) return null;
 			return {
 				schema,
 				ui: {
@@ -179,7 +182,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 									{
 										data: this.getValue(),
 										context: this.props.context,
-										ref: this.getValue(ref.join(".")),
+										ref: this.getValue(refPath),
 									}
 								);
 								const flow = cond
@@ -240,12 +243,8 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 				case "boolean":
 				case "number":
 				case "string": {
-					return (
-						<Config
-							key={refPath}
-							{...this.getConfigForRefPath(ref, schema)}
-						/>
-					);
+					const config = this.getConfigForRefPath(ref);
+					return config ? <Config key={refPath} {...config} /> : null;
 				}
 			}
 		};

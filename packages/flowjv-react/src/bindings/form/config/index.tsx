@@ -1,4 +1,4 @@
-import { IPrimitiveFlow } from "flowjv";
+import { IAtom } from "flowjv";
 
 export interface IUIElementConfig {
 	errors: string[];
@@ -11,8 +11,9 @@ export interface IUIElementConfig {
 	className?: string;
 	children?: any;
 }
-export type IUIConfig = (obj: {
-	schema: IPrimitiveFlow | { type: "conditionWrapper" };
+export type IUISchema = IAtom | { type: "conditionWrapper" };
+export type IFormUIConfigFunc = (obj: {
+	schema: IUISchema;
 	ui: IUIElementConfig;
 	children?: any;
-}) => JSX.Element;
+}) => JSX.Element | null;

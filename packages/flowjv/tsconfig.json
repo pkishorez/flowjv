@@ -6,7 +6,8 @@
 		"declaration": true,
 		"strict": true,
 		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true
+		"forceConsistentCasingInFileNames": true,
+		"downlevelIteration": true
 	},
 	"include": ["src"],
 	"exclude": ["node_modules", "src/**/__tests__"]

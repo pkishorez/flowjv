@@ -1,1 +1,1 @@
-export { defaultConfig as FormConfig } from "./form/default";
+export { defaultConfig as FormConfig } from "./form/config/default";

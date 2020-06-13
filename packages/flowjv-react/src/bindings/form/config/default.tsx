@@ -1,13 +1,13 @@
 import React from "react";
-import { TextField } from "./components/TextField";
-import { Checkbox } from "./components/Checkbox";
-import { SelectField } from "./components/Select";
-import { RadioGroup } from "./components/Radio";
-import { IUIConfig } from "./config";
+import { TextField } from "../components/TextField";
+import { Checkbox } from "../components/Checkbox";
+import { SelectField } from "../components/Select";
+import { RadioGroup } from "../components/Radio";
+import { IFormUIConfigFunc } from ".";
 import { AnimatePresence } from "framer-motion";
-import { AnimateHeight } from "./components/utils/Animate";
+import { AnimateHeight } from "../components/utils/Animate";
 
-export const defaultConfig: IUIConfig = ({
+export const defaultConfig: IFormUIConfigFunc = ({
 	schema,
 	ui: { setTouch, onChange, ...ui },
 	children,
@@ -74,6 +74,9 @@ export const defaultConfig: IUIConfig = ({
 					)}
 				</AnimatePresence>
 			);
+		}
+		default: {
+			return null;
 		}
 	}
 };

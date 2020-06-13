@@ -5,4 +5,4 @@ export {
 	IExpression as IJSONExpression,
 } from "./jsonlogic";
 export { validateJSONFlow, IFlowSchema } from "./jsonflow";
-export { IPrimitiveFlow, IValidation } from "./jsonflow/flowatoms/primitive";
+export { IAtom, IValidation } from "./jsonflow/flowmolecules/flowatoms";

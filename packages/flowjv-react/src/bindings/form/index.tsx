@@ -1,7 +1,12 @@
 import React from "react";
-import { IFlowSchema, execJSONExpression, validateJSONFlow } from "flowjv";
+import {
+	IFlowSchema,
+	execJSONExpression,
+	validateJSONFlow,
+	IAtom,
+} from "flowjv";
 import { gett, sett, unsett } from "./utils";
-import { IUIConfig } from "./config";
+import { IFormUIConfigFunc } from "./config";
 
 interface IFlowJVProps {
 	schema: IFlowSchema;
@@ -27,7 +32,8 @@ interface IFlowJVState {
 		[id: string]: string[];
 	};
 }
-export const setupFlowJV = (Config: IUIConfig) => {
+
+export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 	return class extends React.Component<IFlowJVProps, IFlowJVState> {
 		refSet: Set<string> = new Set();
 		constructor(props) {
@@ -140,7 +146,27 @@ export const setupFlowJV = (Config: IUIConfig) => {
 				);
 			}
 		};
-		renderFlow = (schema: IFlowSchema, ref: string[]) => {
+		getConfigForRefPath = (ref: string[], schema: IAtom) => {
+			const refPath = ref.join(".");
+			const touched = !!this.state.touchMap[refPath];
+			const errors = this.state.errorMap[refPath] || [];
+			return {
+				schema,
+				ui: {
+					className: "pt-3",
+					label: schema.label,
+					errors: touched ? errors : [],
+					success: touched ? !errors.length : false,
+					value: this.getValue(refPath),
+					onChange: (v) => {
+						this.setValue(refPath, v);
+					},
+					onUnmount: this.unsetValue(refPath),
+					setTouch: this.setTouch(refPath),
+				},
+			};
+		};
+		renderFlow = (schema: IFlowSchema | IAtom, ref: string[]) => {
 			const refPath = ref.join(".");
 			switch (schema.type) {
 				case "object": {
@@ -179,7 +205,6 @@ export const setupFlowJV = (Config: IUIConfig) => {
 											)}
 									</Config>
 								);
-								break;
 							}
 							case "switch": {
 								const cond = execJSONExpression(
@@ -208,36 +233,17 @@ export const setupFlowJV = (Config: IUIConfig) => {
 						}
 					});
 				}
-				case "array": {
-					return <h3>Not implemented yet.</h3>;
-				}
 			}
-
-			const touched = !!this.state.touchMap[refPath];
 
 			switch (schema.type) {
 				case "enum":
 				case "boolean":
 				case "number":
 				case "string": {
-					// Render the components here!
-					const errors = this.state.errorMap[refPath] || [];
 					return (
 						<Config
 							key={refPath}
-							schema={schema}
-							ui={{
-								className: "pt-3",
-								label: schema.label,
-								errors: touched ? errors : [],
-								success: touched ? !errors.length : false,
-								value: this.getValue(refPath),
-								onChange: (v) => {
-									this.setValue(refPath, v);
-								},
-								onUnmount: this.unsetValue(refPath),
-								setTouch: this.setTouch(refPath),
-							}}
+							{...this.getConfigForRefPath(ref, schema)}
 						/>
 					);
 				}

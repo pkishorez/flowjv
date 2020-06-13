@@ -6,23 +6,25 @@ import {
 import { IFlowReturnType, IFlowOptions } from "../index";
 import get from "lodash/get";
 import { IFlowContext } from "../index";
-import { IPrimitiveFlow, execPrimitiveFlow } from "./primitive";
+import { IAtom, execPrimitiveFlow } from "./flowatoms";
 
 export type IObjectIfBlock = {
 	type: "if";
+	blockId?: string;
 	cond: IExpression;
 	true: IObjectProperty[];
 	false?: IObjectProperty[];
 };
 export type IObjectSwitchBlock = {
 	type: "switch";
+	blockId?: string;
 	cond: IExpression;
 	cases: {
 		[key: string]: IObjectProperty[];
 	};
 };
 
-type IObjectProperty = (IPrimitiveFlow | IObjectFlow) & {
+type IObjectProperty = (IAtom | IObjectFlow) & {
 	key: string;
 	ignoreKey?: IExpression;
 };

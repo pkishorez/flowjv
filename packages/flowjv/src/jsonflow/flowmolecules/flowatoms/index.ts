@@ -2,14 +2,14 @@ import {
 	IExpression,
 	execJSONExpression,
 	IJSONExpressionData,
-} from "../../jsonlogic";
-import { IFlowReturnType, IFlowContext } from "../index";
+} from "../../../jsonlogic";
+import { IFlowReturnType, IFlowContext } from "../../index";
 
 export interface IValidation {
 	logic: IExpression;
 	err: string;
 }
-export type IPrimitiveFlow =
+export type IAtom =
 	| {
 			type: "string" | "number" | "boolean";
 			uiType?: "number" | "text" | "password";
@@ -26,7 +26,7 @@ export type IPrimitiveFlow =
 	  };
 
 export const execPrimitiveFlow = <IData, IContext>(
-	flow: IPrimitiveFlow,
+	flow: IAtom,
 	data: IJSONExpressionData<IData, IContext>,
 	flowContext: IFlowContext
 ): IFlowReturnType => {

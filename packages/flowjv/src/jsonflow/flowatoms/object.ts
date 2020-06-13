@@ -8,27 +8,27 @@ import get from "lodash/get";
 import { IFlowContext } from "../index";
 import { IPrimitiveFlow, execPrimitiveFlow } from "./primitive";
 
-type IObjectProperty =
-	| ((IPrimitiveFlow | IObjectFlow) & {
-			key: string;
-			ignoreKey?: IExpression;
-	  })
-	| {
-			type: "if";
-			cond: IExpression;
-			true: IObjectProperty[];
-			false?: IObjectProperty[];
-	  }
-	| {
-			type: "switch";
-			cond: IExpression;
-			cases: {
-				[key: string]: IObjectProperty[];
-			};
-	  };
+export type IObjectIfBlock = {
+	type: "if";
+	cond: IExpression;
+	true: IObjectProperty[];
+	false?: IObjectProperty[];
+};
+export type IObjectSwitchBlock = {
+	type: "switch";
+	cond: IExpression;
+	cases: {
+		[key: string]: IObjectProperty[];
+	};
+};
+
+type IObjectProperty = (IPrimitiveFlow | IObjectFlow) & {
+	key: string;
+	ignoreKey?: IExpression;
+};
 export type IObjectFlow = {
 	type: "object";
-	properties: IObjectProperty[];
+	properties: (IObjectProperty | IObjectIfBlock | IObjectSwitchBlock)[];
 };
 
 export const execObjectFlow = <IData, IContext>(

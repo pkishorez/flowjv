@@ -31,7 +31,12 @@ export const Checkbox = ({
 		<label>
 			<div className={className}>
 				<div className={cx("flex items-center px-2 pb-0")}>
-					<div className="fjv-checkbox">
+					<div
+						className={cx("fjv-checkbox", {
+							error: !!errors.length,
+							success,
+						})}
+					>
 						<input {...props} type="checkbox" checked={!!value} />
 						<div className="mark"></div>
 					</div>

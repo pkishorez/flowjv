@@ -1,10 +1,10 @@
 import { IFlowSchema } from ".";
-import { IAtom } from "./flowmolecules/flowatoms";
+import { IAtom } from "./blocks/flowatoms";
 import {
 	IObjectIfBlock,
 	IObjectSwitchBlock,
 	IObjectFlow,
-} from "./flowmolecules/object";
+} from "./blocks/object";
 
 export const lookup = {
 	atom(fschema: IFlowSchema, path: string[]): IAtom | null {

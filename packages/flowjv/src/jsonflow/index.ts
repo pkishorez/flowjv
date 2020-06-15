@@ -1,5 +1,5 @@
 import { IJSONExpressionData } from "../jsonlogic/index";
-import { IObjectFlow, execObjectFlow } from "./flowmolecules/object";
+import { IObjectFlow, execObjectFlow } from "./blocks/object";
 
 export type IFlowSchema = IObjectFlow;
 

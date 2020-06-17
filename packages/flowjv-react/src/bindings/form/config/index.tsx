@@ -11,7 +11,7 @@ export interface IUIElementConfig {
 	className?: string;
 	children?: any;
 }
-export type IUISchema = IAtom | { type: "conditionWrapper" };
+export type IUISchema = IAtom | { type: "conditionWrapper"; animKey?: string };
 export type IFormUIConfigFunc = (obj: {
 	schema: IUISchema;
 	ui: IUIElementConfig;

@@ -20,6 +20,8 @@ describe("Visitor Util tests", () => {
 		expect(lookup.atom(fschema, ["name"])).toBe(fschema.properties[0]);
 	});
 	it("Block lookup:", () => {
-		expect(lookup.block(fschema, "ifEmployed")).toBe(fschema.properties[3]);
+		expect(lookup.block(fschema, "ifEmployed").block).toBe(
+			fschema.properties[3]
+		);
 	});
 });

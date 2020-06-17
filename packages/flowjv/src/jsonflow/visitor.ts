@@ -21,13 +21,13 @@ export const lookup = {
 	block(
 		fschema: IFlowSchema,
 		blockId: string
-	): IObjectIfBlock | IObjectSwitchBlock | null {
+	): { block: IObjectIfBlock | IObjectSwitchBlock | null; ref: string[] } {
 		for (let atom of traverse(fschema)) {
 			if (atom.type === "block" && blockId === atom.blockId) {
-				return atom.schema;
+				return { block: atom.schema, ref: atom.ref };
 			}
 		}
-		return null;
+		return { block: null, ref: [] };
 	},
 };
 
@@ -36,6 +36,7 @@ type ITraverseGenerator = Generator<
 	| {
 			type: "block";
 			blockId?: string;
+			ref: string[];
 			schema: IObjectIfBlock | IObjectSwitchBlock;
 	  },
 	void,
@@ -53,13 +54,13 @@ export function* traverse(flowSchema: IFlowSchema): ITraverseGenerator {
 					break;
 				}
 				case "if": {
-					yield { type: "block", schema: v, blockId: v.blockId };
+					yield { type: "block", schema: v, blockId: v.blockId, ref };
 					yield* traverseProperties(v.true, ref);
 					v.false && (yield* traverseProperties(v.false, ref));
 					break;
 				}
 				case "switch": {
-					yield { type: "block", schema: v, blockId: v.blockId };
+					yield { type: "block", schema: v, blockId: v.blockId, ref };
 					for (let value of Object.values(v.cases)) {
 						yield* traverseProperties(value, ref);
 					}

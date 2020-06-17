@@ -42,9 +42,6 @@ export const defaultConfig: IFormUIConfigFunc = ({
 					return (
 						<RadioGroup
 							{...ui}
-							inputProps={{
-								onFocus: setTouch,
-							}}
 							onFocus={setTouch}
 							onChange={(v) => onChange?.(v)}
 							options={schema.items}
@@ -66,9 +63,13 @@ export const defaultConfig: IFormUIConfigFunc = ({
 		}
 		case "conditionWrapper": {
 			return (
-				<AnimatePresence>
+				<AnimatePresence exitBeforeEnter>
 					{children && (
-						<AnimateHeight animateOnMount isVisible>
+						<AnimateHeight
+							key={schema.animKey}
+							animateOnMount
+							isVisible
+						>
 							{children}
 						</AnimateHeight>
 					)}

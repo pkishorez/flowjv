@@ -67,10 +67,6 @@ export const RadioGroup = ({
 	errors,
 	onFocus,
 }: IRadioGroupProps) => {
-	useEffect(() => {
-		onMount?.();
-		return onUnmount;
-	}, []);
 	const change = (e) => {
 		onChange?.(e.target.value);
 	};

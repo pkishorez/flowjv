@@ -6,7 +6,7 @@ import {
 	IAtom,
 } from "flowjv";
 import { gett, sett, unsett } from "./utils";
-import { IFormUIConfigFunc } from "./config";
+import { IFormUIConfigFunc, IUIElementConfig } from "./config";
 import { lookup } from "flowjv";
 import {
 	IObjectIfBlock,
@@ -20,9 +20,12 @@ interface IFlowJVProps {
 	context?: any;
 	className?: string;
 	value?: any;
+	renderMap?: {
+		[refPath: string]: (props: IUIElementConfig) => JSX.Element | null;
+	};
 	onChange?: (v: { isValid: boolean; value: any }) => void;
 	onSubmit?: (value: { value: any; isValid: boolean }) => void;
-	customUI?: boolean;
+	doNotFlow?: boolean;
 	formProps?: React.DetailedHTMLProps<
 		React.FormHTMLAttributes<HTMLFormElement>,
 		HTMLFormElement
@@ -143,7 +146,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 			const result = validateJSONFlow(this.props.schema, {
 				context: this.props.context,
 				data: value,
-				options: { aggressive: true },
+				options: { aggressive: true, enforceSchema: true },
 			});
 			if (!result.isValid) {
 				const errorMap = result.errors.reduce(
@@ -206,9 +209,9 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 						success,
 						value,
 						onChange: (v) => {
+							if (schema.type === "number") v = +v;
 							this.setValue(refPath, v);
 						},
-						onUnmount: this.unsetValue(refPath),
 						setTouch: this.setTouch(refPath),
 					}}
 				/>
@@ -301,18 +304,32 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					});
 				}
 			}
+			const refPath = ref.join(".");
 
 			switch (schema.type) {
 				case "enum":
 				case "boolean":
 				case "number":
 				case "string": {
+					const render = this.props.renderMap?.[refPath];
+					if (render) {
+						const { errors, success, value } = this.getRefPathValue(
+							refPath
+						);
+						return render({
+							errors,
+							success,
+							value,
+							onChange: (v) => this.setValue(refPath, v),
+							setTouch: () => this.setTouch(refPath),
+						});
+					}
 					return this.renderAtom(ref);
 				}
 			}
 		};
 		render() {
-			const { formProps, schema, className } = this.props;
+			const { formProps, schema, className, doNotFlow } = this.props;
 			return (
 				<formContext.Provider
 					value={{
@@ -339,9 +356,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 							});
 						}}
 					>
-						{this.props.customUI
-							? null
-							: this.renderFlow(schema, [])}
+						{doNotFlow ? null : this.renderFlow(schema, [])}
 						{this.props.children}
 					</form>
 				</formContext.Provider>

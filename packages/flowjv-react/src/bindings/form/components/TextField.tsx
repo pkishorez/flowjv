@@ -25,10 +25,6 @@ export const TextField = ({
 	...props
 }: IInputProps) => {
 	const hasErrors = errors.length;
-	useEffect(() => {
-		onMount?.();
-		return onUnmount;
-	}, []);
 	return (
 		<label className={cx("block flex flex-col", className)}>
 			<div

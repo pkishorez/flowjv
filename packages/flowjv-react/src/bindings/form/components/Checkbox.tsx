@@ -23,10 +23,6 @@ export const Checkbox = ({
 	className,
 	...props
 }: ICheckboxProps) => {
-	useEffect(() => {
-		onMount?.();
-		return onUnmount;
-	}, []);
 	return (
 		<label>
 			<div className={className}>

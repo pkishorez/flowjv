@@ -27,9 +27,6 @@ export const SelectField = ({
 	...props
 }: IInputProps) => {
 	const hasErrors = errors.length;
-	useEffect(() => {
-		return onUnmount;
-	}, []);
 	return (
 		<label className={cx("flex flex-col", className)}>
 			<div className="text-lg">{label}</div>

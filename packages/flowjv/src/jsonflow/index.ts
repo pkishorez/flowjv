@@ -36,6 +36,7 @@ export interface IFlowReturnType {
 
 export interface IFlowOptions {
 	aggressive?: boolean;
+	enforceSchema?: boolean;
 }
 export const execJSONFlow = <IData, IContext>(
 	flow: IFlowSchema,

@@ -5,30 +5,33 @@ import {
 } from "../../jsonlogic";
 import { IFlowReturnType, IFlowOptions } from "../index";
 import get from "lodash/get";
+import unset from "lodash/unset";
 import { IFlowContext } from "../index";
-import { IPrimitiveFlow, execPrimitiveFlow } from "./primitive";
+import { IAtom, execPrimitiveFlow } from "./flowatoms";
 
-type IObjectProperty =
-	| ((IPrimitiveFlow | IObjectFlow) & {
-			key: string;
-			ignoreKey?: IExpression;
-	  })
-	| {
-			type: "if";
-			cond: IExpression;
-			true: IObjectProperty[];
-			false?: IObjectProperty[];
-	  }
-	| {
-			type: "switch";
-			cond: IExpression;
-			cases: {
-				[key: string]: IObjectProperty[];
-			};
-	  };
+export type IObjectIfBlock = {
+	type: "if";
+	blockId?: string;
+	cond: IExpression;
+	true: IObjectProperty[];
+	false?: IObjectProperty[];
+};
+export type IObjectSwitchBlock = {
+	type: "switch";
+	blockId?: string;
+	cond: IExpression;
+	cases: {
+		[key: string]: IObjectProperty[];
+	};
+};
+
+type IObjectProperty = (IAtom | IObjectFlow) & {
+	key: string;
+	ignoreKey?: IExpression;
+};
 export type IObjectFlow = {
 	type: "object";
-	properties: IObjectProperty[];
+	properties: (IObjectProperty | IObjectIfBlock | IObjectSwitchBlock)[];
 };
 
 export const execObjectFlow = <IData, IContext>(
@@ -42,6 +45,16 @@ export const execObjectFlow = <IData, IContext>(
 	for (let config of properties) {
 		if (config.type === "switch") {
 			const cond = execJSONExpression(config.cond, data) as string;
+			if (options?.enforceSchema) {
+				// Delete keys of other cases.
+				for (const v of Object.keys(config.cases)) {
+					if (v !== cond) {
+						config.cases[v].forEach((prop) =>
+							unset(data.data, [...flowContext.refPath, prop.key])
+						);
+					}
+				}
+			}
 			const flow = config.cases[cond];
 			if (flow) {
 				const result = execObjectFlow(
@@ -65,6 +78,25 @@ export const execObjectFlow = <IData, IContext>(
 		}
 		if (config.type === "if") {
 			const cond = !!execJSONExpression(config.cond, data);
+			if (options?.enforceSchema) {
+				if (cond) {
+					// delete false fields.
+					config.false?.forEach((v) => {
+						unset(
+							data.data,
+							[...flowContext.refPath, v.key].join(".")
+						);
+					});
+				} else {
+					// delete true fields.
+					config.true.forEach((v) => {
+						unset(
+							data.data,
+							[...flowContext.refPath, v.key].join(".")
+						);
+					});
+				}
+			}
 			const flow = cond ? config.true : config.false;
 			if (flow) {
 				const result = execObjectFlow(

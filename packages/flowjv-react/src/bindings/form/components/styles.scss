@@ -8,11 +8,30 @@
 		pointer-events: none;
 
 		&:checked ~ .mark::after {
-			border-color: teal;
+			border-color: #707070;
+			color: #707070;
+		}
+		&:focus ~ .mark::after {
+			box-shadow: 0px 0px 5px #707070;
+		}
+	}
+	&.success > input {
+		&:checked ~ .mark::after {
 			color: teal;
+		}
+		& ~ .mark::after {
+			border-color: teal;
 		}
 		&:focus ~ .mark::after {
 			box-shadow: 0px 0px 5px teal;
+		}
+	}
+	&.error > input {
+		& ~ .mark::after {
+			@apply border-red-700;
+		}
+		&:focus ~ .mark::after {
+			box-shadow: 0px 0px 5px red;
 		}
 	}
 	> .mark::after {

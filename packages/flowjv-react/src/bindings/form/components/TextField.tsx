@@ -25,10 +25,6 @@ export const TextField = ({
 	...props
 }: IInputProps) => {
 	const hasErrors = errors.length;
-	useEffect(() => {
-		onMount?.();
-		return onUnmount;
-	}, []);
 	return (
 		<label className={cx("block flex flex-col", className)}>
 			<div
@@ -43,7 +39,7 @@ export const TextField = ({
 				value={value}
 				{...props}
 				className={cx(
-					"outline-none border-b-2 border-solid pt-0 pb-1 text-xs flex-grow",
+					"outline-none border-b-2 border-solid pt-0 pb-1 text-xs flex-grow bg-transparent",
 					{
 						"border-red-700 focus:border-red-700":
 							hasErrors && !readOnly,

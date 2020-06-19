@@ -38,6 +38,30 @@ export const flowSchema: IFlowSchema = {
 			label: "Gender",
 		},
 		{
+			type: "switch",
+			cond: ["$data", "gender"],
+			cases: {
+				male: [
+					{ type: "string", key: "maleprop", label: "Male Prop" },
+					{ type: "string", key: "maleprop2", label: "Male Prop2" },
+					{ type: "string", key: "maleprop3", label: "Male Prop3" },
+				],
+				female: [
+					{ type: "string", key: "femaleprop", label: "FeMale Prop" },
+					{
+						type: "string",
+						key: "femaleprop2",
+						label: "FeMale Prop2",
+					},
+					{
+						type: "string",
+						key: "femaleprop3",
+						label: "FeMale Prop3",
+					},
+				],
+			},
+		},
+		{
 			type: "string",
 			uiType: "password",
 			key: "password",
@@ -64,11 +88,13 @@ export const flowSchema: IFlowSchema = {
 		{ type: "boolean", key: "is_employed", label: "Are you Employed" },
 		{
 			type: "if",
+			blockId: "block_isEmp",
 			cond: ["$data", "is_employed"],
 			true: [
 				{ type: "number", key: "yoe", label: "Years of Experience" },
 			],
 		},
+
 		{
 			type: "boolean",
 			key: "terms",

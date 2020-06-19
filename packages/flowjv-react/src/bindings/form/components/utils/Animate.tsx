@@ -18,6 +18,9 @@ export const AnimateHeight = ({
 		<motion.div
 			initial={animateOnMount ? "close" : isVisible ? "open" : "close"}
 			animate={isVisible ? "open" : "close"}
+			transition={{
+				ease: "easeInOut",
+			}}
 			exit="close"
 			className={cx("origin-top overflow-hidden", className)}
 			variants={{

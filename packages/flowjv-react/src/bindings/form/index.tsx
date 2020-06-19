@@ -1,7 +1,18 @@
 import React from "react";
-import { IFlowSchema, execJSONExpression, validateJSONFlow } from "flowjv";
+import {
+	IFlowSchema,
+	execJSONExpression,
+	validateJSONFlow,
+	IAtom,
+} from "flowjv";
 import { gett, sett, unsett } from "./utils";
-import { IUIConfig } from "./config";
+import { IFormUIConfigFunc, IUIElementConfig } from "./config";
+import { lookup } from "flowjv";
+import {
+	IObjectIfBlock,
+	IObjectSwitchBlock,
+} from "flowjv/dist/jsonflow/blocks/object";
+import cx from "classnames";
 
 interface IFlowJVProps {
 	schema: IFlowSchema;
@@ -9,8 +20,12 @@ interface IFlowJVProps {
 	context?: any;
 	className?: string;
 	value?: any;
+	renderMap?: {
+		[refPath: string]: (props: IUIElementConfig) => JSX.Element | null;
+	};
 	onChange?: (v: { isValid: boolean; value: any }) => void;
 	onSubmit?: (value: { value: any; isValid: boolean }) => void;
+	doNotFlow?: boolean;
 	formProps?: React.DetailedHTMLProps<
 		React.FormHTMLAttributes<HTMLFormElement>,
 		HTMLFormElement
@@ -27,7 +42,22 @@ interface IFlowJVState {
 		[id: string]: string[];
 	};
 }
-export const setupFlowJV = (Config: IUIConfig) => {
+
+interface IFormFieldValue {
+	value: any;
+	errors: string[];
+	success: boolean;
+}
+export const formContext = React.createContext<{
+	setValue: (refPath: string, value: any) => void;
+	setTouch: (refPath: string) => void;
+	getValue: (refPath: string) => IFormFieldValue;
+	getContext: () => { data: any; context: any; schema: IFlowSchema };
+	renderAtom: (ref: string[]) => null | JSX.Element;
+	renderBlockById: (blockId: string) => null | JSX.Element;
+}>({} as any);
+
+export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 	return class extends React.Component<IFlowJVProps, IFlowJVState> {
 		refSet: Set<string> = new Set();
 		constructor(props) {
@@ -48,13 +78,13 @@ export const setupFlowJV = (Config: IUIConfig) => {
 			});
 		}
 
-		getValue(key = "") {
+		getValue = (key = "") => {
 			if (this.props.value) {
 				return gett(this.props.value, key);
 			}
 			return gett(this.state.value, key);
-		}
-		setValue(key, value) {
+		};
+		setValue = (key, value) => {
 			if (this.props.value) {
 				const newvalue = sett(this.props.value, key, value);
 				this.validate(newvalue, () => {
@@ -75,7 +105,7 @@ export const setupFlowJV = (Config: IUIConfig) => {
 					})
 				);
 			}
-		}
+		};
 		unsetValue = (key: string) => () => {
 			if (this.props.value) {
 				this.props.onChange?.({
@@ -116,7 +146,7 @@ export const setupFlowJV = (Config: IUIConfig) => {
 			const result = validateJSONFlow(this.props.schema, {
 				context: this.props.context,
 				data: value,
-				options: { aggressive: true },
+				options: { aggressive: true, enforceSchema: true },
 			});
 			if (!result.isValid) {
 				const errorMap = result.errors.reduce(
@@ -140,64 +170,129 @@ export const setupFlowJV = (Config: IUIConfig) => {
 				);
 			}
 		};
-		renderFlow = (schema: IFlowSchema, ref: string[]) => {
+
+		getContext = () => {
+			return {
+				data: this.getValue(),
+				context: this.props.context,
+				schema: this.props.schema,
+			};
+		};
+		getRefPathValue = (refPath: string): IFormFieldValue => {
+			let value;
+			if (this.props.value) {
+				value = gett(this.props.value, refPath);
+			} else {
+				value = gett(this.state.value, refPath);
+			}
+			const isTouched = this.state.touchMap[refPath];
+			const errors = this.state.errorMap[refPath] || [];
+			return {
+				value,
+				errors: isTouched ? errors : [],
+				success: isTouched ? errors.length === 0 : false,
+			};
+		};
+		renderAtom = (ref: string[]) => {
 			const refPath = ref.join(".");
+			const schema = lookup.atom(this.props.schema, ref);
+			if (schema === null) return null;
+			const { errors, success, value } = this.getRefPathValue(refPath);
+			return (
+				<Config
+					key={refPath}
+					schema={schema}
+					ui={{
+						className: "pt-3",
+						label: schema.label,
+						errors,
+						success,
+						value,
+						onChange: (v) => {
+							if (schema.type === "number") v = +v;
+							this.setValue(refPath, v);
+						},
+						setTouch: this.setTouch(refPath),
+					}}
+				/>
+			);
+		};
+		renderBlockBySchema = (
+			schema: IObjectIfBlock | IObjectSwitchBlock,
+			ref: string[]
+		) => {
+			const refPath = ref.join(".");
+			switch (schema.type) {
+				case "if": {
+					const cond = !!execJSONExpression(schema.cond, {
+						data: this.getValue(),
+						context: this.props.context,
+						ref: this.getValue(refPath),
+					});
+					const flow = cond ? schema.true : schema.false;
+					return (
+						<Config
+							key={refPath + "$if"}
+							schema={{ type: "conditionWrapper", animKey: "if" }}
+							ui={{
+								errors: [],
+								success: false,
+							}}
+						>
+							{flow &&
+								this.renderFlow(
+									{
+										type: "object",
+										properties: flow,
+									},
+									ref
+								)}
+						</Config>
+					);
+				}
+				case "switch": {
+					const cond = execJSONExpression(schema.cond, {
+						data: this.getValue(),
+						context: this.props.context,
+						ref: this.getValue(ref.join(".")),
+					}) as any;
+					const flow = schema.cases[cond];
+					return (
+						<Config
+							key={`${refPath}.$case`}
+							schema={{ type: "conditionWrapper", animKey: cond }}
+							ui={{
+								errors: [],
+								success: false,
+							}}
+						>
+							{flow &&
+								this.renderFlow(
+									{ type: "object", properties: flow },
+									ref
+								)}
+						</Config>
+					);
+				}
+			}
+			return null;
+		};
+		renderBlockById = (blockId: string) => {
+			const { block, ref } = lookup.block(this.props.schema, blockId);
+			if (!block) {
+				return null;
+			}
+			return this.renderBlockBySchema(block, ref);
+		};
+		renderFlow = (schema: IFlowSchema | IAtom, ref: string[]) => {
 			switch (schema.type) {
 				case "object": {
 					// Loop over all the elements.
 					return schema.properties.map((objconfig) => {
 						switch (objconfig.type) {
-							case "if": {
-								const cond = !!execJSONExpression(
-									objconfig.cond,
-									{
-										data: this.getValue(),
-										context: this.props.context,
-										ref: this.getValue(ref.join(".")),
-									}
-								);
-								const flow = cond
-									? objconfig.true
-									: objconfig.false;
-								return (
-									<Config
-										key={refPath + "$if"}
-										schema={{ type: "conditionWrapper" }}
-										ui={{
-											errors: [],
-											success: false,
-											// className: "ml-10",
-										}}
-									>
-										{flow &&
-											this.renderFlow(
-												{
-													type: "object",
-													properties: flow,
-												},
-												ref
-											)}
-									</Config>
-								);
-								break;
-							}
+							case "if":
 							case "switch": {
-								const cond = execJSONExpression(
-									objconfig.cond,
-									{
-										data: this.getValue(),
-										context: this.props.context,
-										ref: this.getValue(ref.join(".")),
-									}
-								) as any;
-								const flow = objconfig.cases[cond];
-								if (flow) {
-									return this.renderFlow(
-										{ type: "object", properties: flow },
-										ref
-									);
-								}
-								break;
+								return this.renderBlockBySchema(objconfig, ref);
 							}
 							default: {
 								return this.renderFlow(objconfig, [
@@ -208,60 +303,63 @@ export const setupFlowJV = (Config: IUIConfig) => {
 						}
 					});
 				}
-				case "array": {
-					return <h3>Not implemented yet.</h3>;
-				}
 			}
-
-			const touched = !!this.state.touchMap[refPath];
+			const refPath = ref.join(".");
 
 			switch (schema.type) {
 				case "enum":
 				case "boolean":
 				case "number":
 				case "string": {
-					// Render the components here!
-					const errors = this.state.errorMap[refPath] || [];
-					return (
-						<Config
-							key={refPath}
-							schema={schema}
-							ui={{
-								className: "pt-3",
-								label: schema.label,
-								errors: touched ? errors : [],
-								success: touched ? !errors.length : false,
-								value: this.getValue(refPath),
-								onChange: (v) => {
-									this.setValue(refPath, v);
-								},
-								onUnmount: this.unsetValue(refPath),
-								setTouch: this.setTouch(refPath),
-							}}
-						/>
-					);
+					const render = this.props.renderMap?.[refPath];
+					if (render) {
+						const { errors, success, value } = this.getRefPathValue(
+							refPath
+						);
+						return render({
+							errors,
+							success,
+							value,
+							onChange: (v) => this.setValue(refPath, v),
+							setTouch: () => this.setTouch(refPath),
+						});
+					}
+					return this.renderAtom(ref);
 				}
 			}
 		};
 		render() {
-			const { formProps, schema } = this.props;
+			const { formProps, schema, className, doNotFlow } = this.props;
 			return (
-				<form
-					{...formProps}
-					onSubmit={(e) => {
-						e.preventDefault();
-						this.touchAll();
-						this.validate(this.getValue(), () => {
-							this.props.onSubmit?.({
-								value: this.getValue(),
-								isValid: this.state.isValid,
-							});
-						});
+				<formContext.Provider
+					value={{
+						renderAtom: this.renderAtom,
+						renderBlockById: this.renderBlockById,
+						getValue: this.getRefPathValue,
+						getContext: this.getContext,
+						setValue: this.setValue,
+						setTouch: this.setTouch,
 					}}
 				>
-					{this.renderFlow(schema, [])}
-					{this.props.children}
-				</form>
+					<form
+						{...formProps}
+						className={cx(className, "ke-flowjv-form")}
+						onSubmit={(e) => {
+							e.preventDefault();
+							this.touchAll();
+							const value = this.getValue();
+							this.validate(value, () => {
+								this.props.onSubmit?.({
+									value,
+									isValid: this.state.isValid,
+								});
+							});
+						}}
+					>
+						{doNotFlow ? null : this.renderFlow(schema, [])}
+						{this.props.children}
+					</form>
+				</formContext.Provider>
 			);
 		}
 	};

@@ -7,12 +7,22 @@ interface IRadioProps {
 	checked?: boolean;
 	name?: string;
 	className?: string;
+	errors: string[];
+	success?: boolean;
 	onFocus?: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 export const Radio = forwardRef<any, IRadioProps>(
-	({ onChange, value, checked, name, className, onFocus }, ref) => {
+	(
+		{ onChange, value, checked, name, className, onFocus, errors, success },
+		ref
+	) => {
 		return (
-			<div className="fjv-checkbox radio">
+			<div
+				className={cx("fjv-checkbox radio", {
+					error: !!errors.length,
+					success,
+				})}
+			>
 				<input
 					type="radio"
 					checked={checked}
@@ -57,10 +67,6 @@ export const RadioGroup = ({
 	errors,
 	onFocus,
 }: IRadioGroupProps) => {
-	useEffect(() => {
-		onMount?.();
-		return onUnmount;
-	}, []);
 	const change = (e) => {
 		onChange?.(e.target.value);
 	};
@@ -80,7 +86,13 @@ export const RadioGroup = ({
 					onFocus={onFocus}
 					key={i}
 				>
-					<Radio value={v} onChange={change} checked={value === v} />
+					<Radio
+						value={v}
+						onChange={change}
+						errors={errors}
+						success={success}
+						checked={value === v}
+					/>
 					<span
 						className={cx("ml-2 flex-grow select-none", {
 							"text-green-700": value === v,

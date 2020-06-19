@@ -1,4 +1,4 @@
-import { setupFlowJV } from "flowjv-react";
+import { setupFlowJV, Field, Block } from "flowjv-react";
 import { FormConfig } from "flowjv-react/dist/bindings";
 import { useState } from "react";
 import cx from "classnames";
@@ -10,7 +10,7 @@ export function DemoForm() {
 	const [data, setData] = useState({ value: {}, isValid: false });
 	const [showData, setShowData] = useState(false);
 	return (
-		<div className="max-w-md p-5 mx-auto bg-white">
+		<div className="max-w-md p-5 mx-auto bg-gray-100 shadow-lg">
 			<h2>Registration Form</h2>
 			{showData && <pre>{JSON.stringify(data.value, null, "  ")}</pre>}
 			<FlowJVForm
@@ -22,7 +22,13 @@ export function DemoForm() {
 				schema={flowSchema}
 				value={data.value}
 				onChange={setData}
+				// customUI
 			>
+				{/* <Field refPath="name" />
+				<Field refPath="age" />
+				<Field refPath="gender" />
+				<Field refPath="is_employed" />
+				<Block blockID="block_isEmp" /> */}
 				<RegisterButton
 					isValid={data.isValid}
 					onRegister={() => {

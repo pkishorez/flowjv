@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://mygithub/kishoreiiitn/cjv/compare/v0.0.10...v0.2.0) (2020-06-19)
+
+
+### Features
+
+* add ability customize placement of UI elements in the form ([5fcac1d](https://mygithub/kishoreiiitn/cjv/commit/5fcac1d37510019d7a3c0c84987ca44cc0e16ad9))
+* add enforceSchema option to enforceSchema on data given ([dafb62d](https://mygithub/kishoreiiitn/cjv/commit/dafb62d76ab671afa1165c9c078d59fe3cc8cff9))
+* add italic style ([c9d4e5f](https://mygithub/kishoreiiitn/cjv/commit/c9d4e5f47c0634ccace69869708ad3d5ba63282c))
+* add lookup for flowjv to integrate nicely with flowjv forms ([951a652](https://mygithub/kishoreiiitn/cjv/commit/951a65243134ca1941a8bb249631f699a75a3d86))
+* add styling for bold ([4bc7e9f](https://mygithub/kishoreiiitn/cjv/commit/4bc7e9f40d4a7d573c36b487653093cd9a648d64))
+
+
+
+
+
 # [0.1.0](https://mygithub/kishoreiiitn/cjv/compare/v0.0.11...v0.1.0) (2020-06-12)
 
 

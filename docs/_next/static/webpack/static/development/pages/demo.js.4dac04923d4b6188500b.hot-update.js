@@ -1,0 +1,15 @@
+webpackHotUpdate("static/development/pages/demo.js",{
+
+/***/ "../flowjv-react/dist/bindings/form/custom/field.js":
+/*!**********************************************************!*\
+  !*** ../flowjv-react/dist/bindings/form/custom/field.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.Field = void 0;\nvar react_1 = __webpack_require__(/*! react */ \"../../node_modules/react/index.js\");\nvar index_1 = __webpack_require__(/*! ../index */ \"../flowjv-react/dist/bindings/form/index.js\");\nexports.Field = function (_a) {\n    var refPath = _a.refPath, Component = _a.Component;\n    var context = react_1.useContext(index_1.formContext);\n    var _b = context.getValue(refPath), errors = _b.errors, success = _b.success, value = _b.value;\n    if (Component) {\n        return Component({\n            errors: errors,\n            success: success,\n            value: value,\n            onChange: function (v) { return context.setValue(refPath, v); },\n        });\n    }\n    return context.renderAtom(refPath.split(\".\"));\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi4vZmxvd2p2LXJlYWN0L2Rpc3QvYmluZGluZ3MvZm9ybS9jdXN0b20vZmllbGQuanM/ZDYzZSJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBYTtBQUNiLDhDQUE4QyxjQUFjO0FBQzVEO0FBQ0EsY0FBYyxtQkFBTyxDQUFDLGdEQUFPO0FBQzdCLGNBQWMsbUJBQU8sQ0FBQyw2REFBVTtBQUNoQztBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxvQ0FBb0MscUNBQXFDLEVBQUU7QUFDM0UsU0FBUztBQUNUO0FBQ0E7QUFDQSIsImZpbGUiOiIuLi9mbG93anYtcmVhY3QvZGlzdC9iaW5kaW5ncy9mb3JtL2N1c3RvbS9maWVsZC5qcy5qcyIsInNvdXJjZXNDb250ZW50IjpbIlwidXNlIHN0cmljdFwiO1xuT2JqZWN0LmRlZmluZVByb3BlcnR5KGV4cG9ydHMsIFwiX19lc01vZHVsZVwiLCB7IHZhbHVlOiB0cnVlIH0pO1xuZXhwb3J0cy5GaWVsZCA9IHZvaWQgMDtcbnZhciByZWFjdF8xID0gcmVxdWlyZShcInJlYWN0XCIpO1xudmFyIGluZGV4XzEgPSByZXF1aXJlKFwiLi4vaW5kZXhcIik7XG5leHBvcnRzLkZpZWxkID0gZnVuY3Rpb24gKF9hKSB7XG4gICAgdmFyIHJlZlBhdGggPSBfYS5yZWZQYXRoLCBDb21wb25lbnQgPSBfYS5Db21wb25lbnQ7XG4gICAgdmFyIGNvbnRleHQgPSByZWFjdF8xLnVzZUNvbnRleHQoaW5kZXhfMS5mb3JtQ29udGV4dCk7XG4gICAgdmFyIF9iID0gY29udGV4dC5nZXRWYWx1ZShyZWZQYXRoKSwgZXJyb3JzID0gX2IuZXJyb3JzLCBzdWNjZXNzID0gX2Iuc3VjY2VzcywgdmFsdWUgPSBfYi52YWx1ZTtcbiAgICBpZiAoQ29tcG9uZW50KSB7XG4gICAgICAgIHJldHVybiBDb21wb25lbnQoe1xuICAgICAgICAgICAgZXJyb3JzOiBlcnJvcnMsXG4gICAgICAgICAgICBzdWNjZXNzOiBzdWNjZXNzLFxuICAgICAgICAgICAgdmFsdWU6IHZhbHVlLFxuICAgICAgICAgICAgb25DaGFuZ2U6IGZ1bmN0aW9uICh2KSB7IHJldHVybiBjb250ZXh0LnNldFZhbHVlKHJlZlBhdGgsIHYpOyB9LFxuICAgICAgICB9KTtcbiAgICB9XG4gICAgcmV0dXJuIGNvbnRleHQucmVuZGVyQXRvbShyZWZQYXRoLnNwbGl0KFwiLlwiKSk7XG59O1xuIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///../flowjv-react/dist/bindings/form/custom/field.js\n");
+
+/***/ })
+
+})

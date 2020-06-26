@@ -7,10 +7,15 @@ export type IExpression<IData = any, IContext = any> =
 	| IOperation<IData, IContext>
 	| IFunctionExectution<IData, IContext>;
 
-type IFunctionExectution<IData, IContext> = (
-	data: Partial<IData>,
-	context: IContext
-) => any;
+type IFunctionExectution<IData, IContext> = ({
+	data,
+	context,
+	ref,
+}: {
+	data: Partial<IData>;
+	context: IContext;
+	ref: any;
+}) => any;
 type IMin2ElemArray<T> = [T, T, ...T[]];
 export type IOperation<IData = any, IContext = any> =
 	| IDataAccessOperation<IData, IContext>
@@ -72,7 +77,11 @@ export const execJSONExpression = <IData = any, IContext = any>(
 		return logic;
 	}
 	if (typeof logic === "function") {
-		return logic(data.data as Partial<IData>, data.context as IContext);
+		return logic({
+			data: data.data as Partial<IData>,
+			context: data.context as IContext,
+			ref: data.ref,
+		});
 	}
 	switch (logic[0]) {
 		// Data Access Operation.

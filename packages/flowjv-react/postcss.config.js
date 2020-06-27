@@ -1,7 +1,7 @@
 // postcss.config.js
 const options = {
 	// Specify the paths to all of the template files in your project
-	content: [__dirname + "/src/*.tsx"],
+	content: [__dirname + "/src/**/*.tsx"],
 
 	// This is the function used to extract class names from your templates
 	defaultExtractor: (content) => {

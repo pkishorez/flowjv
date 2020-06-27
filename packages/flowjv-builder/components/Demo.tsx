@@ -7,14 +7,16 @@ const FlowJVForm = setupFlowJV(defaultConfig);
 
 export function DemoForm() {
 	const [data, setData] = useState({ value: {}, isValid: false });
-	const [theme, setTheme] = useState<"light" | "dark">("light");
+	const [theme, setTheme] = useState<"light" | "dark">("dark");
 	return (
 		<div>
 			<style global jsx>
 				{`
 					body {
 						/*background-color: #313131;*/
-						background-color: white;
+						background-color: ${theme === "light"
+							? "white"
+							: "black"};
 					}
 				`}
 			</style>

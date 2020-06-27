@@ -7,7 +7,7 @@ export const ErrorUI = ({ errors }: { errors: string[] }) => {
 		<AnimatePresence>
 			{errors.map((v, i) => (
 				<AnimateHeight key={i} isVisible animateOnMount>
-					<div className="text-xs mt-1 text-red-700">{v}</div>
+					<div className="text-xs mt-1 text-error">{v}</div>
 				</AnimateHeight>
 			))}
 		</AnimatePresence>

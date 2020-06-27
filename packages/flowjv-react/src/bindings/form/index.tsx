@@ -17,19 +17,17 @@ import cx from "classnames";
 interface IFlowJVProps {
 	schema: IFlowSchema;
 	defaultValue?: any;
+	theme?: "dark" | "light";
 	context?: any;
-	className?: string;
 	value?: any;
 	renderMap?: {
 		[refPath: string]: (props: IUIElementConfig) => JSX.Element | null;
 	};
+	className?: string;
 	onChange?: (v: { isValid: boolean; value: any }) => void;
 	onSubmit?: (value: { value: any; isValid: boolean }) => void;
-	doNotFlow?: boolean;
-	formProps?: React.DetailedHTMLProps<
-		React.FormHTMLAttributes<HTMLFormElement>,
-		HTMLFormElement
-	>;
+	prepend?: JSX.Element;
+	append?: JSX.Element;
 }
 
 interface IFlowJVState {
@@ -329,7 +327,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 			}
 		};
 		render() {
-			const { formProps, schema, className, doNotFlow } = this.props;
+			const { className, schema, children, theme } = this.props;
 			return (
 				<formContext.Provider
 					value={{
@@ -342,8 +340,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					}}
 				>
 					<form
-						{...formProps}
-						className={cx(className, "ke-flowjv-form")}
+						className={cx(className, theme, "fjv-form")}
 						onSubmit={(e) => {
 							e.preventDefault();
 							this.touchAll();
@@ -356,8 +353,9 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 							});
 						}}
 					>
-						{doNotFlow ? null : this.renderFlow(schema, [])}
-						{this.props.children}
+						{this.props.prepend}
+						{children ? null : this.renderFlow(schema, [])}
+						{this.props.append}
 					</form>
 				</formContext.Provider>
 			);

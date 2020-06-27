@@ -18,9 +18,9 @@ export const Radio = forwardRef<any, IRadioProps>(
 	) => {
 		return (
 			<div
-				className={cx("fjv-checkbox radio", {
+				className={cx("fjv-input", {
+					success: !!success,
 					error: !!errors.length,
-					success,
 				})}
 			>
 				<input
@@ -28,7 +28,8 @@ export const Radio = forwardRef<any, IRadioProps>(
 					checked={checked}
 					name={name}
 					className={cx(
-						"outline-none border-2 border-solid border-gray-300 pr-2 text-gray-800",
+						"radio",
+						"outline-none border-2 border-solid border-gray-300 pr-2 w-4 h-4",
 						className
 					)}
 					value={value}
@@ -36,7 +37,9 @@ export const Radio = forwardRef<any, IRadioProps>(
 					onChange={onChange}
 					onFocus={onFocus}
 				/>
-				<div className="mark"></div>
+				<div className="mark">
+					<div className="content"></div>
+				</div>
 			</div>
 		);
 	}
@@ -61,8 +64,6 @@ export const RadioGroup = ({
 	options,
 	onChange,
 	label,
-	onUnmount,
-	onMount,
 	success,
 	errors,
 	onFocus,
@@ -72,36 +73,40 @@ export const RadioGroup = ({
 	};
 	return (
 		<div className={className}>
-			<div
-				className={cx("text-lg", {
-					"text-green-700": success,
-					"text-red-700": !!errors.length,
-				})}
-			>
-				{label}
-			</div>
-			{options.map(({ label, value: v }, i) => (
-				<label
-					className={cx("flex items-center py-1 px-2")}
-					onFocus={onFocus}
-					key={i}
+			<label>
+				<div
+					className={cx("text-sm", {
+						"text-success": success,
+						"text-error": !!errors.length,
+						"text-primary": !(success || !!errors.length),
+					})}
 				>
-					<Radio
-						value={v}
-						onChange={change}
-						errors={errors}
-						success={success}
-						checked={value === v}
-					/>
-					<span
-						className={cx("ml-2 flex-grow select-none", {
-							"text-green-700": value === v,
-						})}
+					{label}
+				</div>
+				{options.map(({ label, value: v }, i) => (
+					<label
+						className={cx("flex items-center py-1 px-2")}
+						onFocus={onFocus}
+						key={i}
 					>
-						{label}
-					</span>
-				</label>
-			))}
+						<Radio
+							value={v}
+							onChange={change}
+							errors={errors}
+							success={success}
+							checked={value === v}
+						/>
+						<span
+							className={cx("ml-2 flex-grow select-none", {
+								"text-success": value === v,
+								"text-primary": value !== v,
+							})}
+						>
+							{label}
+						</span>
+					</label>
+				))}
+			</label>
 		</div>
 	);
 };

@@ -1,1 +1,30 @@
-@import "../../flowjv-react/styles/index.scss";
+/*! purgecss start ignore */
+@import "tailwindcss/base";
+@import "./normalize";
+/*! purgecss end ignore */
+
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "../../flowjv-react/dist/main.css";
+
+@-webkit-keyframes autofill {
+	0%,
+	100% {
+		color: inherit;
+		background: transparent;
+	}
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+	-webkit-animation-delay: 0.1s; /* Safari support - any positive time runs instantly */
+	-webkit-animation-name: autofill;
+	-webkit-animation-fill-mode: both;
+}

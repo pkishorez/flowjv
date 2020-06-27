@@ -26,32 +26,40 @@ export const TextField = ({
 }: IInputProps) => {
 	const hasErrors = errors.length;
 	return (
-		<label className={cx("block flex flex-col", className)}>
-			<div
-				className={cx("text-lg", {
-					"text-red-700": hasErrors && !readOnly,
-					"text-green-800": success && !readOnly,
-				})}
-			>
-				{label}
+		<label>
+			<div className={cx("flex flex-col", className)}>
+				<div
+					className={cx({
+						"text-error": hasErrors && !readOnly,
+						"text-success": success && !readOnly,
+						"text-primary": !(success || hasErrors),
+					})}
+				>
+					{label}
+				</div>
+				<input
+					spellCheck="false"
+					value={value}
+					{...props}
+					style={{
+						...props.style,
+						borderBottomWidth: "var(--border-width)",
+					}}
+					className={cx(
+						"outline-none border-b border-solid pt-0 flex-grow bg-transparent",
+						{
+							"border-error focus:border-error":
+								hasErrors && !readOnly,
+							"border-success focus:border-success":
+								success && !readOnly,
+							"border-gray-400 focus:border-gray-900":
+								!(hasErrors || success) && !readOnly,
+							"cursor-default text-gray-600 pointer-events-none focus:border-gray-400": readOnly,
+						}
+					)}
+				/>
+				<ErrorUI errors={errors} />
 			</div>
-			<input
-				value={value}
-				{...props}
-				className={cx(
-					"outline-none border-b-2 border-solid pt-0 pb-1 text-xs flex-grow bg-transparent",
-					{
-						"border-red-700 focus:border-red-700":
-							hasErrors && !readOnly,
-						"border-green-700 focus:border-green-700":
-							success && !readOnly,
-						"border-gray-400 focus:border-gray-900":
-							!hasErrors && !readOnly,
-						"cursor-default text-gray-600 pointer-events-none focus:border-gray-400": readOnly,
-					}
-				)}
-			/>
-			<ErrorUI errors={errors} />
 		</label>
 	);
 };

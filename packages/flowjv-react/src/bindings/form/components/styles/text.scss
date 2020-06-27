@@ -1,0 +1,16 @@
+.fjv-input {
+	&.text-field {
+		.label {
+			position: absolute;
+			transform: translateY(var(--inputText-fontSize));
+			font-size: var(--inputText-fontSize);
+		}
+		input {
+			&:focus {
+				& ~ .label {
+					@apply text-sm;
+				}
+			}
+		}
+	}
+}

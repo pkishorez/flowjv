@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import cx from "classnames";
 import { ErrorUI } from "./utils/InputErrors";
 
-interface ICheckboxProps
-	extends React.DetailedHTMLProps<
-		React.InputHTMLAttributes<HTMLInputElement>,
-		HTMLInputElement
-	> {
+type ICheckboxProps = React.DetailedHTMLProps<
+	React.InputHTMLAttributes<HTMLInputElement>,
+	HTMLInputElement
+> & {
+	value?: boolean;
 	errors: string[];
 	success?: boolean;
 	label?: string;
 	onUnmount?: any;
 	onMount?: any;
-}
+};
 export const Checkbox = ({
 	errors,
 	success,
@@ -28,18 +28,26 @@ export const Checkbox = ({
 			<div className={className}>
 				<div className={cx("flex items-center px-2 pb-0")}>
 					<div
-						className={cx("fjv-checkbox", {
+						className={cx("fjv-input", {
 							error: !!errors.length,
-							success,
+							success: !!success,
 						})}
 					>
-						<input {...props} type="checkbox" checked={!!value} />
-						<div className="mark"></div>
+						<input
+							{...props}
+							className="w-4 h-4 checkbox"
+							type="checkbox"
+							checked={!!value}
+						/>
+						<div className="mark">
+							<span className="content">✓</span>
+						</div>
 					</div>
 					<span
-						className={cx("ml-2 flex-grow select-none", {
-							"text-red-700": !!errors.length,
-							"text-green-700": success,
+						className={cx("ml-2 flex-grow text-sm select-none", {
+							"text-error": !!errors.length,
+							"text-success": !!success,
+							"text-primary": !(!!errors.length || !!success),
 						})}
 					>
 						{label}

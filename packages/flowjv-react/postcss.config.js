@@ -1,7 +1,7 @@
 // postcss.config.js
 const options = {
 	// Specify the paths to all of the template files in your project
-	content: [__dirname + "/**/*.tsx", __dirname + "/../flowjv-react/**/*.tsx"],
+	content: [__dirname + "/src/*.tsx"],
 
 	// This is the function used to extract class names from your templates
 	defaultExtractor: (content) => {
@@ -21,6 +21,7 @@ module.exports = {
 		require("postcss-import"),
 		require("tailwindcss"),
 		require("precss"),
+		require("tailwindcss"),
 		require("autoprefixer"),
 		require("cssnano"),
 		require("@fullhuman/postcss-purgecss")(options),

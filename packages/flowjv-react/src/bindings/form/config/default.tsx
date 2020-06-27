@@ -31,6 +31,7 @@ export const defaultConfig: IFormUIConfigFunc = ({
 				<Checkbox
 					{...ui}
 					onFocus={setTouch}
+					checked={ui.value}
 					onChange={(e) => onChange?.(e.target.checked)}
 				/>
 			);

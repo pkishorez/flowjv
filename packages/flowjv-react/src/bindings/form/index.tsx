@@ -13,6 +13,7 @@ import {
 	IObjectSwitchBlock,
 } from "flowjv/dist/jsonflow/blocks/object";
 import cx from "classnames";
+import debounce from "lodash/debounce";
 
 interface IFlowJVProps {
 	schema: IFlowSchema;
@@ -66,6 +67,10 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 				touchMap: {},
 				errorMap: {},
 			};
+			this.validate = debounce(this.validate, 300, {
+				trailing: true,
+				leading: true,
+			});
 		}
 		componentDidMount() {
 			this.validate(this.getValue(), () => {

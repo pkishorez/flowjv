@@ -20,7 +20,7 @@ export function DemoForm() {
 			</style>
 			<div
 				style={{ boxShadow: "0px 0px 5px gray" }}
-				className="my-10 mx-auto max-w-sm w-screen"
+				className="my-10 mx-auto max-w-md w-screen"
 			>
 				<FlowJVForm
 					className="p-5 relative transition-all duration-200"

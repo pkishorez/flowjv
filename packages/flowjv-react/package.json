@@ -26,5 +26,6 @@
 		"flowjv": "^0.0.6",
 		"framer-motion": "^1.11.0",
 		"lodash": "^4.17.15"
-	}
+	},
+	"gitHead": "6d29c6736857fedecc575f32e5ad84c792c65eab"
 }

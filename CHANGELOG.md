@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/pkishoez/flowjv/compare/v0.2.0...v0.3.0) (2020-06-27)
+
+
+### Features
+
+* add typechecking option to flowjv and required field at atom level ([90f5227](https://github.com/pkishoez/flowjv/commit/90f522704c2e036c49df93dfa8efebd96316f291))
+* add utility for ui theme customization to default form config ([52de387](https://github.com/pkishoez/flowjv/commit/52de387389d2143c2a91b472f0a74a57f0f56517))
+* update function callback structure for JSONExpression ([a5f7e67](https://github.com/pkishoez/flowjv/commit/a5f7e67a9fe0c1f876c268ee6ce9ca0abb2be2b9))
+
+
+
+
+
 # [0.2.0](https://github.com/pkishoez/flowjv/compare/v0.0.10...v0.2.0) (2020-06-19)
 
 

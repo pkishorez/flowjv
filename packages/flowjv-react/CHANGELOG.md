@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://mygithub/kishoreiiitn/cjv/compare/v0.2.0...v0.3.0) (2020-06-27)
+
+
+### Features
+
+* add typechecking option to flowjv and required field at atom level ([90f5227](https://mygithub/kishoreiiitn/cjv/commit/90f522704c2e036c49df93dfa8efebd96316f291))
+* add utility for ui theme customization to default form config ([52de387](https://mygithub/kishoreiiitn/cjv/commit/52de387389d2143c2a91b472f0a74a57f0f56517))
+
+
+
+
+
 # [0.2.0](https://mygithub/kishoreiiitn/cjv/compare/v0.0.10...v0.2.0) (2020-06-19)
 
 

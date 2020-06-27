@@ -140,7 +140,8 @@ export const execObjectFlow = <IData, IContext>(
 					{
 						...flowContext,
 						refPath,
-					}
+					},
+					options
 				);
 				if (!result.isValid) {
 					if (options?.aggressive) {

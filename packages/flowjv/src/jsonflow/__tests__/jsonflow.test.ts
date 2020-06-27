@@ -6,6 +6,7 @@ const profileFlow: IFlowSchema = {
 		{
 			key: "name",
 			type: "string",
+			isRequired: true,
 		},
 		{
 			key: "age",
@@ -49,7 +50,7 @@ const profileFlow: IFlowSchema = {
 		},
 	],
 };
-describe("Flow Test", () => {
+describe.only("Flow Test", () => {
 	it("Basic Profile json test2", () => {
 		const result = validateJSONFlow(profileFlow, {
 			data: {
@@ -61,5 +62,50 @@ describe("Flow Test", () => {
 			},
 		});
 		expect(result.isValid).toBe(true);
+	});
+	it("isRequired", () => {
+		const schema: IFlowSchema = {
+			type: "object",
+			properties: [{ key: "name", type: "string", isRequired: true }],
+		};
+		expect(
+			validateJSONFlow(schema, {
+				data: {},
+			}).isValid
+		).toBe(false);
+		expect(
+			validateJSONFlow(schema, {
+				data: { name: "" },
+			}).isValid
+		).toBe(true);
+		expect(
+			validateJSONFlow(schema, {
+				data: { name: "kishore" },
+			}).isValid
+		).toBe(true);
+	});
+	it("enum isRequired", () => {
+		const schema: IFlowSchema = {
+			type: "object",
+			properties: [
+				{
+					key: "gender",
+					type: "enum",
+					isRequired: true,
+					items: [
+						{ value: "male" },
+						{ value: "female" },
+						{ value: "others" },
+					],
+				},
+			],
+		};
+		expect(
+			validateJSONFlow(schema, { data: { gender: "male" } }).isValid
+		).toBe(true);
+		expect(
+			validateJSONFlow(schema, { data: { gender: "unknown" } }).isValid
+		).toBe(false);
+		expect(validateJSONFlow(schema, { data: {} }).isValid).toBe(false);
 	});
 });

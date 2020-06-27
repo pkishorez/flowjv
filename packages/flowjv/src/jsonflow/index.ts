@@ -37,12 +37,17 @@ export interface IFlowReturnType {
 export interface IFlowOptions {
 	aggressive?: boolean;
 	enforceSchema?: boolean;
+	typeCheck?: boolean;
 }
 export const execJSONFlow = <IData, IContext>(
 	flow: IFlowSchema,
 	data: IJSONExpressionData<IData, IContext>,
 	flowContext: IFlowContext,
-	options?: IFlowOptions
+	options: IFlowOptions = {
+		typeCheck: true,
+		aggressive: false,
+		enforceSchema: true,
+	}
 ): IFlowReturnType => {
 	switch (flow.type) {
 		case "object":

@@ -14,6 +14,7 @@ import {
 } from "flowjv/dist/jsonflow/blocks/object";
 import cx from "classnames";
 import debounce from "lodash/debounce";
+import { defaultConfig } from "./config/default";
 
 interface IFlowJVProps {
 	schema: IFlowSchema;
@@ -371,3 +372,5 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 		}
 	};
 };
+
+export const FlowJVForm = setupFlowJV(defaultConfig);

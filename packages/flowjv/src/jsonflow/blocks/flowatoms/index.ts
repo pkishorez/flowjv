@@ -3,13 +3,13 @@ import {
 	execJSONExpression,
 	IJSONExpressionData,
 } from "../../../jsonlogic";
-import { IFlowReturnType, IFlowContext } from "../../index";
+import { IFlowReturnType, IFlowContext, IFlowOptions } from "../../index";
 
 export interface IValidation {
 	logic: IExpression;
 	err: string;
 }
-export type IAtom =
+export type IAtom = (
 	| {
 			type: "string" | "number" | "boolean";
 			uiType?: "number" | "text" | "password";
@@ -20,32 +20,78 @@ export type IAtom =
 			type: "enum";
 			uiType?: "select" | "radio";
 			label?: string;
-			err?: string;
+
 			items: { label?: string; value: any }[];
 			validations?: IValidation[];
-	  };
+	  }
+) & { isRequired?: boolean };
 
 export const execPrimitiveFlow = <IData, IContext>(
 	flow: IAtom,
 	data: IJSONExpressionData<IData, IContext>,
-	flowContext: IFlowContext
+	flowContext: IFlowContext,
+	options?: IFlowOptions
 ): IFlowReturnType => {
 	let validations = flow.validations || [];
 	let errorMsgs: string[] = [];
+
+	if (options?.typeCheck) {
+		switch (flow.type) {
+			case "boolean":
+			case "number":
+			case "string": {
+				if (data.ref && typeof data.ref !== flow.type) {
+					errorMsgs.push(
+						`TypeError: value for key ${flowContext.refPath.join(
+							"."
+						)} is expected to be of type ${flow.type}`
+					);
+				}
+				break;
+			}
+		}
+	}
+	if (flow.isRequired) {
+		switch (flow.type) {
+			case "boolean":
+			case "number":
+			case "string": {
+				if (data.ref === undefined) {
+					errorMsgs.push(
+						`RequiredError: value for key ${flowContext.refPath.join(
+							"."
+						)} is required.`
+					);
+				}
+				break;
+			}
+			case "enum": {
+				if (!flow.items.find((v) => v.value === data.ref)) {
+					errorMsgs.push(
+						`EnumError: value for key ${flowContext.refPath.join(
+							"."
+						)} should be one of the enum defined.`
+					);
+				}
+				break;
+			}
+		}
+	}
+
 	switch (flow.type) {
 		case "enum":
 		case "boolean":
 		case "number":
 		case "string": {
-			errorMsgs = [
-				...errorMsgs,
+			errorMsgs.push(
 				...(validations
 					.map(({ logic, err }) => {
 						const result = !!execJSONExpression(logic, data);
 						return result ? null : err || "Error";
 					})
-					.filter((v) => v !== null) as string[]),
-			];
+					.filter((v) => v !== null) as string[])
+			);
+			break;
 		}
 	}
 	return {

@@ -1,1 +1,0 @@
-self.__BUILD_MANIFEST = {"/demo":["static\u002Fchunks\u002Fbaedf866.34a1030928d50edf4293.js"]};self.__BUILD_MANIFEST_CB && self.__BUILD_MANIFEST_CB()

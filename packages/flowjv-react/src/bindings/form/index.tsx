@@ -90,6 +90,10 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 		setValue = (key, value) => {
 			if (this.props.value) {
 				const newvalue = sett(this.props.value, key, value);
+				this.props.onChange?.({
+					value: newvalue,
+					isValid: this.state.isValid,
+				});
 				this.validate(newvalue, () => {
 					this.props.onChange?.({
 						value: newvalue,

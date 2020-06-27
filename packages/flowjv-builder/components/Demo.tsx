@@ -7,7 +7,7 @@ const FlowJVForm = setupFlowJV(defaultConfig);
 
 export function DemoForm() {
 	const [data, setData] = useState({ value: {}, isValid: false });
-	const [showData, setShowData] = useState(false);
+	const [theme, setTheme] = useState<"light" | "dark">("light");
 	return (
 		<div>
 			<style global jsx>
@@ -18,43 +18,44 @@ export function DemoForm() {
 					}
 				`}
 			</style>
-			<div className="flex flex-col lg:flex-row justify-center items-center lg:items-start pt-10">
-				<div
-					style={{ boxShadow: "0px 0px 5px gray" }}
-					className="mb-10 lg:mb-0 lg:mr-10"
-				>
-					<FlowJVForm
-						className="max-w-md p-5 w-screen"
-						theme="light"
-						schema={flowSchema}
-						value={data.value}
-						onChange={setData}
-						prepend={<h2>Registration Form</h2>}
-						append={
-							<RegisterButton
-								isValid={data.isValid}
-								onRegister={() => {
-									setShowData(true);
-								}}
-								theme="light"
-							/>
-						}
-					/>
-				</div>
+			<div
+				style={{ boxShadow: "0px 0px 5px gray" }}
+				className="my-10 mx-auto max-w-sm w-screen"
+			>
 				<FlowJVForm
-					className="max-w-md p-5 w-screen shadow-lg"
-					theme="dark"
+					className="p-5 relative transition-all duration-200"
+					theme={theme}
 					schema={flowSchema}
 					value={data.value}
 					onChange={setData}
-					prepend={<h2>Registration Form</h2>}
+					prepend={
+						<div>
+							<h2>Registration Form</h2>
+							<span
+								className={cx(
+									"absolute top-0 right-0 text-3xl p-3 px-5 select-none",
+									"cursor-pointer hover:opacity-100 opacity-75 font-bold",
+									"transition-colors duration-100",
+									{
+										"text-black": theme === "light",
+										"text-white": theme === "dark",
+									}
+								)}
+								onClick={(e) =>
+									setTheme(
+										theme === "dark" ? "light" : "dark"
+									)
+								}
+							>
+								☾
+							</span>
+						</div>
+					}
 					append={
 						<RegisterButton
 							isValid={data.isValid}
-							onRegister={() => {
-								setShowData(true);
-							}}
-							theme="dark"
+							onRegister={() => {}}
+							theme={theme}
 						/>
 					}
 				/>

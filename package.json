@@ -6,8 +6,7 @@
 		"testw": "jest --watch",
 		"test": "jest",
 		"publish-docs": "sh ./publish-docs.sh",
-		"prepublish": "npm run test",
-		"postpublish": "npm run publish-docs"
+		"prepublish": "npm run test"
 	},
 	"repository": {
 		"url": "https://www.github.com/pkishoez/flowjv"

@@ -6,7 +6,7 @@
 		"testw": "jest --watch",
 		"test": "jest",
 		"publish-docs": "sh ./publish-docs.sh",
-		"prepublish": "npm run build && npm run test"
+		"prepublish": "npm run test"
 	},
 	"repository": {
 		"url": "https://www.github.com/pkishoez/flowjv"
@@ -41,7 +41,7 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "npm test"
+			"pre-commit": "sh ./build.sh && npm test"
 		}
 	},
 	"dependencies": {

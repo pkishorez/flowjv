@@ -1,7 +1,7 @@
 {
 	"name": "flowjv-react",
 	"version": "0.3.1",
-	"description": "React integration for flowjv",
+	"description": "flowjv UI binding for Form",
 	"main": "dist/index.js",
 	"scripts": {
 		"prepare": "npm run build",

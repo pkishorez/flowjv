@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3](https://github.com/kishoreiiitn/flowjv/compare/v0.3.2...v0.3.3) (2020-06-28)
+
+
+### Bug Fixes
+
+* add type check to enum. Change isRequired field to isOptional ([7f196c3](https://github.com/kishoreiiitn/flowjv/commit/7f196c3dd4acb41843ea0f850e0814c27dffaba6))
+
+
+
+
+
 ## [0.3.2](https://github.com/kishoreiiitn/flowjv/compare/v0.3.1...v0.3.2) (2020-06-28)
 
 

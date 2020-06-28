@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.6](https://github.com/pkishoez/flowjv/compare/v0.3.5...v0.3.6) (2020-06-28)
+
+
+### Bug Fixes
+
+* do not know why lerna changed to independent mode ([c4197df](https://github.com/pkishoez/flowjv/commit/c4197df881c6be49482007420218ac320504b8c9))
+
+
+
+
+
 ## [0.3.5](https://github.com/pkishoez/flowjv/compare/v0.3.4...v0.3.5) (2020-06-28)
 
 

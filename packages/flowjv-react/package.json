@@ -1,6 +1,6 @@
 {
 	"name": "flowjv-react",
-	"version": "0.3.1",
+	"version": "0.3.6",
 	"description": "flowjv UI binding for Form",
 	"main": "dist/index.js",
 	"scripts": {

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.6](https://mygithub/kishoreiiitn/cjv/compare/v0.3.5...v0.3.6) (2020-06-28)
+
+
+### Bug Fixes
+
+* do not know why lerna changed to independent mode ([c4197df](https://mygithub/kishoreiiitn/cjv/commit/c4197df881c6be49482007420218ac320504b8c9))
+
+
+
+
+
 ## [0.3.1](https://mygithub/kishoreiiitn/cjv/compare/v0.3.0...v0.3.1) (2020-06-27)
 
 **Note:** Version bump only for package flowjv-builder

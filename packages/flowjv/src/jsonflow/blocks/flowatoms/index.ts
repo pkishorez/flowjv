@@ -20,11 +20,10 @@ export type IAtom = (
 			type: "enum";
 			uiType?: "select" | "radio";
 			label?: string;
-
 			items: { label?: string; value: any }[];
 			validations?: IValidation[];
 	  }
-) & { isRequired?: boolean };
+) & { isOptional?: boolean };
 
 export const execPrimitiveFlow = <IData, IContext>(
 	flow: IAtom,
@@ -49,28 +48,29 @@ export const execPrimitiveFlow = <IData, IContext>(
 				}
 				break;
 			}
+			case "enum": {
+				if (data.ref && !flow.items.find((v) => v.value === data.ref)) {
+					errorMsgs.push(
+						`EnumError: value for key ${flowContext.refPath.join(
+							"."
+						)} should be one of the enum defined.`
+					);
+				}
+				break;
+			}
 		}
 	}
-	if (flow.isRequired) {
+	if (!flow.isOptional) {
 		switch (flow.type) {
 			case "boolean":
 			case "number":
-			case "string": {
+			case "string":
+			case "enum": {
 				if (data.ref === undefined) {
 					errorMsgs.push(
 						`RequiredError: value for key ${flowContext.refPath.join(
 							"."
 						)} is required.`
-					);
-				}
-				break;
-			}
-			case "enum": {
-				if (!flow.items.find((v) => v.value === data.ref)) {
-					errorMsgs.push(
-						`EnumError: value for key ${flowContext.refPath.join(
-							"."
-						)} should be one of the enum defined.`
 					);
 				}
 				break;

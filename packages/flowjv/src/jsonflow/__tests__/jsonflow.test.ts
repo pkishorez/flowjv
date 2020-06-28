@@ -6,7 +6,6 @@ const profileFlow: IFlowSchema = {
 		{
 			key: "name",
 			type: "string",
-			isRequired: true,
 		},
 		{
 			key: "age",
@@ -63,16 +62,16 @@ describe.only("Flow Test", () => {
 		});
 		expect(result.isValid).toBe(true);
 	});
-	it("isRequired", () => {
+	it("isOptional", () => {
 		const schema: IFlowSchema = {
 			type: "object",
-			properties: [{ key: "name", type: "string", isRequired: true }],
+			properties: [{ key: "name", type: "string", isOptional: true }],
 		};
 		expect(
 			validateJSONFlow(schema, {
 				data: {},
 			}).isValid
-		).toBe(false);
+		).toBe(true);
 		expect(
 			validateJSONFlow(schema, {
 				data: { name: "" },
@@ -84,14 +83,13 @@ describe.only("Flow Test", () => {
 			}).isValid
 		).toBe(true);
 	});
-	it("enum isRequired", () => {
+	it("enum", () => {
 		const schema: IFlowSchema = {
 			type: "object",
 			properties: [
 				{
 					key: "gender",
 					type: "enum",
-					isRequired: true,
 					items: [
 						{ value: "male" },
 						{ value: "female" },

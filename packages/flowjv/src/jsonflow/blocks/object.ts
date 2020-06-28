@@ -126,10 +126,26 @@ export const execObjectFlow = <IData, IContext>(
 		const refPath = [...flowContext.refPath, key];
 		switch (config.type) {
 			case "object": {
-				return execObjectFlow(config, data, {
-					...flowContext,
-					refPath,
-				});
+				const result = execObjectFlow(
+					config,
+					{ ...data, ref: get(data.data, key) },
+					{
+						...flowContext,
+						refPath,
+					},
+					options
+				);
+				if (!result.isValid) {
+					if (options?.aggressive) {
+						errorStore = {
+							isValid: false,
+							errors: [...errorStore.errors, ...result.errors],
+						};
+					} else {
+						return result;
+					}
+				}
+				break;
 			}
 
 			// Default specifies a primitive value type!
@@ -150,11 +166,10 @@ export const execObjectFlow = <IData, IContext>(
 							isValid: false,
 							errors: [...errorStore.errors, ...result.errors],
 						};
-						continue;
+					} else {
+						return result;
 					}
-					return result;
 				}
-				break;
 			}
 		}
 	}

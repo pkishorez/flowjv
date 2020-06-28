@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.5](https://github.com/pkishoez/flowjv/compare/v0.3.4...v0.3.5) (2020-06-28)
+
+
+### Bug Fixes
+
+* make sure to build packages and test before committing ([feb2bd9](https://github.com/pkishoez/flowjv/commit/feb2bd9de278de20e95bbace415e319300475832))
+
+
+
+
+
 ## [0.3.4](https://github.com/pkishoez/flowjv/compare/v0.3.3...v0.3.4) (2020-06-28)
 
 

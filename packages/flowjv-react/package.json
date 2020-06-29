@@ -7,7 +7,7 @@
 		"prepare": "npm run build",
 		"gencss": "../../node_modules/.bin/postcss styles/index.scss -o dist/main.css",
 		"build": "rm -rf ./dist && npm run tsc && npm run gencss",
-		"dev": "../../node_modules/.bin/tsc -w",
+		"dev": "npm run tsc -- -w",
 		"gencss-dev": "npm run gencss -- -w",
 		"tsc": "../../node_modules/.bin/tsc",
 		"test": "npm run tsc -- --noEmit"

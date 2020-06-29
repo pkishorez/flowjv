@@ -15,6 +15,7 @@ import {
 import cx from "classnames";
 import debounce from "lodash/debounce";
 import { defaultConfig } from "./config/default";
+import { config } from "process";
 
 interface IFlowJVProps {
 	schema: IFlowSchema;
@@ -311,29 +312,23 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					});
 				}
 			}
-			const refPath = ref.join(".");
 
-			switch (schema.type) {
-				case "enum":
-				case "boolean":
-				case "number":
-				case "string": {
-					const render = this.props.renderMap?.[refPath];
-					if (render) {
-						const { errors, success, value } = this.getRefPathValue(
-							refPath
-						);
-						return render({
-							errors,
-							success,
-							value,
-							onChange: (v) => this.setValue(refPath, v),
-							setTouch: () => this.setTouch(refPath),
-						});
-					}
-					return this.renderAtom(ref);
-				}
+			// From here schema refers to flow atom type.
+			const refPath = ref.join(".");
+			const render = this.props.renderMap?.[refPath];
+			if (render) {
+				const { errors, success, value } = this.getRefPathValue(
+					refPath
+				);
+				return render({
+					errors,
+					success,
+					value,
+					onChange: (v) => this.setValue(refPath, v),
+					setTouch: () => this.setTouch(refPath),
+				});
 			}
+			return this.renderAtom(ref);
 		};
 		render() {
 			const { className, schema, children, theme } = this.props;

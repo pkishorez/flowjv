@@ -4,6 +4,7 @@ export const flowSchema: IFlowSchema = {
 	type: "object",
 	properties: [
 		{ type: "string", key: "name", label: "Name" },
+		{ type: "custom", key: "custom" },
 		{
 			type: "number",
 			key: "age",

@@ -1,6 +1,6 @@
 {
 	"name": "flowjv",
-	"version": "0.3.8",
+	"version": "0.3.9",
 	"description": "Flow based approach to JSON validation!",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",

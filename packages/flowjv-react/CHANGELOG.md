@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://mygithub/kishoreiiitn/cjv/compare/v0.4.0...v0.4.1) (2020-06-29)
+
+
+### Bug Fixes
+
+* normalize the behaviour of atom rendering ([69d733e](https://mygithub/kishoreiiitn/cjv/commit/69d733ee660c115893ee84119dddee0491f12d6a))
+
+
+
+
+
 # [0.4.0](https://mygithub/kishoreiiitn/cjv/compare/v0.3.9...v0.4.0) (2020-06-29)
 
 

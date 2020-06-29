@@ -6,7 +6,8 @@
 		"testw": "jest --watch",
 		"test": "jest",
 		"publish-docs": "sh ./publish-docs.sh",
-		"prepublish": "npm run test"
+		"prepublish": "npm run test",
+		"publish": "lerna publish --force-publish"
 	},
 	"repository": {
 		"url": "https://www.github.com/pkishoez/flowjv"

@@ -50,17 +50,24 @@ const profileFlow: IFlowSchema = {
 	],
 };
 describe.only("Flow Test", () => {
-	it("Basic Profile json test2", () => {
-		const result = validateJSONFlow(profileFlow, {
-			data: {
-				name: "Kishore",
-				age: 21,
-				password: "passwd",
-				cnfPassword: "passwd",
-				gender: "male",
-			},
-		});
-		expect(result.isValid).toBe(true);
+	it("Basic Profile json", () => {
+		const data = {
+			name: "Kishore",
+			age: 21,
+			password: "passwd",
+			cnfPassword: "passwd",
+			gender: "male",
+		};
+		expect(
+			validateJSONFlow(profileFlow, {
+				data,
+			}).isValid
+		).toBe(true);
+		expect(
+			validateJSONFlow(profileFlow, {
+				data: { ...data, cnfPassword: "wrong" },
+			}).isValid
+		).toBe(false);
 	});
 	it("isOptional", () => {
 		const schema: IFlowSchema = {
@@ -105,5 +112,28 @@ describe.only("Flow Test", () => {
 			validateJSONFlow(schema, { data: { gender: "unknown" } }).isValid
 		).toBe(false);
 		expect(validateJSONFlow(schema, { data: {} }).isValid).toBe(false);
+	});
+
+	it("Nested JSON tests", () => {
+		const schema: IFlowSchema = {
+			type: "object",
+			properties: [
+				{
+					key: "profileDetails",
+					type: "object",
+					properties: [{ key: "name", type: "string" }],
+				},
+			],
+		};
+		expect(validateJSONFlow(schema, {}).isValid).toBe(false);
+		expect(
+			validateJSONFlow(schema, {
+				data: {
+					profileDetails: {
+						name: "Kishore",
+					},
+				},
+			}).isValid
+		).toBe(true);
 	});
 });

@@ -118,20 +118,26 @@ export const execObjectFlow = <IData, IContext>(
 			}
 			continue;
 		}
+
 		const { ignoreKey, key } = config;
+		const newRefPath = [...flowContext.refPath, key];
 		if (ignoreKey) {
 			const ignore = !!execJSONExpression(ignoreKey, data);
-			if (ignore) continue;
+			if (ignore) {
+				if (options?.enforceSchema) {
+					unset(data.data, newRefPath);
+				}
+				continue;
+			}
 		}
-		const refPath = [...flowContext.refPath, key];
 		switch (config.type) {
 			case "object": {
 				const result = execObjectFlow(
 					config,
-					{ ...data, ref: get(data.data, key) },
+					{ ...data, ref: get(data.data, newRefPath) },
 					{
 						...flowContext,
-						refPath,
+						refPath: newRefPath,
 					},
 					options
 				);
@@ -152,10 +158,10 @@ export const execObjectFlow = <IData, IContext>(
 			default: {
 				const result = execPrimitiveFlow(
 					config,
-					{ ...data, ref: get(data.data, key) },
+					{ ...data, ref: get(data.data, newRefPath) },
 					{
 						...flowContext,
-						refPath,
+						refPath: newRefPath,
 					},
 					options
 				);

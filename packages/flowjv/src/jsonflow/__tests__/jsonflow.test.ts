@@ -72,13 +72,13 @@ describe.only("Flow Test", () => {
 	it("isOptional", () => {
 		const schema: IFlowSchema = {
 			type: "object",
-			properties: [{ key: "name", type: "string", isOptional: true }],
+			properties: [{ key: "name", type: "string", isRequired: true }],
 		};
 		expect(
 			validateJSONFlow(schema, {
 				data: {},
 			}).isValid
-		).toBe(true);
+		).toBe(false);
 		expect(
 			validateJSONFlow(schema, {
 				data: { name: "" },
@@ -111,7 +111,7 @@ describe.only("Flow Test", () => {
 		expect(
 			validateJSONFlow(schema, { data: { gender: "unknown" } }).isValid
 		).toBe(false);
-		expect(validateJSONFlow(schema, { data: {} }).isValid).toBe(false);
+		expect(validateJSONFlow(schema, { data: {} }).isValid).toBe(true);
 	});
 
 	it("Nested JSON tests", () => {
@@ -125,7 +125,7 @@ describe.only("Flow Test", () => {
 				},
 			],
 		};
-		expect(validateJSONFlow(schema, {}).isValid).toBe(false);
+		expect(validateJSONFlow(schema, {}).isValid).toBe(true);
 		expect(
 			validateJSONFlow(schema, {
 				data: {

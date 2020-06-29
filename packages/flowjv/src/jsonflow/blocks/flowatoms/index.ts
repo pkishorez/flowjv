@@ -23,7 +23,11 @@ export type IAtom = (
 			items: { label?: string; value: any }[];
 			validations?: IValidation[];
 	  }
-) & { isOptional?: boolean };
+	| {
+			type: "custom";
+			validations?: IValidation[];
+	  }
+) & { isRequired?: boolean };
 
 export const execPrimitiveFlow = <IData, IContext>(
 	flow: IAtom,
@@ -60,18 +64,14 @@ export const execPrimitiveFlow = <IData, IContext>(
 			}
 		}
 	}
-	if (!flow.isOptional) {
+	if (flow.isRequired) {
 		switch (flow.type) {
 			case "boolean":
 			case "number":
 			case "string":
 			case "enum": {
 				if (data.ref === undefined) {
-					errorMsgs.push(
-						`RequiredError: value for key ${flowContext.refPath.join(
-							"."
-						)} is required.`
-					);
+					errorMsgs.push(`Value is required.`);
 				}
 				break;
 			}
@@ -82,7 +82,8 @@ export const execPrimitiveFlow = <IData, IContext>(
 		case "enum":
 		case "boolean":
 		case "number":
-		case "string": {
+		case "string":
+		case "custom": {
 			errorMsgs.push(
 				...(validations
 					.map(({ logic, err }) => {

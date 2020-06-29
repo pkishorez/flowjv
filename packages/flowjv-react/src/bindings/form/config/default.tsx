@@ -77,6 +77,9 @@ export const defaultConfig: IFormUIConfigFunc = ({
 				</AnimatePresence>
 			);
 		}
+		case "custom": {
+			return null;
+		}
 		default: {
 			return null;
 		}

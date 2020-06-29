@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](https://github.com/kishoreiiitn/flowjv/compare/v0.3.6...v0.3.7) (2020-06-29)
+
+
+### Bug Fixes
+
+* **blocks/object.ts:** fix the ref passed to nested object or property ([3b586ef](https://github.com/kishoreiiitn/flowjv/commit/3b586ef2b20ab3cf03e4d23b4cea434b57c72489))
+
+
+
+
+
 ## [0.3.6](https://github.com/kishoreiiitn/flowjv/compare/v0.3.5...v0.3.6) (2020-06-28)
 
 

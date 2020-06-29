@@ -14,20 +14,17 @@ export type IAtom = (
 			type: "string" | "number" | "boolean";
 			uiType?: "number" | "text" | "password";
 			label?: string;
-			validations?: IValidation[];
 	  }
 	| {
 			type: "enum";
 			uiType?: "select" | "radio";
 			label?: string;
 			items: { label?: string; value: any }[];
-			validations?: IValidation[];
 	  }
 	| {
 			type: "custom";
-			validations?: IValidation[];
 	  }
-) & { isRequired?: boolean };
+) & { isRequired?: boolean; validations?: IValidation[] };
 
 export const execPrimitiveFlow = <IData, IContext>(
 	flow: IAtom,

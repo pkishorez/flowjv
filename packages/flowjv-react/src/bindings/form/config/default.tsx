@@ -19,6 +19,7 @@ export const defaultConfig: IFormUIConfigFunc = ({
 			uiType = uiType || (schema.type === "number" ? "number" : "text");
 			return (
 				<TextField
+					label={schema.label}
 					type={uiType}
 					onFocus={setTouch}
 					onChange={(e) => onChange?.(e.target.value)}
@@ -30,6 +31,7 @@ export const defaultConfig: IFormUIConfigFunc = ({
 			return (
 				<Checkbox
 					{...ui}
+					label={schema.label}
 					onFocus={setTouch}
 					checked={ui.value}
 					onChange={(e) => onChange?.(e.target.checked)}
@@ -43,6 +45,7 @@ export const defaultConfig: IFormUIConfigFunc = ({
 					return (
 						<RadioGroup
 							{...ui}
+							label={schema.label}
 							onFocus={setTouch}
 							onChange={(v) => onChange?.(v)}
 							options={schema.items}

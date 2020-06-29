@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "NODE_ENV=development next dev -p 8080",
 		"build": "NODE_ENV=production next build",
-		"export": "NODE_ENV=production next build && NODE_ENV=production next export"
+		"export": "NODE_ENV=production next build && NODE_ENV=production next export",
+		"test": "echo 'NO TESTS!'"
 	},
 	"publishConfig": {
 		"access": "public"
@@ -24,5 +25,5 @@
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1"
 	},
-	"gitHead": "6d29c6736857fedecc575f32e5ad84c792c65eab"
+	"gitHead": "75c34dd0f645fceda4c740a456fe337f97672056"
 }

@@ -212,7 +212,6 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					schema={schema}
 					ui={{
 						className: "pt-3",
-						label: schema.label,
 						errors,
 						success,
 						value,

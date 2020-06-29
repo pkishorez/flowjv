@@ -6,9 +6,10 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"prepare": "npm run build",
-		"build": "rm -rf ./dist && ../../node_modules/.bin/tsc",
-		"dev": "../../node_modules/.bin/tsc -w",
-		"test": "jest --watch"
+		"tsc": "../../node_modules/.bin/tsc",
+		"dev": "npm run tsc -- -w",
+		"build": "rm -rf ./dist && npm run tsc",
+		"test": "npm run tsc -- --noEmit"
 	},
 	"publishConfig": {
 		"access": "public"

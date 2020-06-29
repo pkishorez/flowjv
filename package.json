@@ -4,7 +4,7 @@
 	"scripts": {
 		"dev": "lerna exec -- npm run dev",
 		"testw": "jest --watch",
-		"test": "jest",
+		"test": "lerna exec -- npm t && jest",
 		"publish-docs": "sh ./publish-docs.sh",
 		"prepublish": "npm run test",
 		"publish": "lerna publish --force-publish"

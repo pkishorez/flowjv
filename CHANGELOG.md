@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/pkishoez/flowjv/compare/v0.3.9...v0.4.0) (2020-06-29)
+
+
+### Bug Fixes
+
+* fix styles. Some styles do not apply in published package ([8b22d03](https://github.com/pkishoez/flowjv/commit/8b22d03c1441892ec96ec8c2cce5fe0f22f4b786))
+
+
+### Features
+
+* add custom atom type to address user defined data type ([781139a](https://github.com/pkishoez/flowjv/commit/781139a251ac5cd88dd31254b0b3850b2a1bff1e))
+* change isOptional variant to isRequired ([a850747](https://github.com/pkishoez/flowjv/commit/a850747fa01e823927a09b4c9e6b95eee1f728f6))
+
+
+
+
+
 ## [0.3.9](https://github.com/pkishoez/flowjv/compare/v0.3.8...v0.3.9) (2020-06-29)
 
 **Note:** Version bump only for package flowjv-workspace

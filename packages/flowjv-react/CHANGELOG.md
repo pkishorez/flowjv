@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://mygithub/kishoreiiitn/cjv/compare/v0.3.7...v0.3.8) (2020-06-29)
+
+
+### Bug Fixes
+
+* lerna need to update dependencies automatically ([29b96aa](https://mygithub/kishoreiiitn/cjv/commit/29b96aa539ad7e28e36cd8e351bb83e4b5cae171))
+
+
+
+
+
 ## [0.3.6](https://mygithub/kishoreiiitn/cjv/compare/v0.3.5...v0.3.6) (2020-06-28)
 
 

@@ -17,6 +17,7 @@ export function DemoForm() {
 						background-color: ${theme === "light"
 							? "white"
 							: "black"};
+						transition: 0.3s background-color;
 					}
 				`}
 			</style>
@@ -25,7 +26,10 @@ export function DemoForm() {
 				className="my-10 mx-auto max-w-md w-screen"
 			>
 				<FlowJVForm
-					className="p-5 relative transition-all duration-200"
+					className={cx("p-5 relative transition-all duration-200", {
+						"bg-gray-900": theme === "dark",
+						"bg-gray-100": theme === "light",
+					})}
 					theme={theme}
 					schema={flowSchema}
 					value={data.value}

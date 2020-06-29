@@ -29,7 +29,7 @@ export const TextField = ({
 		<label>
 			<div className={cx("flex flex-col", className)}>
 				<div
-					className={cx({
+					className={cx("text-sm", {
 						"text-error": hasErrors && !readOnly,
 						"text-success": success && !readOnly,
 						"text-primary": !(success || hasErrors),

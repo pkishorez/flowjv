@@ -1,3 +1,6 @@
+/*! purgecss start ignore */
+@import "tailwindcss/base";
+/*! purgecss end ignore */
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 .fjv-form {
 	@import "tailwindcss/components";
@@ -5,33 +8,23 @@
 }
 
 /*! purgecss start ignore */
-body {
-	font-family: "Roboto", sans-serif;
-}
-/*! purgecss end ignore */
-
 .fjv-form {
-	/*! purgecss start ignore */
+	font-family: "Roboto", sans-serif;
 	@import "../src/bindings/form/styles.scss";
-	&.light,
-	:root {
-		background-color: theme("colors.gray.100");
-		color: theme("colors.gray.800");
-		--color-primary: theme("colors.gray.800");
-		--color-error: theme("colors.red.700");
-		--color-success: theme("colors.teal.800");
-		--border-width: 2px;
-		--inputText-fontSize: 16px;
-	}
+
+	color: theme("colors.gray.800");
+	--color-primary: theme("colors.gray.800");
+	--color-error: theme("colors.red.700");
+	--color-success: theme("colors.teal.800");
+	--border-width: 2px;
+
 	&.dark {
 		$color: theme("colors.gray.300");
-
-		background-color: theme("colors.gray.900");
 		color: $color;
 		--color-primary: $color;
 		--color-error: theme("colors.red.500");
 		--color-success: theme("colors.teal.300");
 		--border-width: 1px;
 	}
-	/*! purgecss end ignore */
 }
+/*! purgecss end ignore */

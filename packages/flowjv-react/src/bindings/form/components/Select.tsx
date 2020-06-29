@@ -29,7 +29,7 @@ export const SelectField = ({
 	const hasErrors = errors.length;
 	return (
 		<label className={cx("flex flex-col", className)}>
-			<div className="text-lg">{label}</div>
+			<div className="text-sm">{label}</div>
 			<select
 				value={value}
 				{...props}

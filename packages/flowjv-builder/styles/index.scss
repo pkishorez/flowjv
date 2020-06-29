@@ -1,10 +1,7 @@
-/*! purgecss start ignore */
-@import "tailwindcss/base";
-@import "./normalize";
-/*! purgecss end ignore */
-
+@import "./normalize.scss";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
 @import "../../flowjv-react/dist/main.css";
 
 @-webkit-keyframes autofill {

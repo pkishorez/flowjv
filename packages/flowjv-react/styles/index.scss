@@ -8,9 +8,11 @@
 }
 
 /*! purgecss start ignore */
+
 .fjv-form {
-	font-family: "Roboto", sans-serif;
+	@import "./normalize.scss";
 	@import "../src/bindings/form/styles.scss";
+	font-family: "Roboto", sans-serif;
 
 	color: theme("colors.gray.800");
 	--color-primary: theme("colors.gray.800");
@@ -25,6 +27,28 @@
 		--color-error: theme("colors.red.500");
 		--color-success: theme("colors.teal.300");
 		--border-width: 1px;
+	}
+
+	/* RESET STYLE FOR AUTO COMPLETE */
+	@-webkit-keyframes autofill {
+		0%,
+		100% {
+			color: inherit;
+			background: transparent;
+		}
+	}
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	textarea:-webkit-autofill,
+	textarea:-webkit-autofill:hover,
+	textarea:-webkit-autofill:focus,
+	select:-webkit-autofill,
+	select:-webkit-autofill:hover,
+	select:-webkit-autofill:focus {
+		-webkit-animation-delay: 0.1s; /* Safari support - any positive time runs instantly */
+		-webkit-animation-name: autofill;
+		-webkit-animation-fill-mode: both;
 	}
 }
 /*! purgecss end ignore */

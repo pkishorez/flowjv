@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/pkishoez/flowjv/compare/v0.4.0...v0.4.2) (2020-06-30)
+
+
+### Bug Fixes
+
+* add normalize styles within flowjv form ([1993914](https://github.com/pkishoez/flowjv/commit/199391418f3c763ee6ec3d12a818e849d576cf98))
+* normalize the behaviour of atom rendering ([69d733e](https://github.com/pkishoez/flowjv/commit/69d733ee660c115893ee84119dddee0491f12d6a))
+
+
+
+
+
 ## [0.4.1](https://github.com/pkishoez/flowjv/compare/v0.4.0...v0.4.1) (2020-06-29)
 
 

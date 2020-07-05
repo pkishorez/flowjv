@@ -1,8 +1,11 @@
 # Table of contents
 
-* [Introduction](README.md)
+* [Getting Started](README.md)
 
-## Concepts
+## About
 
-* [Flow](concepts/none.md)
+---
+
+* [Introduction](introduction.md)
+* [Motivation](motivation.md)
 

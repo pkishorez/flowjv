@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.3](https://github.com/pkishoez/flowjv/compare/v0.4.2...v0.4.3) (2020-07-05)
+
+
+### Bug Fixes
+
+* move options param as 3rd argument ([3170239](https://github.com/pkishoez/flowjv/commit/3170239b37cafc93f835eafaf062433369f88ed4))
+
+
+
+
+
 ## [0.4.2](https://github.com/pkishoez/flowjv/compare/v0.4.0...v0.4.2) (2020-06-30)
 
 

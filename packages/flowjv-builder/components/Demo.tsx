@@ -30,15 +30,6 @@ export function DemoForm() {
 						"bg-gray-900": theme === "dark",
 						"bg-gray-100": theme === "light",
 					})}
-					renderMap={{
-						custom: ({ value, onChange }) => (
-							<input
-								type="text"
-								value={value}
-								onChange={(e) => onChange(e.target.value)}
-							/>
-						),
-					}}
 					theme={theme}
 					schema={flowSchema}
 					value={data.value}

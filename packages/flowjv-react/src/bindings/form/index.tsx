@@ -152,11 +152,14 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 			});
 		};
 		validate = (value: any, func?: () => void) => {
-			const result = validateJSONFlow(this.props.schema, {
-				context: this.props.context,
-				data: value,
-				options: { aggressive: true, enforceSchema: true },
-			});
+			const result = validateJSONFlow(
+				this.props.schema,
+				{
+					context: this.props.context,
+					data: value,
+				},
+				{ aggressive: true, enforceSchema: true }
+			);
 			if (!result.isValid) {
 				const errorMap = result.errors.reduce(
 					(agg, v) => ({ ...agg, [v.refPath.join(".")]: v.msgs }),

@@ -8,12 +8,11 @@ export const validateJSONFlow = <IData, IContext>(
 	{
 		data,
 		context,
-		options,
 	}: {
 		data?: IData;
 		context?: IContext;
-		options?: IFlowOptions;
-	}
+	},
+	options?: IFlowOptions
 ) => {
 	return execJSONFlow(
 		flow,

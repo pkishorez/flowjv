@@ -1,15 +1,15 @@
 # Motivation
 
-Just as a river flows, as a boat sail, life goes with the flow. Trying to go against it, only makes things miserable.
+Just like a river flows, as a boat sail, life goes with the flow. If you go against it, it becomes miserable.
 
-This simple idea of _flow_ is simple yet a very powerful one. FlowJV is inspired by this metaphor.
+This very idea of _flow_ is simple yet a very powerful one. FlowJV is inspired by this metaphor.
 
-Defining schema as a flow gives a lot of advantages.
+Defining a schema as a flow gives us a lot of advantages.
 
 1. It allows us to validate data from top to bottom. Hence, it's deterministic and logical to know if data is valid or not at the earliest!
-2. It opens up possibilities to create UI bindings. `flowjv-react` provides one such binding for creating a form out of schema.
+2. It opens up possibilities to create UI bindings. `flowjv-react` provides one such binding for creating a form out of flow Schema.
 
-It's heavily inspired from
+It's heavily inspired by
 
 * JSON Schema
 * JSON Logic
@@ -24,7 +24,7 @@ One problem that it poses is \(or by the design of JSON Schema itself\), schema 
 
 JSON logic is a JSON representation of the JavaScript expression. [http://jsonlogic.com/](http://jsonlogic.com/)
 
-It allows us to have a serialisable representation of logic within JSON which helps us in preserving schema within a database or a file!
+It allows you to have a serializable representation of logic within JSON which helps in serializing schema within a database or a file!
 
-For our requirements, we've redefined JSON Logic and named it JSON Expression rather.
+For specific requirements of FlowJV, JSON Logic is redefined and named as **`JSON Expression`**.
 

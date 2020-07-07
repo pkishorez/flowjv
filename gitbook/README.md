@@ -6,7 +6,7 @@ description: FlowJV in 5 minutes.
 
 ## Introduction:
 
-Let's suppose, you would like to create a registration form. The data requirements is as follows:
+Let's suppose, you would like to create a registration form. The data requirements are as follows:
 
 * `name` Name
   * Should be a valid string.
@@ -27,7 +27,7 @@ Let's suppose, you would like to create a registration form. The data requiremen
   * Should be a valid number. 
   * This field should be displayed only if `isEmployed` is `true`.
 
-Let us approach the problem with flowjv.
+Let's use `flowjv` to approach this problem!
 
 ### Step 1 - Install the package
 
@@ -37,9 +37,13 @@ npm install flowjv-react
 
 ### Step 2 - Create FlowSchema
 
-Just like the JSON schema, flowjv works in a similar way. You create a schema, give some data, and flowJV validates the data against it and gives you a bunch of errors if invalid.
+Just like the JSON schema, `flowjv` works in a similar way. You create a schema, give some data, and `flowJV` validates the data against it and gives you a bunch of errors if invalid.
 
-Next step after installing the package is to create the flowSchema.
+Next step after installing the package is to create the `flowSchema`.
+
+{% hint style="info" %}
+You can use `IFlowSchema` type from `flowjv` for static typechecking the `flowSchema`.
+{% endhint %}
 
 {% tabs %}
 {% tab title="JavaScript" %}
@@ -134,6 +138,12 @@ const schema: IFlowSchema = {
 Validations can be added per property basis by adding a `validations`. `validations` itself is an array, containing the logic for validation `logic` and corresponding error message for that validation `err`
 
 Validation logic can be written directly as a function. But, flowjv provides a serializable javascript expression format called `JSONExpression`. Using that makes code very readable, schema serializable and can be future proofed with the tools that come along with flowjv. \(flowjv-builder is a web ui for creating schema from within web. Still in early stage\)
+
+{% hint style="info" %}
+The code below uses, basic function notation for logic.
+
+Real power of `flowjv` lies in defining logic with JSONExpression.
+{% endhint %}
 
 {% tabs %}
 {% tab title="JavaScript" %}
@@ -340,7 +350,7 @@ We've only described our data requirements. For the schema to be complete, we ne
 {% endtab %}
 {% endtabs %}
 
-### Finally The Result!
+### The Result!
 
 {% embed url="https://codesandbox.io/embed/priceless-frog-700u6?autoresize=1&fontsize=14&hidenavigation=1&module=%2Fsrc%2FApp.js&theme=dark&view=preview" %}
 

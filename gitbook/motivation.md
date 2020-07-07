@@ -1,6 +1,6 @@
-# Motivation
+# Foot Notes
 
-Just like a river flows, as a boat sail, life goes with the flow. If you go against it, it becomes miserable.
+Just like a river flows, as a boat sail, everything goes with the flow. If one goes against it, it only makes things hard.
 
 This very idea of _flow_ is simple yet a very powerful one. FlowJV is inspired by this metaphor.
 
@@ -18,7 +18,7 @@ It's heavily inspired by
 
 JSON Schema is great at validating data. It's a de-facto standard in the world of JSON.
 
-One problem that it poses is \(or by the design of JSON Schema itself\), schema is a snapshot of what the data should adhere to. But when it comes to binding UI for validation, it poses a problem. There is a library developed for that of course! \([https://github.com/rjsf-team/react-jsonschema-form](https://github.com/rjsf-team/react-jsonschema-form)\). But it's very limited and did not go well with my requirements at least.
+One problem with it is \(or by the design of JSON Schema itself\), JSON Schema is a snapshot of what the data should adhere to. When it comes to binding UI for validation, it poses a problem. There is a library developed for that of course! \([https://github.com/rjsf-team/react-jsonschema-form](https://github.com/rjsf-team/react-jsonschema-form)\). But it's very limited and did not go well with my requirements at least.
 
 ### JSON Logic
 

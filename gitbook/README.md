@@ -4,7 +4,7 @@ description: FlowJV in 5 minutes.
 
 # Getting Started
 
-## Introduction:
+## FlowJV in 5 minutes:
 
 Let's suppose, you would like to create a registration form. The data requirements are as follows:
 
@@ -27,7 +27,7 @@ Let's suppose, you would like to create a registration form. The data requiremen
   * Should be a valid number. 
   * This field should be displayed only if `isEmployed` is `true`.
 
-Let's use `flowjv` to approach this problem!
+Let's set how using `flowjv` we can approach this problem!
 
 ### Step 1 - Install the package
 
@@ -35,14 +35,14 @@ Let's use `flowjv` to approach this problem!
 npm install flowjv-react
 ```
 
-### Step 2 - Create FlowSchema
+### Step 2 - Create Flow Schema
 
 Just like the JSON schema, `flowjv` works in a similar way. You create a schema, give some data, and `flowJV` validates the data against it and gives you a bunch of errors if invalid.
 
 Next step after installing the package is to create the `flowSchema`.
 
 {% hint style="info" %}
-You can use `IFlowSchema` type from `flowjv` for static typechecking the `flowSchema`.
+If you are a typescript user, you can use `IFlowSchema` type from `flowjv` for static type checking the schema.
 {% endhint %}
 
 {% tabs %}
@@ -137,12 +137,14 @@ const schema: IFlowSchema = {
 
 Validations can be added per property basis by adding a `validations`. `validations` itself is an array, containing the logic for validation `logic` and corresponding error message for that validation `err`
 
-Validation logic can be written directly as a function. But, flowjv provides a serializable javascript expression format called `JSONExpression`. Using that makes code very readable, schema serializable and can be future proofed with the tools that come along with flowjv. \(flowjv-builder is a web ui for creating schema from within web. Still in early stage\)
+Validation logic can be written directly as a function. But, `flowjv` provides a serializable javascript expression format called `JSONExpression`. Using that makes code very readable, schema serializable and can be future-proofed with the tools that come along with `flowjv`.
+
+\(`flowjv-builder` is a web UI for creating schema from within the web. Still in early stage\)
 
 {% hint style="info" %}
-The code below uses, basic function notation for logic.
+The code below uses, basic function notation for logic. The real power of `flowjv` lies in defining logic with JSONExpression.
 
-Real power of `flowjv` lies in defining logic with JSONExpression.
+You can learn more about JSONExpression [here](guide/flow-schema/json-expression.md).
 {% endhint %}
 
 {% tabs %}
@@ -278,7 +280,7 @@ const schema: IFlowSchema = {
 
 ### Step 5 - Add Flow Logic
 
-The field yearsOfExp is interesting part here. It should be collected only if the user is experienced. To facilitate this, flowSchema provides some logic constructs for the logic to flow accordingly. One such construct is of `type` `if`
+The field yearsOfExp is the interesting part here. It should be collected only if the field `isEmployed` is true. To facilitate this, Flow Schema provides some logic constructs within the schema for the logic to flow accordingly. One such construct is defining a property's `type` as `if` which takes `cond`, and if it evaluates to true, it goes through the flow of `true`, and otherwise `false`.
 
 {% tabs %}
 {% tab title="JavaScript" %}
@@ -325,15 +327,16 @@ The field yearsOfExp is interesting part here. It should be collected only if th
 
 ### Step 6 - Finally, UI
 
-Defining the schema is all that's required. After that, you can directly give this schema to `FlowJVForm` react component exported from `flowjv-react` package to create a nice form.
+Defining the schema is all that's required. After that, you can directly give this schema to `FlowJVForm`, a react component exported from `flowjv-react` package to create a nice UI.
 
 But
 
 We've only described our data requirements. For the schema to be complete, we need to add a bit of UI parts to this schema. 
 
-1. `Label` is all that's missing from the schema. Let's add that.
-2. Enum type by default renders to select box. Change uiType to radio for showing radio Group rather.
-3. string type by default renders to textBox. For password, we need the type to be rendered a password field. Add uiType to be password.
+1. `label` is all that's missing from the schema. Let's add that.
+2. Enum type by default renders to select box. Change `uiType` to radio for showing radio Group rather.
+3. string type by default renders to textBox. For password, we need the type to be rendered a password field. Add `uiType` to be password.
+4. Add a bit of styling too.
 
 {% tabs %}
 {% tab title="JavaScript" %}

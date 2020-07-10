@@ -90,6 +90,19 @@ describe.only("Flow Test", () => {
 			}).isValid
 		).toBe(true);
 	});
+	it("Custom", () => {
+		const schema: IFlowSchema = {
+			type: "object",
+			properties: [
+				{
+					key: "custom",
+					type: "custom",
+					validations: [{ logic: () => false, err: "Error Message" }],
+				},
+			],
+		};
+		expect(validateJSONFlow(schema, { data: {} }).errors.length).toBe(1);
+	});
 	it("enum", () => {
 		const schema: IFlowSchema = {
 			type: "object",

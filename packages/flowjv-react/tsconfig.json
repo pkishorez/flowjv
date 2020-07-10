@@ -9,6 +9,7 @@
 		"declarationMap": true,
 		"noImplicitAny": false,
 		"esModuleInterop": true,
+		"downlevelIteration": true,
 		"forceConsistentCasingInFileNames": true
 	},
 	"include": ["src"],

@@ -7,7 +7,7 @@ import {
 } from "flowjv";
 import { gett, sett, unsett } from "./utils";
 import { IFormUIConfigFunc, IUIElementConfig } from "./config";
-import { lookup } from "flowjv";
+import { lookup, traverse } from "flowjv";
 import {
 	IObjectIfBlock,
 	IObjectSwitchBlock,
@@ -75,6 +75,12 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 			});
 		}
 		componentDidMount() {
+			// Get Refset
+			for (const prop of traverse(this.props.schema)) {
+				if (prop.type === "primitive") {
+					this.refSet.add(prop.ref.join("."));
+				}
+			}
 			this.validate(this.getValue(), () => {
 				this.props.onChange?.({
 					value: this.getValue(),
@@ -128,7 +134,6 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 			}
 		};
 		setTouch = (refPath: string) => {
-			this.refSet.add(refPath);
 			return () => {
 				if (!this.state.touchMap[refPath]) {
 					this.setState((state) => ({
@@ -323,13 +328,17 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 				const { errors, success, value } = this.getRefPathValue(
 					refPath
 				);
-				return render({
-					errors,
-					success,
-					value,
-					onChange: (v) => this.setValue(refPath, v),
-					setTouch: () => this.setTouch(refPath),
-				});
+				return (
+					<div key={refPath}>
+						{render({
+							errors,
+							success,
+							value,
+							onChange: (v) => this.setValue(refPath, v),
+							setTouch: () => this.setTouch(refPath),
+						})}
+					</div>
+				);
 			}
 			return this.renderAtom(ref);
 		};

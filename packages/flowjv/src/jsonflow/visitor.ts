@@ -66,10 +66,7 @@ export function* traverse(flowSchema: IFlowSchema): ITraverseGenerator {
 					}
 					break;
 				}
-				case "boolean":
-				case "enum":
-				case "number":
-				case "string": {
+				default: {
 					yield {
 						type: "primitive",
 						ref: [...ref, v.key],

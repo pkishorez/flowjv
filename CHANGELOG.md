@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.4](https://github.com/pkishoez/flowjv/compare/v0.4.3...v0.4.4) (2020-07-10)
+
+
+### Bug Fixes
+
+* export flowjv functions and types from flowjv-react ([537a388](https://github.com/pkishoez/flowjv/commit/537a388b456a0ca565f5a25de453e4c54a0edf4b))
+* Fix setTouch bug that prevents custom type to be touched on Submit ([bd45ecc](https://github.com/pkishoez/flowjv/commit/bd45ecc8dcad8139642edaeb273564d758464d8d))
+
+
+
+
+
 ## [0.4.3](https://github.com/pkishoez/flowjv/compare/v0.4.2...v0.4.3) (2020-07-05)
 
 

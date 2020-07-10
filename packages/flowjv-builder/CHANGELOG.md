@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.4](https://mygithub/kishoreiiitn/cjv/compare/v0.4.3...v0.4.4) (2020-07-10)
+
+
+### Bug Fixes
+
+* Fix setTouch bug that prevents custom type to be touched on Submit ([bd45ecc](https://mygithub/kishoreiiitn/cjv/commit/bd45ecc8dcad8139642edaeb273564d758464d8d))
+
+
+
+
+
 ## [0.4.3](https://mygithub/kishoreiiitn/cjv/compare/v0.4.2...v0.4.3) (2020-07-05)
 
 **Note:** Version bump only for package flowjv-builder

@@ -2,12 +2,12 @@ import {
 	IExpression,
 	IJSONExpressionData,
 	execJSONExpression,
-} from "../../jsonexpression";
-import { IFlowReturnType, IFlowOptions } from "../index";
+} from "../../../jsonexpression";
+import { IFlowReturnType, IFlowOptions } from "../../index";
 import get from "lodash/get";
 import unset from "lodash/unset";
-import { IFlowContext } from "../index";
-import { IAtom, execPrimitiveFlow } from "./flowatoms";
+import { IFlowContext } from "../../index";
+import { IAtom, execPrimitiveFlow } from "../flowatoms";
 
 export type IObjectIfBlock = {
 	type: "if";
@@ -25,7 +25,7 @@ export type IObjectSwitchBlock = {
 	};
 };
 
-type IObjectProperty = (IAtom | IObjectFlow) & {
+export type IObjectProperty = (IAtom | IObjectFlow) & {
 	key: string;
 	ignoreKey?: IExpression;
 };

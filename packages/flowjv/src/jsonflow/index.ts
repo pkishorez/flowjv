@@ -51,6 +51,7 @@ export const execJSONFlow = <IData, IContext>(
 	switch (flow.type) {
 		case "object":
 			return execObjectFlow(flow, data, flowContext, options);
+		default:
+			return { isValid: true, errors: [] };
 	}
-	return { isValid: true, errors: [] };
 };

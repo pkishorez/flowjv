@@ -14,11 +14,15 @@ export function DemoForm() {
 						/*background-color: #313131;*/
 						background-color: ${theme === "light"
 							? "white"
-							: "black"};
+							: "#222"};
 						transition: 0.3s background-color;
 					}
 				`}
 			</style>
+			<img
+				src={`logo-${theme === "light" ? "teal" : "white"}.svg`}
+				className="w-40 block mx-auto mt-16 mb-6"
+			/>
 			<div
 				style={{ boxShadow: "0px 0px 5px gray" }}
 				className="my-10 mx-auto max-w-md w-screen"

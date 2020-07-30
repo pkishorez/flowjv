@@ -29,7 +29,7 @@ export interface IFlowReturnType {
 	isValid: boolean;
 	errors: {
 		msgs: string[];
-		refPath: string[];
+		refPath: IFlowContext["refPath"];
 	}[];
 }
 

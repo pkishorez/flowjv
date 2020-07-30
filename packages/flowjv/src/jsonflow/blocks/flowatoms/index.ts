@@ -2,7 +2,7 @@ import {
 	IExpression,
 	execJSONExpression,
 	IJSONExpressionData,
-} from "../../../jsonlogic";
+} from "../../../jsonexpression";
 import { IFlowReturnType, IFlowContext, IFlowOptions } from "../../index";
 
 export interface IValidation {

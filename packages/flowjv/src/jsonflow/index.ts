@@ -1,4 +1,4 @@
-import { IJSONExpressionData } from "../jsonlogic/index";
+import { IJSONExpressionData } from "../jsonexpression/index";
 import { IObjectFlow, execObjectFlow } from "./blocks/object";
 
 export type IFlowSchema = IObjectFlow;

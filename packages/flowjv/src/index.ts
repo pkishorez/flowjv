@@ -3,7 +3,7 @@
 export {
 	execJSONExpression,
 	IExpression as IJSONExpression,
-} from "./jsonlogic";
+} from "./jsonexpression";
 export { validateJSONFlow, IFlowSchema } from "./jsonflow";
 export { IAtom, IValidation } from "./jsonflow/blocks/flowatoms";
 

@@ -14,12 +14,7 @@ export const validateJSONFlow = <IData, IContext>(
 	},
 	options?: IFlowOptions
 ) => {
-	return execJSONFlow(
-		flow,
-		{ data, context, ref: data },
-		{ refPath: [] },
-		options
-	);
+	return execJSONFlow(flow, { data, context, refPath: [] }, options);
 };
 
 export interface IFlowContext {
@@ -41,7 +36,6 @@ export interface IFlowOptions {
 export const execJSONFlow = <IData, IContext>(
 	flow: IFlowSchema,
 	data: IJSONExpressionData<IData, IContext>,
-	flowContext: IFlowContext,
 	options: IFlowOptions = {
 		typeCheck: true,
 		aggressive: false,
@@ -50,7 +44,7 @@ export const execJSONFlow = <IData, IContext>(
 ): IFlowReturnType => {
 	switch (flow.type) {
 		case "object":
-			return execObjectFlow(flow, data, flowContext, options);
+			return execObjectFlow(flow, data, options);
 		default:
 			return { isValid: true, errors: [] };
 	}

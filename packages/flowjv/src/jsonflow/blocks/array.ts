@@ -1,4 +1,4 @@
-import { IJSONExpressionData } from "../../jsonlogic";
+import { IJSONExpressionData } from "../../jsonexpression";
 import { IFlowReturnType } from "../index";
 import { IFlowSchema } from "../..";
 

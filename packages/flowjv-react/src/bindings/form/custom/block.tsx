@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { formContext } from "../index";
 import { lookup, execJSONExpression } from "flowjv";
 import { IObjectIfBlock } from "flowjv/dist/jsonflow/blocks/object";
-import { gett } from "../utils";
 
 export const Block = ({ blockID }: { blockID: string }) => {
 	const context = useContext(formContext);
@@ -27,7 +26,7 @@ export const IfBlock = ({
 	const cond = !!execJSONExpression(block.cond, {
 		context: flowjvContext,
 		data,
-		ref: gett(data, ref.join(".")),
+		refPath: ref,
 	});
 	return cond ? ifTrue : ifFalse;
 };

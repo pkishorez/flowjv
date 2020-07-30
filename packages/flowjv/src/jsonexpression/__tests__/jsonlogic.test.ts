@@ -26,7 +26,7 @@ describe("JSON Logic Test cases::", () => {
 	});
 
 	// Variables.
-	it("Variable", () => {
+	it.only("Variable", () => {
 		expect(
 			execJSONExpression(["$data", "name"], {
 				data: { name: "Kishore" },
@@ -48,7 +48,9 @@ describe("JSON Logic Test cases::", () => {
 
 		expect(
 			execJSONExpression([">", [["$ref"], 10]], {
-				ref: 8,
+				data: 8,
+				// when refPath is not provided, default is []
+				// refPath: [],
 			})
 		).toBe(false);
 	});

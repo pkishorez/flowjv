@@ -37,7 +37,6 @@ export type IObjectFlow = {
 export const execObjectFlow = <IData, IContext>(
 	flow: IObjectFlow,
 	data: IJSONExpressionData<IData, IContext>,
-	flowContext: IFlowContext,
 	options?: IFlowOptions
 ): IFlowReturnType => {
 	const { properties } = flow;
@@ -51,10 +50,7 @@ export const execObjectFlow = <IData, IContext>(
 					for (const v of Object.keys(config.cases)) {
 						if (v !== cond) {
 							config.cases[v].forEach((prop) =>
-								unset(data.data, [
-									...flowContext.refPath,
-									prop.key,
-								])
+								unset(data.data, [...data.refPath, prop.key])
 							);
 						}
 					}
@@ -64,7 +60,6 @@ export const execObjectFlow = <IData, IContext>(
 					const result = execObjectFlow(
 						{ type: "object", properties: flow },
 						data,
-						flowContext,
 						options
 					);
 					if (!result.isValid) {
@@ -91,7 +86,7 @@ export const execObjectFlow = <IData, IContext>(
 						config.false?.forEach((v) => {
 							unset(
 								data.data,
-								[...flowContext.refPath, v.key].join(".")
+								[...data.refPath, v.key].join(".")
 							);
 						});
 					} else {
@@ -99,7 +94,7 @@ export const execObjectFlow = <IData, IContext>(
 						config.true.forEach((v) => {
 							unset(
 								data.data,
-								[...flowContext.refPath, v.key].join(".")
+								[...data.refPath, v.key].join(".")
 							);
 						});
 					}
@@ -109,7 +104,6 @@ export const execObjectFlow = <IData, IContext>(
 					const result = execObjectFlow(
 						{ type: "object", properties: flow },
 						data,
-						flowContext,
 						options
 					);
 					if (!result.isValid) {
@@ -130,7 +124,7 @@ export const execObjectFlow = <IData, IContext>(
 			}
 			default: {
 				const { ignoreKey, key } = config;
-				const newRefPath = [...flowContext.refPath, key];
+				const newRefPath = [...data.refPath, key];
 				if (ignoreKey) {
 					const ignore = !!execJSONExpression(ignoreKey, data);
 					if (ignore) {
@@ -144,11 +138,7 @@ export const execObjectFlow = <IData, IContext>(
 					case "object": {
 						const result = execObjectFlow(
 							config,
-							{ ...data, ref: get(data.data, newRefPath) },
-							{
-								...flowContext,
-								refPath: newRefPath,
-							},
+							{ ...data, refPath: newRefPath },
 							options
 						);
 						if (!result.isValid) {
@@ -171,11 +161,7 @@ export const execObjectFlow = <IData, IContext>(
 					default: {
 						const result = execPrimitiveFlow(
 							config,
-							{ ...data, ref: get(data.data, newRefPath) },
-							{
-								...flowContext,
-								refPath: newRefPath,
-							},
+							{ ...data, refPath: newRefPath },
 							options
 						);
 						if (!result.isValid) {

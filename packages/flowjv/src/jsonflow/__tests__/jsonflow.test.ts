@@ -69,7 +69,7 @@ describe.only("Flow Test", () => {
 			}).isValid
 		).toBe(false);
 	});
-	it("isOptional", () => {
+	it("isRequired", () => {
 		const schema: IFlowSchema = {
 			type: "object",
 			properties: [{ key: "name", type: "string", isRequired: true }],

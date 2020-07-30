@@ -61,7 +61,7 @@ export type IStringOperation =
 export interface IJSONExpressionData<IData, IContext> {
 	data?: IData;
 	context?: IContext;
-	ref?: any;
+	refPath?: string[];
 }
 
 type IJSONExpressionReturnType = string | number | boolean | null;
@@ -69,6 +69,7 @@ export const execJSONExpression = <IData = any, IContext = any>(
 	logic: IExpression<IData, IContext>,
 	data: IJSONExpressionData<IData, IContext>
 ): IJSONExpressionReturnType => {
+	data.refPath = data.refPath || [];
 	if (
 		typeof logic === "number" ||
 		typeof logic === "string" ||
@@ -80,14 +81,16 @@ export const execJSONExpression = <IData = any, IContext = any>(
 		return logic({
 			data: data.data as Partial<IData>,
 			context: data.context as IContext,
-			ref: data.ref,
+			ref: get(data.data, data.refPath.join(".")),
 		});
 	}
 	switch (logic[0]) {
 		// Data Access Operation.
 		case "$ref": {
-			if (typeof data.ref === "undefined") return null;
-			return data.ref;
+			const key = data.refPath.join(".");
+			return key === ""
+				? data.data
+				: get(data.data, data.refPath.join("."));
 		}
 		case "$context":
 			const [_, key, defaultValue] = logic;

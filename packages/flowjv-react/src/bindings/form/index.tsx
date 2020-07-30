@@ -243,7 +243,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					const cond = !!execJSONExpression(schema.cond, {
 						data: this.getValue(),
 						context: this.props.context,
-						ref: this.getValue(refPath),
+						refPath: ref,
 					});
 					const flow = cond ? schema.true : schema.false;
 					return (
@@ -270,7 +270,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					const cond = execJSONExpression(schema.cond, {
 						data: this.getValue(),
 						context: this.props.context,
-						ref: this.getValue(ref.join(".")),
+						refPath: ref,
 					}) as any;
 					const flow = schema.cases[cond];
 					return (

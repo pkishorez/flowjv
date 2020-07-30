@@ -4,6 +4,7 @@ import {
 	IJSONExpressionData,
 } from "../../../jsonexpression";
 import { IFlowReturnType, IFlowContext, IFlowOptions } from "../../index";
+import get from "lodash/get";
 
 export interface IValidation {
 	logic: IExpression;
@@ -29,20 +30,20 @@ export type IAtom = (
 export const execPrimitiveFlow = <IData, IContext>(
 	flow: IAtom,
 	data: IJSONExpressionData<IData, IContext>,
-	flowContext: IFlowContext,
 	options?: IFlowOptions
 ): IFlowReturnType => {
 	let validations = flow.validations || [];
 	let errorMsgs: string[] = [];
 
+	const ref = get(data.data, data.refPath?.join(".") || "");
 	if (options?.typeCheck) {
 		switch (flow.type) {
 			case "boolean":
 			case "number":
 			case "string": {
-				if (data.ref && typeof data.ref !== flow.type) {
+				if (ref && typeof ref !== flow.type) {
 					errorMsgs.push(
-						`TypeError: value for key ${flowContext.refPath.join(
+						`TypeError: value for key ${data.refPath?.join(
 							"."
 						)} is expected to be of type ${flow.type}`
 					);
@@ -50,9 +51,9 @@ export const execPrimitiveFlow = <IData, IContext>(
 				break;
 			}
 			case "enum": {
-				if (data.ref && !flow.items.find((v) => v.value === data.ref)) {
+				if (ref && !flow.items.find((v) => v.value === ref)) {
 					errorMsgs.push(
-						`EnumError: value for key ${flowContext.refPath.join(
+						`EnumError: value for key ${data.refPath?.join(
 							"."
 						)} should be one of the enum defined.`
 					);
@@ -67,7 +68,7 @@ export const execPrimitiveFlow = <IData, IContext>(
 			case "number":
 			case "string":
 			case "enum": {
-				if (data.ref === undefined) {
+				if (ref == null) {
 					errorMsgs.push(`Value is required.`);
 				}
 				break;
@@ -93,7 +94,7 @@ export const execPrimitiveFlow = <IData, IContext>(
 		}
 	}
 	return {
-		errors: [{ msgs: errorMsgs, refPath: flowContext.refPath }],
+		errors: [{ msgs: errorMsgs, refPath: data.refPath || [] }],
 		isValid: errorMsgs.length === 0,
 	};
 };

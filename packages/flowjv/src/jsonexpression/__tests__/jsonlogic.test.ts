@@ -26,7 +26,7 @@ describe("JSON Logic Test cases::", () => {
 	});
 
 	// Variables.
-	it.only("Variable", () => {
+	it("Variable", () => {
 		expect(
 			execJSONExpression(["$data", "name"], {
 				data: { name: "Kishore" },

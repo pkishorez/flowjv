@@ -4,9 +4,7 @@ import {
 	execJSONExpression,
 } from "../../../jsonexpression";
 import { IFlowReturnType, IFlowOptions } from "../../index";
-import get from "lodash/get";
 import unset from "lodash/unset";
-import { IFlowContext } from "../../index";
 import { IAtom, execPrimitiveFlow } from "../flowatoms";
 
 export type IObjectIfBlock = {
@@ -27,7 +25,6 @@ export type IObjectSwitchBlock = {
 
 export type IObjectProperty = (IAtom | IObjectFlow) & {
 	key: string;
-	ignoreKey?: IExpression;
 };
 export type IObjectFlow = {
 	type: "object";
@@ -123,17 +120,8 @@ export const execObjectFlow = <IData, IContext>(
 				break;
 			}
 			default: {
-				const { ignoreKey, key } = config;
+				const { key } = config;
 				const newRefPath = [...data.refPath, key];
-				if (ignoreKey) {
-					const ignore = !!execJSONExpression(ignoreKey, data);
-					if (ignore) {
-						if (options?.enforceSchema) {
-							unset(data.data, newRefPath);
-						}
-						continue;
-					}
-				}
 				switch (config.type) {
 					case "object": {
 						const result = execObjectFlow(

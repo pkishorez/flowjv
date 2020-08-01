@@ -23,7 +23,7 @@ module.exports = {
 		require("precss"),
 		require("tailwindcss"),
 		require("autoprefixer"),
-		require("cssnano"),
+		// require("cssnano"),
 		require("@fullhuman/postcss-purgecss")(options),
 	],
 };

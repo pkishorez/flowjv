@@ -25,7 +25,12 @@ export type IAtom = (
 	| {
 			type: "custom";
 	  }
-) & { isRequired?: boolean; validations?: IValidation[] };
+) & {
+	isRequired?: boolean;
+	validations?: IValidation[];
+	errTypeMsg?: string;
+	errRequiredMsg?: string;
+};
 
 export const execPrimitiveFlow = <IData, IContext>(
 	flow: IAtom,
@@ -43,9 +48,10 @@ export const execPrimitiveFlow = <IData, IContext>(
 			case "string": {
 				if (ref && typeof ref !== flow.type) {
 					errorMsgs.push(
-						`TypeError: value for key ${data.refPath?.join(
-							"."
-						)} is expected to be of type ${flow.type}`
+						flow.errTypeMsg ||
+							`TypeError: value for key ${data.refPath?.join(
+								"."
+							)} is expected to be of type ${flow.type}`
 					);
 				}
 				break;
@@ -53,9 +59,10 @@ export const execPrimitiveFlow = <IData, IContext>(
 			case "enum": {
 				if (ref && !flow.items.find((v) => v.value === ref)) {
 					errorMsgs.push(
-						`EnumError: value for key ${data.refPath?.join(
-							"."
-						)} should be one of the enum defined.`
+						flow.errTypeMsg ||
+							`EnumError: value for key ${data.refPath?.join(
+								"."
+							)} should be one of the enum defined.`
 					);
 				}
 				break;
@@ -69,7 +76,7 @@ export const execPrimitiveFlow = <IData, IContext>(
 			case "string":
 			case "enum": {
 				if (ref == null) {
-					errorMsgs.push(`Value is required.`);
+					errorMsgs.push(flow.errRequiredMsg || `Value is required.`);
 				}
 				break;
 			}

@@ -13,7 +13,7 @@ type IInputProps = React.DetailedHTMLProps<
 	onMount?: any;
 };
 
-export const TextField = ({
+export const TextFieldOld = ({
 	errors,
 	success,
 	className,
@@ -61,5 +61,44 @@ export const TextField = ({
 				<ErrorUI errors={errors} />
 			</div>
 		</label>
+	);
+};
+
+export const TextField = ({
+	errors,
+	success,
+	className,
+	readOnly,
+	label,
+	value = "",
+	onUnmount,
+	onMount,
+	...props
+}: IInputProps) => {
+	const hasErrors = errors.length;
+	return (
+		<div className={className}>
+			<label className={cx("fjv-textfield")}>
+				<input
+					{...props}
+					value={value}
+					placeholder="This is a placeholder!"
+					className={cx(
+						"outline-none border-b border-solid bg-transparent",
+						{
+							"border-error focus:border-error":
+								hasErrors && !readOnly,
+							"border-success focus:border-success":
+								success && !readOnly,
+							"border-gray-400 focus:border-gray-900":
+								!(hasErrors || success) && !readOnly,
+							"cursor-default text-gray-600 pointer-events-none focus:border-gray-400": readOnly,
+						}
+					)}
+				/>
+				<span className="label">{label}</span>
+			</label>
+			<ErrorUI errors={errors} />
+		</div>
 	);
 };

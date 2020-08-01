@@ -1,16 +1,56 @@
-.fjv-input {
-	&.text-field {
-		.label {
-			position: absolute;
-			transform: translateY(var(--inputText-fontSize));
-			font-size: var(--inputText-fontSize);
-		}
-		input {
-			&:focus {
-				& ~ .label {
-					@apply text-sm;
-				}
-			}
-		}
+$fontSize: 1em;
+$input-padding-h: 10px;
+$input-padding-v: 5px;
+$label-input-gap: 10px;
+$label-scaled-down: 0.8;
+
+$label-padding-v: (
+	($label-input-gap * 2 + $input-padding-v + ($label-scaled-down * 1em)) / 2
+);
+
+.fjv-textfield {
+	display: block;
+	position: relative;
+	background-color: rgba(0, 0, 0, 0.2);
+	cursor: text;
+	font-size: 1em;
+	* {
+		box-sizing: border-box;
+	}
+	.label {
+		display: block;
+		font-size: $fontSize;
+		transform-origin: top left;
+		line-height: 1;
+		transition: 0.3s transform;
+		padding: calc($label-padding-v) 0px;
+		margin-left: $input-padding-h;
+	}
+	input:focus + .label,
+	input:not(:placeholder-shown) + .label {
+		transform: scale($label-scaled-down)
+			translateY(calc(($label-padding-v) * -1 + $label-input-gap));
+	}
+	input {
+		position: absolute;
+		padding: $input-padding-v $input-padding-h;
+		bottom: 0;
+		left: 0;
+		font-size: 1em;
+		width: 100%;
+		border: 0;
+		border-bottom: 2px solid black;
+		outline: 0;
+		background-color: transparent;
+	}
+
+	input::placeholder {
+		color: transparent;
+		transition: 0.3s color;
+	}
+
+	input:focus::placeholder,
+	input:not(:placeholder-shown)::placeholder {
+		color: gray;
 	}
 }

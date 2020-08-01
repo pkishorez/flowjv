@@ -15,7 +15,6 @@ import {
 import cx from "classnames";
 import debounce from "lodash/debounce";
 import { defaultConfig } from "./config/default";
-import { config } from "process";
 
 interface IFlowJVProps {
 	schema: IFlowSchema;

@@ -10,8 +10,8 @@
 /*! purgecss start ignore */
 
 .fjv-form {
-	@import "./normalize.scss";
-	@import "../src/bindings/form/styles.scss";
+	@import "./styles/normalize.scss";
+	@import "./components/styles.scss";
 	font-family: "Roboto", sans-serif;
 
 	color: theme("colors.gray.800");

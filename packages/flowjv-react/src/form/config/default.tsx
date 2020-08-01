@@ -1,11 +1,11 @@
 import React from "react";
-import { TextField } from "../components/TextField";
-import { Checkbox } from "../components/Checkbox";
-import { SelectField } from "../components/Select";
-import { RadioGroup } from "../components/Radio";
+import { TextField } from "../ui/custom/components/TextField";
+import { Checkbox } from "../ui/custom/components/Checkbox";
+import { SelectField } from "../ui/custom/components/Select";
+import { RadioGroup } from "../ui/custom/components/Radio";
 import { IFormUIConfigFunc } from ".";
 import { AnimatePresence } from "framer-motion";
-import { AnimateHeight } from "../components/utils/Animate";
+import { AnimateHeight } from "../ui/custom/components/utils/Animate";
 
 export const defaultConfig: IFormUIConfigFunc = ({
 	schema,

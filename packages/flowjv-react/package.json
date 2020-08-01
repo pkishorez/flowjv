@@ -5,7 +5,7 @@
 	"main": "dist/index.js",
 	"scripts": {
 		"prepare": "npm run build",
-		"gencss": "../../node_modules/.bin/postcss styles/index.scss -o dist/main.css",
+		"gencss": "../../node_modules/.bin/postcss src/form/ui/custom/index.scss -o dist/main.css",
 		"build": "rm -rf ./dist && npm run tsc && npm run gencss",
 		"dev": "npm run tsc -- -w",
 		"gencss-dev": "npm run gencss -- -w",

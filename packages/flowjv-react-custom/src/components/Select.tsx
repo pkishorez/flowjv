@@ -28,22 +28,21 @@ export const SelectField = ({
 }: IInputProps) => {
 	const hasErrors = errors.length;
 	return (
-		<label className={cx("flex flex-col", className)}>
+		<label className={cx("fjv-select flex flex-col", className, "pt-3")}>
 			<div className="text-sm">{label}</div>
 			<select
 				value={value}
 				{...props}
 				className={cx(
-					"outline-none border-b-2 border-solid p-3 mt-2 text-xs flex-grow",
+					"outline-none border-0 border-b-2 border-solid px-2 py-4 mt-1 text-xs flex-grow",
 					{
-						"border-red-700 focus:border-red-700": hasErrors,
-						"border-green-700 focus:border-green-700": success,
+						"border-error focus:border-error": hasErrors,
+						"border-success focus:border-success": success,
 						"border-gray-400 focus:border-gray-900": !hasErrors,
-					},
-					className
+					}
 				)}
 			>
-				<option value={undefined}>Select</option>
+				<option value={"none"}>Select</option>
 				{options.map((v, i) => (
 					<option value={v.value} key={i}>
 						{v.label || v.value}

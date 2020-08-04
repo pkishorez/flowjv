@@ -11,8 +11,18 @@ $label-padding-v: (
 .fjv-textfield {
 	display: block;
 	position: relative;
-	background-color: rgba(0, 0, 0, 0.2);
+	background-color: var(--input-background);
 	cursor: text;
+	&.success {
+		.label {
+			color: theme("colors.success");
+		}
+	}
+	&.error {
+		.label {
+			color: theme("colors.error");
+		}
+	}
 	font-size: 1em;
 	* {
 		box-sizing: border-box;
@@ -25,6 +35,7 @@ $label-padding-v: (
 		transition: 0.3s transform;
 		padding: calc($label-padding-v) 0px;
 		margin-left: $input-padding-h;
+		pointer-events: none;
 	}
 	input:focus + .label,
 	input:not(:placeholder-shown) + .label {
@@ -34,12 +45,11 @@ $label-padding-v: (
 	input {
 		position: absolute;
 		padding: $input-padding-v $input-padding-h;
+		color: inherit;
 		bottom: 0;
 		left: 0;
 		font-size: 1em;
 		width: 100%;
-		border: 0;
-		border-bottom: 2px solid black;
 		outline: 0;
 		background-color: transparent;
 	}

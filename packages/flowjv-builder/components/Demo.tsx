@@ -1,20 +1,23 @@
-import { FlowJVForm } from "flowjv-react";
+import { setupFlowJV } from "flowjv-react";
+import { config } from "flowjv-react-custom";
 import { useState } from "react";
 import cx from "classnames";
 import { flowSchema } from "./schema";
 
+const FlowJVForm = setupFlowJV(config);
+
 export function DemoForm() {
 	const [data, setData] = useState({ value: {}, isValid: false });
-	const [theme, setTheme] = useState<"light" | "dark">("dark");
+	const [theme, setTheme] = useState<"dark" | "light">("dark");
 	return (
-		<div>
+		<div className="my-10 mx-auto max-w-md w-screen">
 			<style global jsx>
 				{`
 					body {
 						/*background-color: #313131;*/
 						background-color: ${theme === "light"
 							? "white"
-							: "#222"};
+							: "#303030"};
 						transition: 0.3s background-color;
 					}
 				`}
@@ -24,15 +27,18 @@ export function DemoForm() {
 				className="w-40 block mx-auto mt-16 mb-6"
 			/>
 			<div
-				style={{ boxShadow: "0px 0px 5px gray" }}
+				style={{
+					boxShadow: "0px 0px 5px gray",
+					backgroundColor: theme === "dark" && "#424242",
+				}}
 				className="my-10 mx-auto max-w-md w-screen"
 			>
 				<FlowJVForm
-					className={cx("p-5 relative transition-all duration-200", {
-						"bg-gray-900": theme === "dark",
-						"bg-gray-100": theme === "light",
-					})}
-					theme={theme}
+					className={cx(
+						"p-5 relative fjv-form transition-all duration-200",
+						theme === "light" && "bg-gray-100",
+						theme
+					)}
 					schema={flowSchema}
 					value={data.value}
 					onChange={setData}
@@ -43,11 +49,7 @@ export function DemoForm() {
 								className={cx(
 									"absolute top-0 right-0 text-3xl p-3 px-5 select-none",
 									"cursor-pointer hover:opacity-100 opacity-75 font-bold",
-									"transition-colors duration-100",
-									{
-										"text-black": theme === "light",
-										"text-white": theme === "dark",
-									}
+									"transition-colors duration-100"
 								)}
 								onClick={(e) =>
 									setTheme(
@@ -73,7 +75,7 @@ export function DemoForm() {
 }
 DemoForm.displayName = "DemoForm";
 
-const RegisterButton = ({ isValid, onRegister, theme = "dark" }) => {
+const RegisterButton = ({ isValid, onRegister, theme }) => {
 	return (
 		<input
 			type="submit"

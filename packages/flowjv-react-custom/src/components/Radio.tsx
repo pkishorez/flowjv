@@ -72,7 +72,7 @@ export const RadioGroup = ({
 		onChange?.(e.target.value);
 	};
 	return (
-		<div className={className}>
+		<div className={cx("pt-3", className)}>
 			<label>
 				<div
 					className={cx("text-sm", {
@@ -85,7 +85,10 @@ export const RadioGroup = ({
 				</div>
 				{options.map(({ label, value: v }, i) => (
 					<label
-						className={cx("flex items-center py-1 px-2")}
+						className={cx(
+							"flex items-center py-1 px-2",
+							i === 0 ? "" : "mt-1"
+						)}
 						onFocus={onFocus}
 						key={i}
 					>

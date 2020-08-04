@@ -14,12 +14,10 @@ import {
 } from "flowjv/dist/jsonflow/blocks/object";
 import cx from "classnames";
 import debounce from "lodash/debounce";
-import { defaultConfig } from "./config/default";
 
 interface IFlowJVProps {
 	schema: IFlowSchema;
 	defaultValue?: any;
-	theme?: "dark" | "light";
 	context?: any;
 	value?: any;
 	renderMap?: {
@@ -342,7 +340,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 			return this.renderAtom(ref);
 		};
 		render() {
-			const { className, schema, children, theme } = this.props;
+			const { className, schema, children } = this.props;
 			return (
 				<formContext.Provider
 					value={{
@@ -355,7 +353,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					}}
 				>
 					<form
-						className={cx(className, theme, "fjv-form")}
+						className={cx(className)}
 						onSubmit={(e) => {
 							e.preventDefault();
 							this.touchAll();
@@ -377,5 +375,3 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 		}
 	};
 };
-
-export const FlowJVForm = setupFlowJV(defaultConfig);

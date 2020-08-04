@@ -38,6 +38,17 @@ export const flowSchema: IFlowSchema = {
 			label: "Gender",
 		},
 		{
+			type: "enum",
+			uiType: "select",
+			items: [
+				{ value: "male", label: "Male" },
+				{ value: "female", label: "Female" },
+				{ value: "others", label: "Others" },
+			],
+			key: "gender2",
+			label: "Gender",
+		},
+		{
 			type: "switch",
 			cond: ["$data", "gender"],
 			cases: {
@@ -94,7 +105,6 @@ export const flowSchema: IFlowSchema = {
 				{ type: "number", key: "yoe", label: "Years of Experience" },
 			],
 		},
-
 		{
 			type: "boolean",
 			key: "terms",

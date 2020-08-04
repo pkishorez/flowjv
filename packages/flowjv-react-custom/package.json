@@ -1,11 +1,12 @@
 {
-	"name": "flowjv-react",
+	"name": "flowjv-react-custom",
 	"version": "0.4.4",
-	"description": "flowjv UI binding for Form",
+	"description": "Mateiral UI binding for FlowJV Form",
 	"main": "dist/index.js",
 	"scripts": {
 		"prepare": "npm run build",
-		"build": "rm -rf ./dist && npm run tsc",
+		"gencss": "../../node_modules/.bin/postcss src/index.scss -o dist/main.css",
+		"build": "rm -rf ./dist && npm run tsc && npm run gencss",
 		"dev": "npm run tsc -- -w",
 		"tsc": "../../node_modules/.bin/tsc",
 		"test": "npm run tsc -- --noEmit"
@@ -18,13 +19,13 @@
 	"license": "ISC",
 	"peerDependencies": {
 		"react": "^16.13.1",
-		"react-dom": "^16.13.1"
+		"react-dom": "^16.13.1",
+		"framer-motion": "^1.11.0"
 	},
 	"dependencies": {
 		"@types/classnames": "^2.2.10",
 		"classnames": "^2.2.6",
-		"flowjv": "^0.4.4",
-		"lodash": "^4.17.15"
+		"flowjv-react": "^0.4.4"
 	},
 	"gitHead": "75c34dd0f645fceda4c740a456fe337f97672056"
 }

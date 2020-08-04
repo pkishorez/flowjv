@@ -1,4 +1,5 @@
 module.exports = {
+	// prefix: "fjv-form ",
 	theme: {
 		extend: {
 			colors: {

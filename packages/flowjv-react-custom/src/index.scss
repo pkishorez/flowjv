@@ -1,16 +1,8 @@
-/*! purgecss start ignore */
-@import "tailwindcss/base";
-/*! purgecss end ignore */
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-.fjv-form {
-	@import "tailwindcss/components";
-	@import "tailwindcss/utilities";
-}
 
 /*! purgecss start ignore */
-
+@tailwind base;
 .fjv-form {
-	@import "./styles/normalize.scss";
 	@import "./components/styles.scss";
 	font-family: "Roboto", sans-serif;
 
@@ -19,6 +11,7 @@
 	--color-error: theme("colors.red.700");
 	--color-success: theme("colors.teal.800");
 	--border-width: 2px;
+	--input-background: rgba(0, 0, 0, 0.05);
 
 	&.dark {
 		$color: theme("colors.gray.300");
@@ -27,6 +20,7 @@
 		--color-error: theme("colors.red.500");
 		--color-success: theme("colors.teal.300");
 		--border-width: 1px;
+		--input-background: #535353;
 	}
 
 	/* RESET STYLE FOR AUTO COMPLETE */
@@ -52,3 +46,8 @@
 	}
 }
 /*! purgecss end ignore */
+
+.fjv-form {
+	@tailwind components;
+	@tailwind utilities;
+}

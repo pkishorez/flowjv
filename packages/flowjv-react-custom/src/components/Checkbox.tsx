@@ -25,7 +25,7 @@ export const Checkbox = ({
 }: ICheckboxProps) => {
 	return (
 		<label>
-			<div className={className}>
+			<div className={cx(className, "pt-3")}>
 				<div className={cx("flex items-center px-2 pb-0")}>
 					<div
 						className={cx("fjv-input", {

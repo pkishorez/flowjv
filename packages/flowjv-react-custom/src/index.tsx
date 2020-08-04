@@ -1,13 +1,13 @@
 import React from "react";
-import { TextField } from "../ui/custom/components/TextField";
-import { Checkbox } from "../ui/custom/components/Checkbox";
-import { SelectField } from "../ui/custom/components/Select";
-import { RadioGroup } from "../ui/custom/components/Radio";
-import { IFormUIConfigFunc } from ".";
+import { TextField } from "./components/TextField";
+import { Checkbox } from "./components/Checkbox";
+import { SelectField } from "./components/Select";
+import { RadioGroup } from "./components/Radio";
+import { IFormUIConfigFunc } from "flowjv-react";
 import { AnimatePresence } from "framer-motion";
-import { AnimateHeight } from "../ui/custom/components/utils/Animate";
+import { AnimateHeight } from "./components/utils/Animate";
 
-export const defaultConfig: IFormUIConfigFunc = ({
+export const config: IFormUIConfigFunc = ({
 	schema,
 	ui: { setTouch, onChange, ...ui },
 	children,
@@ -87,4 +87,9 @@ export const defaultConfig: IFormUIConfigFunc = ({
 			return null;
 		}
 	}
+};
+
+// Dummy for purge css.
+const Form = () => {
+	return <form className="fjv-form"></form>;
 };

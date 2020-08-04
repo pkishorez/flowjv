@@ -18,12 +18,13 @@ const options = {
 
 module.exports = {
 	plugins: [
+		require("postcss-nested"),
 		require("postcss-import"),
 		require("tailwindcss"),
 		require("precss"),
 		require("tailwindcss"),
 		require("autoprefixer"),
-		// require("cssnano"),
+		// require("cssnano")({ preset: "default" }),
 		require("@fullhuman/postcss-purgecss")(options),
 	],
 };

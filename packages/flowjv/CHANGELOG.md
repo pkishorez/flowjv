@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/kishoreiiitn/flowjv/compare/v0.4.4...v0.5.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* fix key dupliaction logic when in if condition ([0bccc1b](https://github.com/kishoreiiitn/flowjv/commit/0bccc1b5a4a93a710c922a0591108bae93412e76))
+
+
+### Features
+
+* remove ignoreKey configuration from object type ([b08e53b](https://github.com/kishoreiiitn/flowjv/commit/b08e53b9f423a9f0bb169f33bca2b48539ecec1f))
+* separate ref functionality to make it more versatile going forward ([3e04838](https://github.com/kishoreiiitn/flowjv/commit/3e048381bfe0ca2496f81a6555450c0f47a54e89))
+
+
+
+
+
 ## [0.4.4](https://github.com/kishoreiiitn/flowjv/compare/v0.4.3...v0.4.4) (2020-07-10)
 
 

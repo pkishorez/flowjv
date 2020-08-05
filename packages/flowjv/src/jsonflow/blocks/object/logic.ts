@@ -25,12 +25,16 @@ export const ifLogic = (
 		if (cond) {
 			// delete false fields.
 			config.false?.forEach((v) => {
-				unset(data.data, [...data.refPath, v.key].join("."));
+				if (!config.true.find((v) => v.key === v.key)) {
+					unset(data.data, [...data.refPath, v.key].join("."));
+				}
 			});
 		} else {
 			// delete true fields.
 			config.true.forEach((v) => {
-				unset(data.data, [...data.refPath, v.key].join("."));
+				if (!config.true.find((v) => v.key === v.key)) {
+					unset(data.data, [...data.refPath, v.key].join("."));
+				}
 			});
 		}
 	}

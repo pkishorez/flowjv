@@ -22,8 +22,7 @@ export const SelectField = ({
 	className,
 	label,
 	value = "",
-	onUnmount,
-	onMount,
+	onChange,
 	...props
 }: IInputProps) => {
 	const hasErrors = errors.length;
@@ -33,6 +32,7 @@ export const SelectField = ({
 			<select
 				value={value}
 				{...props}
+				onChange={onChange}
 				className={cx(
 					"outline-none border-0 border-b-2 border-solid px-2 py-4 mt-1 text-xs flex-grow",
 					{

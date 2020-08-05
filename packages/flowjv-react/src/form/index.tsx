@@ -208,9 +208,12 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 			};
 		};
 		renderAtom = (ref: string[]) => {
-			const refPath = ref.join(".");
 			const schema = lookup.atom(this.props.schema, ref);
 			if (schema === null) return null;
+			return this.renderAtomBySchema(schema, ref);
+		};
+		renderAtomBySchema = (schema: IAtom, ref: string[]) => {
+			const refPath = ref.join(".");
 			const { errors, success, value } = this.getRefPathValue(refPath);
 			return (
 				<Config
@@ -245,7 +248,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					const flow = cond ? schema.true : schema.false;
 					return (
 						<Config
-							key={refPath + "$if"}
+							key={refPath + schema.blockId + "$if"}
 							schema={{ type: "conditionWrapper", animKey: "if" }}
 							ui={{
 								errors: [],
@@ -337,7 +340,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					</div>
 				);
 			}
-			return this.renderAtom(ref);
+			return this.renderAtomBySchema(schema, ref);
 		};
 		render() {
 			const { className, schema, children } = this.props;
@@ -370,6 +373,7 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 						{children ? null : this.renderFlow(schema, [])}
 						{this.props.append}
 					</form>
+					<pre>{JSON.stringify(this.getValue(), null, "  ")}</pre>
 				</formContext.Provider>
 			);
 		}

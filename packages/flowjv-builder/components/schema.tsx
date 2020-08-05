@@ -16,16 +16,41 @@ export const flowSchema: IFlowSchema = {
 			],
 		},
 		{
-			type: "string",
-			key: "email",
-			label: "Email",
-			validations: [
+			type: "if",
+			blockId: "ageGreater",
+			cond: [">", [["$data", "age"], 5]],
+			true: [
 				{
-					logic: ["str:fmt:email", ["$ref"]],
-					err: "Should be a valid Email.",
+					type: "string",
+					key: "email",
+					label: "Email",
+					validations: [
+						{
+							logic: ["str:fmt:email", ["$ref"]],
+							err: "Should be a valid Email.",
+						},
+					],
+				},
+			],
+			false: [
+				{
+					type: "enum",
+					key: "email",
+					items: [
+						{ value: "kishore" },
+						{ value: "kishore.iiitn@gmail.com" },
+					],
+					label: "Email",
+					validations: [
+						{
+							logic: ["str:fmt:email", ["$ref"]],
+							err: "Should be a valid Email.",
+						},
+					],
 				},
 			],
 		},
+
 		{
 			type: "enum",
 			uiType: "radio",

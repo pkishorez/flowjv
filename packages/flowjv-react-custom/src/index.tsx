@@ -58,7 +58,9 @@ export const config: IFormUIConfigFunc = ({
 							{...ui}
 							label={schema.label}
 							onFocus={setTouch}
-							onChange={(e) => onChange?.(e.target.value)}
+							onChange={(e) => {
+								onChange?.(e.target.value);
+							}}
 							options={schema.items}
 						/>
 					);

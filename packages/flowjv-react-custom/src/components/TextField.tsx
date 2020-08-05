@@ -31,6 +31,7 @@ export const TextField = ({
 				className={cx("fjv-textfield", {
 					success: success,
 					error: hasErrors,
+					"opacity-50": readOnly,
 				})}
 			>
 				<input
@@ -41,6 +42,7 @@ export const TextField = ({
 					}}
 					value={value}
 					placeholder="This is a placeholder!"
+					readOnly={readOnly}
 					className={cx(
 						"outline-none border-b border-solid bg-transparent",
 						{

@@ -12,6 +12,7 @@ type ICheckboxProps = React.DetailedHTMLProps<
 	label?: string;
 	onUnmount?: any;
 	onMount?: any;
+	readOnly?: boolean;
 };
 export const Checkbox = ({
 	errors,
@@ -21,6 +22,7 @@ export const Checkbox = ({
 	onUnmount,
 	onMount,
 	className,
+	readOnly,
 	...props
 }: ICheckboxProps) => {
 	return (
@@ -35,6 +37,7 @@ export const Checkbox = ({
 					>
 						<input
 							{...props}
+							readOnly={readOnly}
 							className="w-4 h-4 checkbox"
 							type="checkbox"
 							checked={!!value}

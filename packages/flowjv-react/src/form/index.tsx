@@ -221,6 +221,14 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					schema={schema}
 					ui={{
 						className: "pt-3",
+						readOnly: !!(
+							schema.readOnly &&
+							execJSONExpression(schema.readOnly, {
+								context: this.props.context,
+								data: this.getValue(),
+								refPath: ref,
+							})
+						),
 						errors,
 						success,
 						value,

@@ -11,6 +11,7 @@ type IInputProps = React.DetailedHTMLProps<
 	value?: string | number;
 	success?: boolean;
 	label?: string;
+	readOnly?: boolean;
 	onUnmount?: any;
 	onMount?: any;
 };
@@ -22,6 +23,7 @@ export const SelectField = ({
 	className,
 	label,
 	value = "",
+	readOnly,
 	onChange,
 	...props
 }: IInputProps) => {
@@ -33,12 +35,14 @@ export const SelectField = ({
 				value={value}
 				{...props}
 				onChange={onChange}
+				disabled={readOnly}
 				className={cx(
 					"outline-none border-0 border-b-2 border-solid px-2 py-4 mt-1 text-xs flex-grow",
 					{
 						"border-error focus:border-error": hasErrors,
 						"border-success focus:border-success": success,
 						"border-gray-400 focus:border-gray-900": !hasErrors,
+						"pointer-events-none": readOnly,
 					}
 				)}
 			>

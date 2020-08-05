@@ -8,12 +8,23 @@ interface IRadioProps {
 	name?: string;
 	className?: string;
 	errors: string[];
+	readOnly?: boolean;
 	success?: boolean;
 	onFocus?: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 export const Radio = forwardRef<any, IRadioProps>(
 	(
-		{ onChange, value, checked, name, className, onFocus, errors, success },
+		{
+			onChange,
+			value,
+			checked,
+			name,
+			className,
+			onFocus,
+			errors,
+			success,
+			readOnly,
+		},
 		ref
 	) => {
 		return (
@@ -25,6 +36,7 @@ export const Radio = forwardRef<any, IRadioProps>(
 			>
 				<input
 					type="radio"
+					readOnly={readOnly}
 					checked={checked}
 					name={name}
 					className={cx(
@@ -57,6 +69,7 @@ interface IRadioGroupProps {
 	errors: string[];
 	success?: boolean;
 	onFocus?: any;
+	readOnly?: boolean;
 }
 export const RadioGroup = ({
 	value,
@@ -67,6 +80,7 @@ export const RadioGroup = ({
 	success,
 	errors,
 	onFocus,
+	readOnly,
 }: IRadioGroupProps) => {
 	const change = (e) => {
 		onChange?.(e.target.value);
@@ -95,6 +109,7 @@ export const RadioGroup = ({
 						<Radio
 							value={v}
 							onChange={change}
+							readOnly={readOnly}
 							errors={errors}
 							success={success}
 							checked={value === v}

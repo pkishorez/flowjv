@@ -43,11 +43,11 @@ export function DemoForm() {
 					value={data.value}
 					onChange={setData}
 					prepend={
-						<div>
-							<h2>Registration Form</h2>
+						<div className="flex justify-between items-center">
+							<h3>Registration Form</h3>
 							<span
 								className={cx(
-									"absolute top-0 right-0 text-3xl p-3 px-5 select-none",
+									"text-3xl p-3 px-5 select-none",
 									"cursor-pointer hover:opacity-100 opacity-75 font-bold",
 									"transition-colors duration-100"
 								)}

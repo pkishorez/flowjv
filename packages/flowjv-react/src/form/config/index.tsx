@@ -3,6 +3,7 @@ import { IAtom } from "flowjv";
 export interface IUIElementConfig {
 	key?: string | number;
 	errors: string[];
+	readOnly?: boolean;
 	success: boolean;
 	label?: string;
 	value?: any;

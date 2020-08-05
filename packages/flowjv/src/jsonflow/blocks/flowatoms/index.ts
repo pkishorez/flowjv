@@ -27,6 +27,7 @@ export type IAtom = (
 	  }
 ) & {
 	isRequired?: boolean;
+	readOnly?: IExpression;
 	validations?: IValidation[];
 	errTypeMsg?: string;
 	errRequiredMsg?: string;

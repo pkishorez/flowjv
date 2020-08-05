@@ -3,7 +3,12 @@ import { IFlowSchema } from "flowjv";
 export const flowSchema: IFlowSchema = {
 	type: "object",
 	properties: [
-		{ type: "string", key: "name", label: "Name" },
+		{
+			type: "string",
+			key: "name",
+			label: "Name",
+			readOnly: ["===", [["$data", "age"], 5]],
+		},
 		{
 			type: "number",
 			key: "age",

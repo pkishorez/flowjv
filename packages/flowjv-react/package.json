@@ -1,6 +1,6 @@
 {
 	"name": "flowjv-react",
-	"version": "0.5.1",
+	"version": "0.5.2",
 	"description": "flowjv UI binding for Form",
 	"main": "dist/index.js",
 	"scripts": {
@@ -23,7 +23,7 @@
 	"dependencies": {
 		"@types/classnames": "^2.2.10",
 		"classnames": "^2.2.6",
-		"flowjv": "^0.5.1",
+		"flowjv": "^0.5.2",
 		"lodash": "^4.17.15"
 	},
 	"gitHead": "75c34dd0f645fceda4c740a456fe337f97672056"

@@ -1,6 +1,6 @@
 {
 	"name": "flowjv-react-material",
-	"version": "0.5.1",
+	"version": "0.5.2",
 	"description": "Mateiral UI binding for FlowJV Form",
 	"main": "dist/index.js",
 	"scripts": {
@@ -25,7 +25,7 @@
 	"dependencies": {
 		"@types/classnames": "^2.2.10",
 		"classnames": "^2.2.6",
-		"flowjv-react": "^0.5.1"
+		"flowjv-react": "^0.5.2"
 	},
 	"gitHead": "75c34dd0f645fceda4c740a456fe337f97672056"
 }

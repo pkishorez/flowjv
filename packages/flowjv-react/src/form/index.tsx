@@ -257,7 +257,10 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 					return (
 						<Config
 							key={refPath + schema.blockId + "$if"}
-							schema={{ type: "conditionWrapper", animKey: "if" }}
+							schema={{
+								type: "conditionWrapper",
+								animKey: "$if." + (cond ? "$true" : "$false"),
+							}}
 							ui={{
 								errors: [],
 								success: false,

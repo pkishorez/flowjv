@@ -1,5 +1,5 @@
-import { lookup } from "../visitor";
-import { IFlowSchema } from "..";
+import { lookup } from "..";
+import { IFlowSchema } from "../..";
 
 const fschema: IFlowSchema = {
 	type: "object",

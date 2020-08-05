@@ -3,6 +3,7 @@
 /*! purgecss start ignore */
 @tailwind base;
 .fjv-form {
+	@import "./normalize";
 	@import "./components/styles.scss";
 	font-family: "Roboto", sans-serif;
 

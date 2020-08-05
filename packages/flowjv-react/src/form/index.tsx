@@ -373,7 +373,6 @@ export const setupFlowJV = (Config: IFormUIConfigFunc) => {
 						{children ? null : this.renderFlow(schema, [])}
 						{this.props.append}
 					</form>
-					<pre>{JSON.stringify(this.getValue(), null, "  ")}</pre>
 				</formContext.Provider>
 			);
 		}

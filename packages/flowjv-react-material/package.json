@@ -20,12 +20,12 @@
 		"@material-ui/core": "^4.11.0",
 		"framer-motion": "^1.11.0",
 		"react": "^16.13.1",
-		"react-dom": "^16.13.1"
+		"react-dom": "^16.13.1",
+		"flowjv-react": "^0.5.2"
 	},
 	"dependencies": {
 		"@types/classnames": "^2.2.10",
-		"classnames": "^2.2.6",
-		"flowjv-react": "^0.5.2"
+		"classnames": "^2.2.6"
 	},
 	"gitHead": "75c34dd0f645fceda4c740a456fe337f97672056"
 }

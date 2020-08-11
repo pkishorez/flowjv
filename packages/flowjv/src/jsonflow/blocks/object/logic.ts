@@ -3,9 +3,9 @@ import {
 	IJSONExpressionData,
 	execJSONExpression,
 } from "../../../jsonexpression";
-import { IObjectProperty, execObjectFlow } from ".";
+import { IObjectProperty } from ".";
 import { IFlowOptions } from "../..";
-import unset from "lodash/unset";
+import { unset } from "../../../helper/immutable";
 
 export type IObjectIfBlock = {
 	type: "if";
@@ -26,14 +26,14 @@ export const ifLogic = (
 			// delete false fields.
 			config.false?.forEach((v) => {
 				if (!config.true.find((v) => v.key === v.key)) {
-					unset(data.data, [...data.refPath, v.key].join("."));
+					data.data = unset(data.data, [...data.refPath, v.key]);
 				}
 			});
 		} else {
 			// delete true fields.
 			config.true.forEach((v) => {
 				if (!config.true.find((v) => v.key === v.key)) {
-					unset(data.data, [...data.refPath, v.key].join("."));
+					data.data = unset(data.data, [...data.refPath, v.key]);
 				}
 			});
 		}

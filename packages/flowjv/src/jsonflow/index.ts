@@ -1,5 +1,6 @@
 import { IJSONExpressionData } from "../jsonexpression/index";
 import { IObjectFlow, execObjectFlow } from "./blocks/object";
+import { IKeyPath } from "../helper/immutable";
 
 export type IFlowSchema = IObjectFlow;
 
@@ -17,14 +18,11 @@ export const validateJSONFlow = <IData, IContext>(
 	return execJSONFlow(flow, { data, context, refPath: [] }, options);
 };
 
-export interface IFlowContext {
-	refPath: string[];
-}
 export interface IFlowReturnType {
 	isValid: boolean;
 	errors: {
 		msgs: string[];
-		refPath: IFlowContext["refPath"];
+		refPath: IKeyPath;
 	}[];
 }
 

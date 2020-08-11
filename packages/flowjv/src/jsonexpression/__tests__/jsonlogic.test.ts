@@ -33,7 +33,7 @@ describe("JSON Logic Test cases::", () => {
 			})
 		).toBe("Kishore");
 		expect(
-			execJSONExpression(["$data", "likes[2].demo[0]"], {
+			execJSONExpression(["$data", "likes.2.demo.0"], {
 				data: {
 					name: "Kishore",
 					likes: [

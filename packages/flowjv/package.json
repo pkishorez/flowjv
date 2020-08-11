@@ -26,8 +26,6 @@
 	},
 	"author": "Kishore",
 	"license": "ISC",
-	"dependencies": {
-		"lodash": "^4.17.15"
-	},
+	"dependencies": {},
 	"gitHead": "6d29c6736857fedecc575f32e5ad84c792c65eab"
 }

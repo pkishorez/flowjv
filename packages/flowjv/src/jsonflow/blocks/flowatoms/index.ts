@@ -3,8 +3,8 @@ import {
 	execJSONExpression,
 	IJSONExpressionData,
 } from "../../../jsonexpression";
-import { IFlowReturnType, IFlowContext, IFlowOptions } from "../../index";
-import get from "lodash/get";
+import { IFlowReturnType, IFlowOptions } from "../../index";
+import { get } from "../../../helper/immutable";
 
 export interface IValidation {
 	logic: IExpression;
@@ -41,7 +41,7 @@ export const execPrimitiveFlow = <IData, IContext>(
 	let validations = flow.validations || [];
 	let errorMsgs: string[] = [];
 
-	const ref = get(data.data, data.refPath?.join(".") || "");
+	const ref = get(data.data, data.refPath || []);
 	if (options?.typeCheck) {
 		switch (flow.type) {
 			case "boolean":

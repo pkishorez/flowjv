@@ -1,4 +1,4 @@
-import get from "lodash/get";
+import { get, IKeyPath } from "../helper/immutable";
 
 export type IExpression<IData = any, IContext = any> =
 	| number
@@ -61,7 +61,7 @@ export type IStringOperation =
 export interface IJSONExpressionData<IData, IContext> {
 	data?: IData;
 	context?: IContext;
-	refPath?: string[];
+	refPath?: IKeyPath;
 }
 
 type IJSONExpressionReturnType = string | number | boolean | null;
@@ -81,31 +81,22 @@ export const execJSONExpression = <IData = any, IContext = any>(
 		return logic({
 			data: data.data as Partial<IData>,
 			context: data.context as IContext,
-			ref: get(data.data, data.refPath.join(".")),
+			ref: get(data.data, data.refPath),
 		});
 	}
 	switch (logic[0]) {
 		// Data Access Operation.
 		case "$ref": {
-			const key = data.refPath.join(".");
-			return key === ""
-				? data.data
-				: get(data.data, data.refPath.join("."));
+			return get(data.data, data.refPath);
 		}
 		case "$context":
 			const [_, key, defaultValue] = logic;
-			return (
-				(key === ""
-					? data.context || defaultValue
-					: get(data.context, key, defaultValue)) || null
-			);
+			const refPath = key.split(".");
+			return get(data.context, refPath, defaultValue);
 		case "$data": {
 			const [_, key, defaultValue] = logic;
-			return (
-				(key === ""
-					? data.data || defaultValue
-					: get(data.data, key, defaultValue)) || null
-			);
+			const refPath = key.split(".");
+			return get(data.data, refPath, defaultValue);
 		}
 		case "!": {
 			return !execJSONExpression(logic[1], data);

@@ -1,4 +1,5 @@
 import { get, IKeyPath } from "../helper/immutable";
+import { helper } from "./helper";
 
 export type IExpression<IData = any, IContext = any> =
 	| number
@@ -30,8 +31,8 @@ export type IDataAccessOperation<IData, IContext> =
 	| ["$data", string, string?]
 	| ["$context", string, string?]
 	| ["$ref"];
-export type ITernaryOperation = ["?:", [IExpression, IExpression, IExpression]];
 
+export type ITernaryOperation = ["?:", [IExpression, IExpression, IExpression]];
 export type INegationOperation = ["!", IExpression];
 
 export type ILogicalOperation =
@@ -98,11 +99,11 @@ export const execJSONExpression = <IData = any, IContext = any>(
 			const refPath = key.split(".");
 			return get(data.data, refPath, defaultValue);
 		}
+
+		// Logical operators
 		case "!": {
 			return !execJSONExpression(logic[1], data);
 		}
-
-		// Logical operators
 		case "?:": {
 			const [cond, case1, case2] = logic[1];
 			if (execJSONExpression(cond, data)) {
@@ -124,88 +125,51 @@ export const execJSONExpression = <IData = any, IContext = any>(
 		}
 
 		// ASSERT CHAIN OPS
-		case "===": {
+		case "===":
+		case "!==":
+		case ">":
+		case ">=":
+		case "<":
+		case "<=":
+			const assertChainOp = {
+				"===": (a: any, b: any) => a === b,
+				"!==": (a: any, b: any) => a !== b,
+				">": (a: any, b: any) => a > b,
+				">=": (a: any, b: any) => a >= b,
+				"<": (a: any, b: any) => a < b,
+				"<=": (a: any, b: any) => a <= b,
+			};
 			return helper.assertChainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 === v2
+				logic[1].map((logic) => execJSONExpression(logic, data)),
+				assertChainOp[logic[0]]
 			);
-		}
-		case "!==": {
-			return helper.assertChainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 !== v2
-			);
-		}
-		case ">": {
-			return helper.assertChainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 > v2
-			);
-		}
-		case ">=": {
-			return helper.assertChainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 >= v2
-			);
-		}
-		case "<": {
-			return helper.assertChainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 < v2
-			);
-		}
-		case "<=": {
-			return helper.assertChainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 <= v2
+
+		// CHAIN OPS
+		case "||":
+		case "&&":
+		case "+":
+		case "-":
+		case "*":
+		case "/":
+		case "%": {
+			const chainOp = {
+				"||": (a: any, b: any) => a || b,
+				"&&": (a: any, b: any) => a && b,
+				"+": (a: any, b: any) => a + b,
+				"-": (a: any, b: any) => a - b,
+				"*": (a: any, b: any) => a * b,
+				"/": (a: any, b: any) => a / b,
+				"%": (a: any, b: any) => a % b,
+			};
+			return helper.chainOp(
+				logic[1].map((logic) => execJSONExpression(logic, data)),
+				chainOp[logic[0]]
 			);
 		}
 
-		// CHAIN OPS
-		case "||": {
-			return helper.chainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 || v2
-			);
-		}
-		case "&&": {
-			return helper.chainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 && v2
-			);
-		}
-		case "+": {
-			return helper.chainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 + v2
-			);
-		}
-		case "-": {
-			return helper.chainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 - v2
-			);
-		}
-		case "*": {
-			return helper.chainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 * v2
-			);
-		}
-		case "/": {
-			return helper.chainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 / v2
-			);
-		}
-		case "%": {
-			return helper.chainOp(
-				helper.mapExpToValue(logic[1], data),
-				(v1, v2) => v1 % v2
-			);
-		}
+		// String operations.
 		case "str:fmt:email": {
-			const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 			const value = execJSONExpression(logic[1], data);
 			if (typeof value === "string") return regex.test(value);
 			else return false;
@@ -218,27 +182,4 @@ export const execJSONExpression = <IData = any, IContext = any>(
 			return value.length;
 		}
 	}
-};
-
-const helper = {
-	mapExpToValue: (exps: IExpression[], data: any) => {
-		return exps.map((exp) => execJSONExpression(exp, data));
-	},
-	chainOp: (values: any[], operation: (v1: any, v2: any) => any) => {
-		return values.reduce(
-			(agg, v, i) => (i === 0 ? agg : operation(agg, v)),
-			values[0]
-		);
-	},
-	assertChainOp: (
-		values: any[],
-		operation: (v1: any, v2: any) => boolean
-	) => {
-		for (let i = 1; i < values.length; i++) {
-			if (!operation(values[i - 1], values[i])) {
-				return false;
-			}
-		}
-		return true;
-	},
 };

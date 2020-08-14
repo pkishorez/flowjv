@@ -12,9 +12,12 @@ export { IObjectIfBlock, IObjectSwitchBlock } from "./logic";
 export type IObjectProperty = (IAtom | IObjectFlow) & {
 	key: string;
 };
+
+export type IObjectLogicFlow = IObjectIfBlock | IObjectSwitchBlock;
+
 export type IObjectFlow = {
 	type: "object";
-	properties: (IObjectProperty | IObjectIfBlock | IObjectSwitchBlock)[];
+	properties: (IObjectProperty | IObjectLogicFlow)[];
 };
 
 export const execObjectFlow = <IData, IContext>(

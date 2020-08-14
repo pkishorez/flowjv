@@ -4,15 +4,13 @@ import { IKeyPath } from "../helper/immutable";
 
 export type IFlowSchema = IObjectFlow;
 
+export interface IFlowData<IData, IContext> {
+	data?: IData;
+	context?: IContext;
+}
 export const validateJSONFlow = <IData, IContext>(
 	flow: IFlowSchema,
-	{
-		data,
-		context,
-	}: {
-		data?: IData;
-		context?: IContext;
-	},
+	{ data, context }: IFlowData<IData, IContext>,
 	options?: IFlowOptions
 ) => {
 	return execJSONFlow(flow, { data, context, refPath: [] }, options);

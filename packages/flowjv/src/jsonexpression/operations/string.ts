@@ -7,7 +7,7 @@ export type IStringOperation =
 const stringOperation = {
 	"str:fmt:email": (str: string) =>
 		/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(str),
-	"str:len": (str: string) => str.length,
+	"str:len": (str: string) => str?.length,
 };
 
 export const isStringOperation = (

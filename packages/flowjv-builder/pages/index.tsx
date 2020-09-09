@@ -36,9 +36,6 @@ export default function Index() {
 							Demo
 						</HyperLink>
 					</div>
-					<div>
-						<Input />
-					</div>
 				</div>
 			</div>
 		</>
@@ -57,62 +54,5 @@ const HyperLink = ({ href, children, className = "", ...props }) => {
 		>
 			{children}
 		</a>
-	);
-};
-
-const Input = () => {
-	return (
-		<div>
-			<style jsx>{`
-				.wrapper {
-					display: block;
-					position: relative;
-					background-color: white;
-					padding: 15px 10px;
-					cursor: text;
-					font-size: 1em;
-				}
-				.wrapper * {
-					box-sizing: border-box;
-				}
-				.label {
-					font-size: 1em;
-					transform-origin: top left;
-					transition: 0.3s transform;
-				}
-				input {
-					position: absolute;
-					padding: 5px 10px;
-					bottom: 0;
-					left: 0;
-					outline: 0;
-					font-size: 1em;
-					border: 0;
-					width: 100%;
-					background-color: transparent;
-					border-bottom: 2px solid gray;
-				}
-				input:focus {
-					border-bottom: 2px solid black;
-				}
-
-				input::placeholder {
-					color: transparent;
-					transition: 0.3s color;
-				}
-				input:focus + .label,
-				input:not(:placeholder-shown) + .label {
-					transform: translateY(-8px) scale(0.7);
-				}
-				input:focus::placeholder,
-				input:not(:placeholder-shown)::placeholder {
-					color: gray;
-				}
-			`}</style>
-			<label className="wrapper">
-				<input type="text" placeholder="This is a placeholder!" />
-				<div className="label">Name</div>
-			</label>
-		</div>
 	);
 };

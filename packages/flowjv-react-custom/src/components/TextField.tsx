@@ -38,13 +38,12 @@ export const TextField = ({
 					{...props}
 					style={{
 						...props.style,
-						borderBottomWidth: "var(--border-width)",
 					}}
 					value={value}
 					placeholder="This is a placeholder!"
 					readOnly={readOnly}
 					className={cx(
-						"outline-none border-b border-solid bg-transparent",
+						"outline-none border-0 border-b-2 border-solid bg-transparent",
 						{
 							"border-error focus:border-error":
 								hasErrors && !readOnly,

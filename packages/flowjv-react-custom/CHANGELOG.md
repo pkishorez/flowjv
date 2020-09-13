@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://mygithub/kishoreiiitn/cjv/compare/v0.5.3...v0.6.0) (2020-09-13)
+
+
+### Features
+
+* remove tailwind-base from flowjv-react-custom ([a255db3](https://mygithub/kishoreiiitn/cjv/commit/a255db3566304827d5e3c9148c9a9e5ea21694c2))
+
+
+
+
+
 ## [0.5.3](https://mygithub/kishoreiiitn/cjv/compare/v0.5.2...v0.5.3) (2020-08-08)
 
 **Note:** Version bump only for package flowjv-react-custom

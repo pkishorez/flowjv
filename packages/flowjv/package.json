@@ -1,6 +1,6 @@
 {
 	"name": "flowjv",
-	"version": "0.5.3",
+	"version": "0.6.0",
 	"description": "Flow based approach to JSON validation!",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -26,6 +26,5 @@
 	},
 	"author": "Kishore",
 	"license": "ISC",
-	"dependencies": {},
 	"gitHead": "6d29c6736857fedecc575f32e5ad84c792c65eab"
 }

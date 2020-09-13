@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/pkishoez/flowjv/compare/v0.5.3...v0.6.0) (2020-09-13)
+
+
+### Features
+
+* get rid of lodash ([b35b7cd](https://github.com/pkishoez/flowjv/commit/b35b7cdd22e30e30dd62af4660c4ed37810a0e10))
+* remove tailwind-base from flowjv-react-custom ([a255db3](https://github.com/pkishoez/flowjv/commit/a255db3566304827d5e3c9148c9a9e5ea21694c2))
+
+
+### BREAKING CHANGES
+
+* Now string in refPath cannot have bracket syntax. (i.e "arr[0]" is no more
+supported. Rather should be accessed through "arr.0"). Also, object properties in flowjv cannot have
+numerical index. Cannot even be casted to string. This maybe mitigated in future, but not now as per
+the design.
+
+
+
+
+
 ## [0.5.3](https://github.com/pkishoez/flowjv/compare/v0.5.2...v0.5.3) (2020-08-08)
 
 **Note:** Version bump only for package flowjv-workspace

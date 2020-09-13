@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.1](https://github.com/pkishoez/flowjv/compare/v0.6.0...v0.6.1) (2020-09-13)
+
+
+### Bug Fixes
+
+* fix styling after removing base ([9cabca1](https://github.com/pkishoez/flowjv/commit/9cabca1052302f4d1dd563dfd95ea6a496318f2b))
+
+
+
+
+
 # [0.6.0](https://github.com/pkishoez/flowjv/compare/v0.5.3...v0.6.0) (2020-09-13)
 
 

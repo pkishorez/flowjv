@@ -39,7 +39,6 @@
 		"sass": "^1.26.10",
 		"tailwindcss": "^1.6.0",
 		"ts-jest": "^26.1.4",
-		"ts-node": "^8.10.2",
 		"typescript": "^3.9.7"
 	},
 	"husky": {
@@ -51,8 +50,7 @@
 		"flowjv": "file:packages/flowjv",
 		"flowjv-builder": "file:packages/flowjv-builder",
 		"flowjv-react": "file:packages/flowjv-react",
-		"flowjv-react-custom": "file:packages/flowjv-react-custom",
-		"flowjv-react-material": "file:packages/flowjv-react-material"
+		"flowjv-react-custom": "file:packages/flowjv-react-custom"
 	},
 	"config": {
 		"commitizen": {

@@ -19,7 +19,7 @@
 	"author": "Kishore",
 	"license": "ISC",
 	"dependencies": {
-		"next": "^9.5.1"
+		"next": "10.0.3"
 	},
 	"peerDependencies": {
 		"react": "^16.13.1",

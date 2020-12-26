@@ -26,14 +26,20 @@ export const ifLogic = (
 			// delete false fields.
 			config.false?.forEach((v) => {
 				if (!config.true.find((v) => v.key === v.key)) {
-					data.data = unset(data.data, [...data.refPath, v.key]);
+					data.data = unset(
+						data.data,
+						data.refPath ? [...data.refPath, v.key] : [v.key]
+					);
 				}
 			});
 		} else {
 			// delete true fields.
 			config.true.forEach((v) => {
 				if (!config.true.find((v) => v.key === v.key)) {
-					data.data = unset(data.data, [...data.refPath, v.key]);
+					data.data = unset(
+						data.data,
+						data.refPath ? [...data.refPath, v.key] : [v.key]
+					);
 				}
 			});
 		}
@@ -61,9 +67,12 @@ export const switchLogic = (
 		// Delete keys of other cases.
 		for (const v of Object.keys(config.cases)) {
 			if (v !== cond) {
-				config.cases[v].forEach((prop) =>
-					unset(data.data, [...data.refPath, prop.key])
-				);
+				config.cases[v].forEach((prop) => {
+					const keyArray = data.refPath
+						? [...data.refPath, prop.key]
+						: [prop.key];
+					return unset(data.data, keyArray);
+				});
 			}
 		}
 	}

@@ -63,7 +63,9 @@ export const execObjectFlow = <IData, IContext>(
 			}
 			default: {
 				const { key } = config;
-				const newRefPath = [...data.refPath, key];
+				const newRefPath = data.refPath
+					? [...data.refPath, key]
+					: [key];
 				switch (config.type) {
 					case "object": {
 						const result = execObjectFlow(

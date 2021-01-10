@@ -49,3 +49,8 @@ export function executeValidations(
 		.map((validation) => executeValidation(validation, payload))
 		.filter((v) => v !== null) as string[];
 }
+
+let _id = 0;
+export function uniqueId(prefix = "") {
+	return `${prefix}${_id++}`;
+}

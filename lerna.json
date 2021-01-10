@@ -9,7 +9,5 @@
 			"message": "chore(release): release"
 		}
 	},
-	"version": "0.5.3",
-	"npmClient": "yarn",
-	"useWorkspaces": true
+	"version": "0.5.3"
 }

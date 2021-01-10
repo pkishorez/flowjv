@@ -18,35 +18,34 @@ interface ISimpleCommon {
 	};
 }
 
-export type ISimpleType<
-	IStringUI = any,
-	INumberUI = any,
-	IBooleanUI = any,
-	IEnumUI = any,
-	ICustomUI = any
-> = (
-	| ({
-			type: "string";
-			label?: string;
-	  } & { ui?: IStringUI })
-	| ({
-			type: "number";
-			label?: string;
-	  } & { ui?: INumberUI })
-	| ({
-			type: "boolean";
-			label?: string;
-	  } & { ui?: IBooleanUI })
-	| ({
-			type: "enum";
-			label?: string;
-			items: { label?: string; value: any }[];
-	  } & { ui?: IEnumUI })
-	| ({
-			type: "custom";
-	  } & { ui?: ICustomUI })
-) &
-	ISimpleCommon;
+export type ISimpleStringType = {
+	type: "string";
+	label?: string;
+} & ISimpleCommon;
+export type ISimpleNumberType = {
+	type: "number";
+	label?: string;
+} & ISimpleCommon;
+export type ISimpleBooleanType = {
+	type: "boolean";
+	label?: string;
+} & ISimpleCommon;
+export type ISimpleEnumType = {
+	type: "enum";
+	label?: string;
+	items: { label?: string; value: any }[];
+} & ISimpleCommon;
+
+export type ISimpleCustomType = {
+	type: "custom";
+} & ISimpleCommon;
+
+export type ISimpleType =
+	| ISimpleStringType
+	| ISimpleNumberType
+	| ISimpleBooleanType
+	| ISimpleEnumType
+	| ISimpleCustomType;
 
 export type ISimplePayload = IPayload & { refPath: IKeyPath };
 

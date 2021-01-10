@@ -35,7 +35,7 @@ export type ITernaryOperation = ["?:", [IExpression, IExpression, IExpression]];
 export type INegationOperation = ["!", IExpression];
 
 export type ILogicalOperation =
-	| ["enum", IExpression, IExpression[]]
+	| ["enum", IExpression, IMin2ElemArray<IExpression>]
 	| ["===", IMin2ElemArray<IExpression>]
 	| ["!==", IMin2ElemArray<IExpression>]
 	| ["||", IMin2ElemArray<IExpression>]
@@ -242,3 +242,33 @@ const helper = {
 		return true;
 	},
 };
+
+export function getDependencies(expr: IExpression) {
+	const dependsOn: { data: string[]; context: string[] } = {
+		data: [],
+		context: [],
+	};
+	if (
+		typeof expr === "number" ||
+		typeof expr === "string" ||
+		typeof expr === "boolean" ||
+		typeof expr === "function"
+	) {
+		return dependsOn;
+	}
+	switch (expr[0]) {
+		case "$context":
+			dependsOn.context.push(expr[1]);
+			break;
+		case "$data":
+			dependsOn.data.push(expr[1]);
+			break;
+		// string
+		case "str:len":
+		case "str:fmt:email":
+			const result = getDependencies(expr[1]);
+		default:
+			break;
+	}
+	return dependsOn;
+}

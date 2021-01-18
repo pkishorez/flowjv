@@ -49,6 +49,7 @@
 	},
 	"dependencies": {
 		"flowjv": "file:packages/flowjv",
+		"flowjv-builder": "file:packages/flowjv-builder",
 		"flowjv-react": "file:packages/flowjv-react",
 		"flowjv-react-custom": "file:packages/flowjv-react-custom"
 	},

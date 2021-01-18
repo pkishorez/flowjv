@@ -1,7 +1,7 @@
-import { flowSchema, validateJSONFlow } from "../index";
+import { validateJSONFlow } from "../index";
 
 describe("FlowJV test:", () => {
-	const fschema = flowSchema({
+	const fschema = {
 		type: "object",
 		properties: [
 			{
@@ -21,10 +21,10 @@ describe("FlowJV test:", () => {
 				],
 			},
 		],
-	});
+	};
 	it("Object nested test", () => {
 		const result = validateJSONFlow(
-			fschema,
+			fschema as any,
 			{ data: { profile: { name: "Kishore" } } },
 			{}
 		);

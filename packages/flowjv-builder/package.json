@@ -1,0 +1,29 @@
+{
+	"name": "flowjv-builder",
+	"version": "0.5.3",
+	"description": "FlowJV Builder!",
+	"scripts": {
+		"prepare": "npm run build",
+		"dev": "../../node_modules/.bin/next dev",
+		"build": "rm -rf ./dist && ../../node_modules/.bin/next build"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"keywords": [
+		"json-validation"
+	],
+	"files": [
+		"dist/**"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kishoreiiitn/flowjv"
+	},
+	"author": "Kishore",
+	"license": "ISC",
+	"dependencies": {
+		"next": "^10.0.5"
+	},
+	"gitHead": "6d29c6736857fedecc575f32e5ad84c792c65eab"
+}

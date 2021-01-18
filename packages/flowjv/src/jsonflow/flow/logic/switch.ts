@@ -4,13 +4,13 @@ import { IJSONExpression } from "../../..";
 import { IObjectType, validateObjectType } from "../composite/object";
 import { execJSONExpression } from "../../../jsonexpression";
 
-export type ISwitchType = {
+export type ISwitchType<IExtend = {}> = {
 	type: "switch";
 	switch: IJSONExpression;
 	cases: {
 		[key: string]: IObjectType;
 	};
-};
+} & IExtend;
 
 export type ISwitchPayload = IPayload & { refPath: IKeyPath };
 

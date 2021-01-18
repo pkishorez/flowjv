@@ -7,6 +7,7 @@ import {
 } from "../helper";
 import { IExpression } from "flowjv/src/jsonexpression";
 import { get, IKeyPath } from "../../../helper/immutable";
+import { IJSONExpression } from "../../..";
 
 interface ISimpleCommon {
 	isRequired?: boolean;
@@ -18,34 +19,58 @@ interface ISimpleCommon {
 	};
 }
 
-export type ISimpleStringType = {
+export type ISimpleStringType<uiType = any> = {
 	type: "string";
 	label?: string;
+	ui?: {
+		dependsOn?: IJSONExpression[];
+	} & uiType;
 } & ISimpleCommon;
-export type ISimpleNumberType = {
+export type ISimpleNumberType<uiType = any> = {
 	type: "number";
 	label?: string;
+	ui?: {
+		dependsOn?: IJSONExpression[];
+	} & uiType;
 } & ISimpleCommon;
-export type ISimpleBooleanType = {
+export type ISimpleBooleanType<uiType = any> = {
 	type: "boolean";
 	label?: string;
+	ui?: {
+		dependsOn?: IJSONExpression[];
+	} & uiType;
 } & ISimpleCommon;
-export type ISimpleEnumType = {
+export type ISimpleEnumType<uiType = any> = {
 	type: "enum";
 	label?: string;
 	items: { label?: string; value: any }[];
+	ui?: {
+		dependsOn?: IJSONExpression[];
+	} & uiType;
 } & ISimpleCommon;
 
-export type ISimpleCustomType = {
+export type ISimpleCustomType<uiType = any> = {
 	type: "custom";
+	ui?: {
+		dependsOn?: IJSONExpression[];
+	} & uiType;
 } & ISimpleCommon;
 
-export type ISimpleType =
-	| ISimpleStringType
-	| ISimpleNumberType
-	| ISimpleBooleanType
-	| ISimpleEnumType
-	| ISimpleCustomType;
+export type ISimpleType<
+	IExtend = {},
+	stringUI = any,
+	numberUI = any,
+	booleanUI = any,
+	enumUI = any,
+	customUI = any
+> = (
+	| ISimpleStringType<stringUI>
+	| ISimpleNumberType<numberUI>
+	| ISimpleBooleanType<booleanUI>
+	| ISimpleEnumType<enumUI>
+	| ISimpleCustomType<customUI>
+) &
+	IExtend;
 
 export type ISimplePayload = IPayload & { refPath: IKeyPath };
 

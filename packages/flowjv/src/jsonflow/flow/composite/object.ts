@@ -4,18 +4,19 @@ import { ISimpleType, validateSimpleType } from "../simple";
 import { IIfConditionType, validateIfCondition } from "../logic/if";
 import { ISwitchType, validateSwitchCondition } from "../logic/switch";
 
-type IObjectProperty = (
-	| ISimpleType
-	| IObjectType
-	| IIfConditionType
-	| ISwitchType
+type IObjectProperty<IExtend = {}> = ((
+	| ISimpleType<IExtend>
+	| IObjectType<IExtend>
+	| IIfConditionType<IExtend>
+	| ISwitchType<IExtend>
 ) & {
 	key: string;
-};
-export type IObjectType = {
+}) &
+	IExtend;
+export type IObjectType<IExtend = {}> = {
 	type: "object";
-	properties: IObjectProperty[];
-};
+	properties: IObjectProperty<IExtend>[];
+} & IExtend;
 
 export type IObjectPayload<IData, IContext> = IPayload<IData, IContext> & {
 	refPath: IKeyPath;

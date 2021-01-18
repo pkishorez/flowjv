@@ -10,6 +10,3 @@ export const validateJSONFlow = <IData = any, IContext = any>(
 ) => {
 	return validateObjectType(schema, { ...payload, refPath: [] }, config);
 };
-
-export const flowSchema = (flowSchema: IFlowSchema) =>
-	flowSchema as IFlowSchema;

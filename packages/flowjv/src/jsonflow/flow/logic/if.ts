@@ -4,12 +4,12 @@ import { IJSONExpression } from "../../..";
 import { IObjectType, validateObjectType } from "../composite/object";
 import { execJSONExpression } from "../../../jsonexpression";
 
-export type IIfConditionType = {
+export type IIfConditionType<IExtend = {}> = {
 	type: "if";
 	cond: IJSONExpression;
-	true: IObjectType;
-	false?: IObjectType;
-};
+	true: IObjectType<IExtend>;
+	false?: IObjectType<IExtend>;
+} & IExtend;
 
 export type IIfPayload = IPayload & { refPath: IKeyPath };
 

@@ -1,7 +1,7 @@
 import { IJSONExpression } from "../..";
 import { IKeyPath } from "../../helper/immutable";
 import { execJSONExpression } from "../../jsonexpression";
-import { validateJSONFlow } from "../../jsonflow";
+import { validateJSONFlow } from "..";
 import { ISimplePayload } from "./simple";
 
 export interface IValidation {

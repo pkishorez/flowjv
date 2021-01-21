@@ -30,4 +30,34 @@ describe("simple type tests: ", () => {
 			).isValid
 		).toBe(true);
 	});
+	it("Validate enum type check", () => {
+		expect(
+			validateSimpleType(
+				{
+					type: "enum",
+					items: [{ value: "abc" }, { value: "def" }],
+				},
+				{
+					data: { name: "abc" },
+					refPath: ["name"],
+				},
+				{ typeCheck: true }
+			).isValid
+		).toBe(true);
+	});
+	it("Validate enum type check", () => {
+		expect(
+			validateSimpleType(
+				{
+					type: "enum",
+					items: [{ value: "abc" }, { value: "def" }],
+				},
+				{
+					data: { name: "ab" },
+					refPath: ["name"],
+				},
+				{ typeCheck: true }
+			).isValid
+		).toBe(false);
+	});
 });

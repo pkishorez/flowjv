@@ -1,17 +1,12 @@
-import {
-	ErrorMsgs,
-	executeValidations,
-	IFlowConfig,
-	IPayload,
-	IValidation,
-} from "../helper";
-import { IExpression } from "flowjv/src/jsonexpression";
-import { get, IKeyPath } from "../../../helper/immutable";
-import { IJSONExpression } from "../../..";
+import { ErrorMsgs, executeValidations } from "../helper";
+import type { IFlowConfig, IPayload, IValidation } from "../helper";
+import type { IExpression as IJSONExpression } from "../../../jsonexpression";
+import type { IKeyPath } from "../../../helper/immutable";
+import { get } from "../../../helper/immutable";
 
-interface ISimpleCommon {
+export interface ISimpleCommon {
 	isRequired?: boolean;
-	readOnly?: IExpression;
+	readOnly?: IJSONExpression;
 	validations?: IValidation[];
 	errMsgs?: {
 		type?: string;
@@ -22,31 +17,23 @@ interface ISimpleCommon {
 export type ISimpleStringType<uiType = any> = {
 	type: "string";
 	label?: string;
-	ui?: {
-		dependsOn?: IJSONExpression[];
-	} & uiType;
+	ui?: uiType;
 } & ISimpleCommon;
 export type ISimpleNumberType<uiType = any> = {
 	type: "number";
 	label?: string;
-	ui?: {
-		dependsOn?: IJSONExpression[];
-	} & uiType;
+	ui?: uiType;
 } & ISimpleCommon;
 export type ISimpleBooleanType<uiType = any> = {
 	type: "boolean";
 	label?: string;
-	ui?: {
-		dependsOn?: IJSONExpression[];
-	} & uiType;
+	ui?: uiType;
 } & ISimpleCommon;
 export type ISimpleEnumType<uiType = any> = {
 	type: "enum";
 	label?: string;
 	items: { label?: string; value: any }[];
-	ui?: {
-		dependsOn?: IJSONExpression[];
-	} & uiType;
+	ui?: uiType;
 } & ISimpleCommon;
 
 export type ISimpleCustomType<uiType = any> = {
@@ -83,15 +70,12 @@ export function validateSimpleType(
 	const errors: string[] = [];
 
 	// Required check
-	const isRequiredError =
-		(schema.isRequired && schema.type === "enum"
-			? schema.items.find(
-					(v) => v.value === get(payload.data, payload.refPath)
-			  ) === undefined
-			: get(payload.data, payload.refPath) === undefined) &&
-		schema.errMsgs?.required;
+	const isRequiredError = schema.isRequired
+		? get(payload.data, payload.refPath) === undefined
+		: false;
 
-	isRequiredError && errors.push(isRequiredError);
+	isRequiredError &&
+		errors.push(schema.errMsgs?.required || ErrorMsgs.required);
 
 	// Type check
 	if (config.typeCheck) {
@@ -102,13 +86,15 @@ export function validateSimpleType(
 			case "boolean":
 				const type = typeof value;
 				typeError =
+					value !== undefined &&
 					config.typeCheck &&
 					type !== schema.type &&
 					(schema.errMsgs?.type || ErrorMsgs.type);
 				break;
 			case "enum":
 				typeError =
-					!Array.isArray(value) &&
+					value !== undefined &&
+					schema.items.findIndex((v) => v.value === value) === -1 &&
 					(schema.errMsgs?.type || ErrorMsgs.type);
 		}
 		typeError && errors.push(typeError);
@@ -117,7 +103,6 @@ export function validateSimpleType(
 	// Validations
 	schema.validations &&
 		errors.push(...executeValidations(schema.validations, payload));
-	console.log("ERRORS : ", value, errors);
 	return {
 		isValid: errors.length === 0,
 		errors,

@@ -1,7 +1,6 @@
 import { IJSONExpression } from "../..";
 import { IKeyPath } from "../../helper/immutable";
 import { execJSONExpression } from "../../jsonexpression";
-import { validateJSONFlow } from "..";
 import { ISimplePayload } from "./simple";
 
 export interface IValidation {
@@ -21,6 +20,7 @@ export interface IPayload<IData = any, IContext = any> {
 export interface IFlowConfig {
 	aggressive?: boolean;
 	typeCheck?: boolean;
+	enforseSchema?: boolean;
 }
 
 // Error Messages
@@ -35,10 +35,6 @@ export function executeValidation(
 	payload: ISimplePayload
 ) {
 	const result = execJSONExpression(validation.logic, payload);
-	console.log(
-		"Validation : ",
-		JSON.stringify({ logic: validation.logic, payload, result })
-	);
 	return !result ? validation.err : null;
 }
 export function executeValidations(

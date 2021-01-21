@@ -1,14 +1,16 @@
 import { IFlowConfig, IPayload, IValidationResult } from "../helper";
 import { IKeyPath } from "../../../helper/immutable";
-import { IJSONExpression } from "../../..";
-import { IObjectType, validateObjectType } from "../composite/object";
-import { execJSONExpression } from "../../../jsonexpression";
+import { IObjectProperty, validateObjectProperties } from "../composite/object";
+import {
+	execJSONExpression,
+	IExpression as IJSONExpression,
+} from "../../../jsonexpression";
 
 export type ISwitchType<IExtend = {}> = {
 	type: "switch";
 	switch: IJSONExpression;
 	cases: {
-		[key: string]: IObjectType;
+		[key: string]: IObjectProperty[];
 	};
 } & IExtend;
 
@@ -21,7 +23,11 @@ export function validateSwitchCondition(
 ): IValidationResult {
 	const result = execJSONExpression(schema.switch, payload);
 	if (schema.cases[result as any]) {
-		return validateObjectType(schema.cases[result as any], payload, config);
+		return validateObjectProperties(
+			schema.cases[result as string],
+			payload,
+			config
+		);
 	}
 	return { isValid: true, errors: [] };
 }

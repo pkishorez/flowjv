@@ -1,15 +1,21 @@
 import { IFlowConfig, IPayload, IValidationResult } from "../helper";
-import { IKeyPath } from "../../../helper/immutable";
-import { IJSONExpression } from "../../..";
-import { IObjectType, validateObjectType } from "../composite/object";
-import { execJSONExpression } from "../../../jsonexpression";
+import { IKeyPath, unset } from "../../../helper/immutable";
+import {
+	IObjectCondition,
+	IObjectProperty,
+	validateObjectProperties,
+} from "../composite/object";
+import {
+	execJSONExpression,
+	IExpression as IJSONExpression,
+} from "../../../jsonexpression";
 
-export type IIfConditionType<IExtend = {}> = {
+export type IIfConditionType = {
 	type: "if";
 	cond: IJSONExpression;
-	true: IObjectType<IExtend>;
-	false?: IObjectType<IExtend>;
-} & IExtend;
+	true: (IObjectProperty | IObjectCondition)[];
+	false?: (IObjectProperty | IObjectCondition)[];
+};
 
 export type IIfPayload = IPayload & { refPath: IKeyPath };
 
@@ -21,10 +27,10 @@ export function validateIfCondition(
 	const cond = execJSONExpression(schema.cond, payload);
 	if (!!cond) {
 		// execute true object.
-		return validateObjectType(schema.true, payload, config);
+		return validateObjectProperties(schema.true, payload, config);
 	}
 	if (schema.false) {
-		return validateObjectType(schema.false, payload, config);
+		return validateObjectProperties(schema.false, payload, config);
 	}
 	return { isValid: true, errors: [] };
 }

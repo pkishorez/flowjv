@@ -30,4 +30,12 @@ describe("FlowJV test:", () => {
 		);
 		expect(result.isValid).toBe(true);
 	});
+	it("Object nested test failure", () => {
+		const result = validateJSONFlow(
+			fschema as any,
+			{ data: { profile: { name: "Ki" } } },
+			{}
+		);
+		expect(result.isValid).toBe(false);
+	});
 });

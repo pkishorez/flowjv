@@ -1,22 +1,18 @@
 import { IFlowConfig, IPayload, IValidationResult } from "../helper";
-import { IKeyPath } from "../../../helper/immutable";
+import { get, IKeyPath } from "../../../helper/immutable";
 import { ISimpleType, validateSimpleType } from "../simple";
 import { IIfConditionType, validateIfCondition } from "../logic/if";
 import { ISwitchType, validateSwitchCondition } from "../logic/switch";
 
-type IObjectProperty<IExtend = {}> = ((
-	| ISimpleType<IExtend>
-	| IObjectType<IExtend>
-	| IIfConditionType<IExtend>
-	| ISwitchType<IExtend>
-) & {
+export type IObjectCondition = IIfConditionType | ISwitchType;
+export type IObjectProperty = (ISimpleType | IObjectType) & {
 	key: string;
-}) &
-	IExtend;
-export type IObjectType<IExtend = {}> = {
+};
+
+export type IObjectType = {
 	type: "object";
-	properties: IObjectProperty<IExtend>[];
-} & IExtend;
+	properties: (IObjectProperty | IObjectCondition)[];
+};
 
 export type IObjectPayload<IData, IContext> = IPayload<IData, IContext> & {
 	refPath: IKeyPath;
@@ -27,11 +23,20 @@ export function validateObjectType<IData = any, IContext = any>(
 	payload: IObjectPayload<IData, IContext>,
 	config: IFlowConfig
 ): IValidationResult {
+	return validateObjectProperties(schema.properties, payload, config);
+}
+
+export function validateObjectProperties<IData = any, IContext = any>(
+	properties: IObjectType["properties"],
+	payload: IObjectPayload<IData, IContext>,
+	config: IFlowConfig
+): IValidationResult {
 	let errors: IValidationResult["errors"] = [];
-	for (const property of schema.properties) {
-		const refPath = [...payload.refPath, property.key];
+
+	for (const property of properties) {
 		switch (property.type) {
 			case "object": {
+				const refPath = [...payload.refPath, property.key];
 				const result = validateObjectType(
 					property,
 					{ ...payload, refPath },
@@ -41,24 +46,21 @@ export function validateObjectType<IData = any, IContext = any>(
 				break;
 			}
 			case "if": {
-				const result = validateIfCondition(
-					property,
-					{ ...payload, refPath },
-					config
-				);
+				const result = validateIfCondition(property, payload, config);
 				errors = [...errors, ...result.errors];
 				break;
 			}
 			case "switch": {
 				const result = validateSwitchCondition(
 					property,
-					{ ...payload, refPath },
+					payload,
 					config
 				);
 				errors = [...errors, ...result.errors];
 				break;
 			}
 			default: {
+				const refPath = [...payload.refPath, property.key];
 				const result = validateSimpleType(
 					property,
 					{ ...payload, refPath },

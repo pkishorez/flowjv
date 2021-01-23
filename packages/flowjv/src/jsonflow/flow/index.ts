@@ -1,15 +1,13 @@
 import { IObjectType, validateObjectType } from "./composite/object";
 import { IFlowConfig, IPayload } from "./helper";
-import { IIfConditionType } from "./logic/if";
-import { ISwitchType } from "./logic/switch";
-import { ISimpleType } from "./simple";
 
-export type IFlowSchema = IObjectType;
-export type IFlowAtom =
-	| IObjectType
-	| IIfConditionType
-	| ISwitchType
-	| ISimpleType;
+export type IFlowSchema<
+	A = any,
+	B = any,
+	C = any,
+	D = any,
+	E = any
+> = IObjectType<A, B, C, D, E>;
 
 export const validateJSONFlow = <IData = any, IContext = any>(
 	schema: IObjectType,

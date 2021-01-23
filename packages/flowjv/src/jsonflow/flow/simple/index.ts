@@ -44,20 +44,17 @@ export type ISimpleCustomType<uiType = any> = {
 } & ISimpleCommon;
 
 export type ISimpleType<
-	IExtend = {},
 	stringUI = any,
 	numberUI = any,
 	booleanUI = any,
 	enumUI = any,
 	customUI = any
-> = (
+> =
 	| ISimpleStringType<stringUI>
 	| ISimpleNumberType<numberUI>
 	| ISimpleBooleanType<booleanUI>
 	| ISimpleEnumType<enumUI>
-	| ISimpleCustomType<customUI>
-) &
-	IExtend;
+	| ISimpleCustomType<customUI>;
 
 export type ISimplePayload = IPayload & { refPath: IKeyPath };
 

@@ -4,14 +4,22 @@ import { ISimpleType, validateSimpleType } from "../simple";
 import { IIfConditionType, validateIfCondition } from "../logic/if";
 import { ISwitchType, validateSwitchCondition } from "../logic/switch";
 
-export type IObjectCondition = IIfConditionType | ISwitchType;
-export type IObjectProperty = (ISimpleType | IObjectType) & {
+export type IObjectCondition<A, B, C, D, E> =
+	| IIfConditionType<A, B, C, D, E>
+	| ISwitchType<A, B, C, D, E>;
+export type IObjectProperty<A = any, B = any, C = any, D = any, E = any> = (
+	| ISimpleType<A, B, C, D, E>
+	| IObjectType<A, B, C, D, E>
+) & {
 	key: string;
 };
 
-export type IObjectType = {
+export type IObjectType<A = any, B = any, C = any, D = any, E = any> = {
 	type: "object";
-	properties: (IObjectProperty | IObjectCondition)[];
+	properties: (
+		| IObjectProperty<A, B, C, D, E>
+		| IObjectCondition<A, B, C, D, E>
+	)[];
 };
 
 export type IObjectPayload<IData, IContext> = IPayload<IData, IContext> & {

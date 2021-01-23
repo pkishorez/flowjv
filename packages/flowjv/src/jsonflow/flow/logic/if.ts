@@ -1,5 +1,5 @@
 import { IFlowConfig, IPayload, IValidationResult } from "../helper";
-import { IKeyPath, unset } from "../../../helper/immutable";
+import { IKeyPath } from "../../../helper/immutable";
 import {
 	IObjectCondition,
 	IObjectProperty,
@@ -10,12 +10,15 @@ import {
 	IExpression as IJSONExpression,
 } from "../../../jsonexpression";
 
-export type IIfConditionType = {
+export type IIfConditionType<A = any, B = any, C = any, D = any, E = any> = {
 	type: "if";
 	blockId?: string;
 	cond: IJSONExpression;
-	true: (IObjectProperty | IObjectCondition)[];
-	false?: (IObjectProperty | IObjectCondition)[];
+	true: (IObjectProperty<A, B, C, D, E> | IObjectCondition<A, B, C, D, E>)[];
+	false?: (
+		| IObjectProperty<A, B, C, D, E>
+		| IObjectCondition<A, B, C, D, E>
+	)[];
 };
 
 export type IIfPayload = IPayload & { refPath: IKeyPath };

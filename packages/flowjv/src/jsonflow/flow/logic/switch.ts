@@ -6,14 +6,14 @@ import {
 	IExpression as IJSONExpression,
 } from "../../../jsonexpression";
 
-export type ISwitchType<IExtend = {}> = {
+export type ISwitchType<A = any, B = any, C = any, D = any, E = any> = {
 	type: "switch";
 	blockId?: string;
 	switch: IJSONExpression;
 	cases: {
-		[key: string]: IObjectProperty[];
+		[key: string]: IObjectProperty<A, B, C, D, E>[];
 	};
-} & IExtend;
+};
 
 export type ISwitchPayload = IPayload & { refPath: IKeyPath };
 

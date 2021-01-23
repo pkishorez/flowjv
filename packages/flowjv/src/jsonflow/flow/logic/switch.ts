@@ -8,6 +8,7 @@ import {
 
 export type ISwitchType<IExtend = {}> = {
 	type: "switch";
+	blockId?: string;
 	switch: IJSONExpression;
 	cases: {
 		[key: string]: IObjectProperty[];

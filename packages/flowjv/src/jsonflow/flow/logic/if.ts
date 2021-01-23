@@ -12,6 +12,7 @@ import {
 
 export type IIfConditionType = {
 	type: "if";
+	blockId?: string;
 	cond: IJSONExpression;
 	true: (IObjectProperty | IObjectCondition)[];
 	false?: (IObjectProperty | IObjectCondition)[];

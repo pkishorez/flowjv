@@ -1,5 +1,5 @@
 import { IFlowConfig, IPayload, IValidationResult } from "../helper";
-import { get, IKeyPath } from "../../../helper/immutable";
+import { IKeyPath } from "../../../helper/immutable";
 import { ISimpleType, validateSimpleType } from "../simple";
 import { IIfConditionType, validateIfCondition } from "../logic/if";
 import { ISwitchType, validateSwitchCondition } from "../logic/switch";

@@ -1,3 +1,5 @@
+import { isArray } from "lodash";
+import { IJSONExpression } from "..";
 import { get, IKeyPath } from "../helper/immutable";
 
 export type IExpression<IData = any, IContext = any> =
@@ -5,7 +7,11 @@ export type IExpression<IData = any, IContext = any> =
 	| string
 	| boolean
 	| IOperation<IData, IContext>
-	| IFunctionExectution<IData, IContext>;
+	| IFunctionExectution<IData, IContext>
+	| {
+			func: IFunctionExectution<IData, IContext>;
+			deps: { data?: string[]; context?: string[] };
+	  };
 
 type IFunctionExectution<IData, IContext> = ({
 	data,
@@ -79,6 +85,13 @@ export const execJSONExpression = <IData = any, IContext = any>(
 	}
 	if (typeof logic === "function") {
 		return logic({
+			data: data.data as Partial<IData>,
+			context: data.context as IContext,
+			ref: get(data.data, data.refPath),
+		});
+	}
+	if (!Array.isArray(logic) && typeof logic === "object") {
+		return logic.func({
 			data: data.data as Partial<IData>,
 			context: data.context as IContext,
 			ref: get(data.data, data.refPath),
@@ -243,6 +256,25 @@ const helper = {
 	},
 };
 
+const argsStructure = {
+	ARG: <IOperation[0][]>["str:fmt:email", "str:len", "!"],
+	ARGS_ARRAY: <IOperation[0][]>[
+		"===",
+		"!==",
+		"||",
+		"&&",
+		">",
+		"<",
+		">=",
+		"<=",
+		"+",
+		"-",
+		"*",
+		"/",
+		"%",
+	],
+	COMMAND__ARG_ARGS_ARRAY: <IOperation[0][]>["enum"],
+};
 export function getDependencies(expr: IExpression) {
 	const dependsOn: { data: string[]; context: string[] } = {
 		data: [],
@@ -256,19 +288,62 @@ export function getDependencies(expr: IExpression) {
 	) {
 		return dependsOn;
 	}
+	if (!isArray(expr) && typeof expr === "object") {
+		return expr.deps;
+	}
+	// Logic for dependencies goes here.
+	let args: IJSONExpression[] = [];
 	switch (expr[0]) {
-		case "$context":
-			dependsOn.context.push(expr[1]);
+		case "!":
+		case "str:fmt:email":
+		case "str:len":
+			args.push(expr[1]);
+			break;
+		case "===":
+		case "!==":
+		case "||":
+		case "&&":
+		case ">":
+		case "<":
+		case ">=":
+		case "<=":
+		case "+":
+		case "-":
+		case "*":
+		case "/":
+		case "%":
+			args.push(...expr[1]);
+			break;
+		case "enum":
+			args.push(expr[1], ...expr[2]);
 			break;
 		case "$data":
-			dependsOn.data.push(expr[1]);
-			break;
-		// string
-		case "str:len":
-		case "str:fmt:email":
-			const result = getDependencies(expr[1]);
-		default:
-			break;
+			return { ...dependsOn, data: [...dependsOn.data, expr[1]] };
+		case "$context":
+			return { ...dependsOn, context: [...dependsOn.context, expr[1]] };
+	}
+	for (const arg of args) {
+		if (
+			typeof arg === "number" ||
+			typeof arg === "string" ||
+			typeof arg === "boolean"
+		) {
+			continue;
+		}
+		if (typeof arg === "function") {
+			return null;
+		}
+		if (!isArray(arg) && typeof arg === "object") {
+			arg.deps?.data && dependsOn.data.push(...arg.deps?.data);
+			arg.deps?.context && dependsOn.context.push(...arg.deps?.context);
+			continue;
+		}
+		const deps = getDependencies(arg);
+		if (deps === null) {
+			return null;
+		}
+		deps.data && dependsOn.data.push(...deps.data);
+		deps.context && dependsOn.context.push(...deps.context);
 	}
 	return dependsOn;
 }

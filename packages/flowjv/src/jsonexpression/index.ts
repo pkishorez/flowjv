@@ -256,25 +256,7 @@ const helper = {
 	},
 };
 
-const argsStructure = {
-	ARG: <IOperation[0][]>["str:fmt:email", "str:len", "!"],
-	ARGS_ARRAY: <IOperation[0][]>[
-		"===",
-		"!==",
-		"||",
-		"&&",
-		">",
-		"<",
-		">=",
-		"<=",
-		"+",
-		"-",
-		"*",
-		"/",
-		"%",
-	],
-	COMMAND__ARG_ARGS_ARRAY: <IOperation[0][]>["enum"],
-};
+// If getDependencies return null, it means it dependencies cannot be determined.
 export function getDependencies(expr: IExpression) {
 	const dependsOn: { data: string[]; context: string[] } = {
 		data: [],
@@ -283,10 +265,12 @@ export function getDependencies(expr: IExpression) {
 	if (
 		typeof expr === "number" ||
 		typeof expr === "string" ||
-		typeof expr === "boolean" ||
-		typeof expr === "function"
+		typeof expr === "boolean"
 	) {
 		return dependsOn;
+	}
+	if (typeof expr === "function") {
+		return null;
 	}
 	if (!isArray(expr) && typeof expr === "object") {
 		return expr.deps;

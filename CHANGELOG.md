@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/pkishoez/flowjv/compare/v0.5.3...v0.7.0) (2021-02-10)
+
+
+### Bug Fixes
+
+* refpath types. Move to yarn workspace. ([ecb804c](https://github.com/pkishoez/flowjv/commit/ecb804c50c7fc5351ce2404bc1c93745bf619bb5))
+
+
+### Features
+
+* add ability to extract dependencies from a JSON Expression ([fd386fa](https://github.com/pkishoez/flowjv/commit/fd386fa83e032041a6bd962de65f18da70dee022))
+* add ability to extract dependencies from JSON expression! ([eb14141](https://github.com/pkishoez/flowjv/commit/eb141412b2913160b113ff31c15bbdddcd2f970b))
+* add ability to nest if blocks. Complete changeover to the internal logic ([aa532b8](https://github.com/pkishoez/flowjv/commit/aa532b852cefd993d439f9ffe8af5c5043c3d877))
+* add UI types to flowjv ([887368c](https://github.com/pkishoez/flowjv/commit/887368ca88438789c592234808b4344363beb64a))
+* add utilitiies to navigate the schema ([d96a980](https://github.com/pkishoez/flowjv/commit/d96a980ff0e2e814e84ebc0e7fc5b599389625a9))
+* change complete architecture of flowjv ([52092a5](https://github.com/pkishoez/flowjv/commit/52092a56fed60ce65f96eb96a3b4208beee7d9ed))
+* get rid of lodash ([b35b7cd](https://github.com/pkishoez/flowjv/commit/b35b7cdd22e30e30dd62af4660c4ed37810a0e10))
+
+
+### BREAKING CHANGES
+
+* FlowJV is complete rewritten. The underlying principles remain same, but the schema
+is significantly modified. Now FlowJV has better types support, seamless nested conditional blocks,
+automatically infer data dependencies from JSON expression. Now flowjv-react-custom package uses
+material ui and not custom css as was the case before.
+* Now string in refPath cannot have bracket syntax. (i.e "arr[0]" is no more
+supported. Rather should be accessed through "arr.0"). Also, object properties in flowjv cannot have
+numerical index. Cannot even be casted to string. This maybe mitigated in future, but not now as per
+the design.
+
+
+
+
+
 # [0.6.0](https://github.com/pkishoez/flowjv/compare/v0.5.3...v0.6.0) (2021-02-10)
 
 

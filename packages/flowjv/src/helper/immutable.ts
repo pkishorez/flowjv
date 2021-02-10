@@ -1,5 +1,8 @@
 export type IKeyPath = (string | number)[];
 
+export const stringToKeyPath = (path: string) =>
+	normalizeKeyPath(path.split("."));
+
 export const normalizeKeyPath = (keyPath: IKeyPath) => {
 	return keyPath
 		.map((key) => (isNaN(parseInt(key + "")) ? key : parseInt(key + "")))
@@ -80,9 +83,6 @@ export const Immutable = (obj: any) => {
 		unset(keyPath: IKeyPath) {
 			return Immutable(unset(obj, keyPath));
 		},
-		append(key: string[], value: any) {},
-		prepend(key: string[], value: any) {},
-		insert(key: string[], value: any, index: any) {},
 		value() {
 			return obj;
 		},

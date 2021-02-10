@@ -4,7 +4,7 @@
 	"description": "FlowJV Builder!",
 	"scripts": {
 		"prepare": "npm run build",
-		"dev": "../../node_modules/.bin/next dev",
+		"dev": "../../node_modules/.bin/next dev -p 3333",
 		"build": "rm -rf ./dist && ../../node_modules/.bin/next build"
 	},
 	"publishConfig": {
@@ -23,6 +23,10 @@
 	"author": "Kishore",
 	"license": "ISC",
 	"dependencies": {
+		"classnames": "^2.2.6",
+		"flowjv": "^0.5.3",
+		"flowjv-react": "^0.5.3",
+		"flowjv-react-custom": "^0.5.3",
 		"next": "^10.0.5"
 	},
 	"gitHead": "6d29c6736857fedecc575f32e5ad84c792c65eab"

@@ -6,12 +6,20 @@ import {
 	IExpression as IJSONExpression,
 } from "../../../jsonexpression";
 
-export type ISwitchType<A = any, B = any, C = any, D = any, E = any> = {
+export type ISwitchType<
+	IData = {},
+	IContext = {},
+	A = {},
+	B = {},
+	C = {},
+	D = {},
+	E = {}
+> = {
 	type: "switch";
 	blockId?: string;
-	switch: IJSONExpression;
+	switch: IJSONExpression<IData, IContext>;
 	cases: {
-		[key: string]: IObjectProperty<A, B, C, D, E>[];
+		[key: string]: IObjectProperty<IData, IContext, A, B, C, D, E>[];
 	};
 };
 

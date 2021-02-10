@@ -3,8 +3,8 @@ import { IKeyPath } from "../../helper/immutable";
 import { execJSONExpression } from "../../jsonexpression";
 import { ISimplePayload } from "./simple";
 
-export interface IValidation {
-	logic: IJSONExpression;
+export interface IValidation<IData = {}, IContext = {}> {
+	logic: IJSONExpression<IData, IContext>;
 	err: string;
 }
 export interface IValidationResult {

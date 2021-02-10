@@ -2,16 +2,18 @@ import { IObjectType, validateObjectType } from "./composite/object";
 import { IFlowConfig, IPayload } from "./helper";
 
 export type IFlowSchema<
-	A = any,
-	B = any,
-	C = any,
-	D = any,
-	E = any
-> = IObjectType<A, B, C, D, E>;
+	IData = {},
+	IContext = {},
+	A = {},
+	B = {},
+	C = {},
+	D = {},
+	E = {}
+> = IObjectType<IData, IContext, A, B, C, D, E>;
 
-export const validateJSONFlow = <IData = any, IContext = any>(
-	schema: IObjectType,
-	payload: IPayload<IData, IContext>,
+export const validateJSONFlow = (
+	schema: IFlowSchema,
+	payload: IPayload,
 	config: IFlowConfig
 ) => {
 	return validateObjectType(schema, { ...payload, refPath: [] }, config);

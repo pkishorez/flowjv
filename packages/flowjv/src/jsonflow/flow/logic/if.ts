@@ -10,14 +10,25 @@ import {
 	IExpression as IJSONExpression,
 } from "../../../jsonexpression";
 
-export type IIfConditionType<A = any, B = any, C = any, D = any, E = any> = {
+export type IIfConditionType<
+	IData = {},
+	IContext = {},
+	A = {},
+	B = {},
+	C = {},
+	D = {},
+	E = {}
+> = {
 	type: "if";
 	blockId?: string;
-	cond: IJSONExpression;
-	true: (IObjectProperty<A, B, C, D, E> | IObjectCondition<A, B, C, D, E>)[];
+	cond: IJSONExpression<IData, IContext>;
+	true: (
+		| IObjectProperty<IData, IContext, A, B, C, D, E>
+		| IObjectCondition<IData, IContext, A, B, C, D, E>
+	)[];
 	false?: (
-		| IObjectProperty<A, B, C, D, E>
-		| IObjectCondition<A, B, C, D, E>
+		| IObjectProperty<IData, IContext, A, B, C, D, E>
+		| IObjectCondition<IData, IContext, A, B, C, D, E>
 	)[];
 };
 

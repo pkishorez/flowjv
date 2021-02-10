@@ -4,39 +4,75 @@ import { ISimpleType, validateSimpleType } from "../simple";
 import { IIfConditionType, validateIfCondition } from "../logic/if";
 import { ISwitchType, validateSwitchCondition } from "../logic/switch";
 
-export type IObjectCondition<A, B, C, D, E> =
-	| IIfConditionType<A, B, C, D, E>
-	| ISwitchType<A, B, C, D, E>;
-export type IObjectProperty<A = any, B = any, C = any, D = any, E = any> = (
-	| ISimpleType<A, B, C, D, E>
-	| IObjectType<A, B, C, D, E>
+export type IObjectCondition<
+	IData = {},
+	IContext = {},
+	A = {},
+	B = {},
+	C = {},
+	D = {},
+	E = {}
+> =
+	| IIfConditionType<IData, IContext, A, B, C, D, E>
+	| ISwitchType<IData, IContext, A, B, C, D, E>;
+export type IObjectProperty<
+	IData = {},
+	IContext = {},
+	A = {},
+	B = {},
+	C = {},
+	D = {},
+	E = {}
+> = (
+	| ISimpleType<IData, IContext, A, B, C, D, E>
+	| IObjectType<IData, IContext, A, B, C, D, E>
 ) & {
 	key: string;
 };
 
-export type IObjectType<A = any, B = any, C = any, D = any, E = any> = {
+export type IObjectPropertyAndCondition<
+	IData = {},
+	IContext = {},
+	A = {},
+	B = {},
+	C = {},
+	D = {},
+	E = {}
+> =
+	| IObjectCondition<IData, IContext, A, B, C, D, E>
+	| IObjectProperty<IData, IContext, A, B, C, D, E>;
+
+export type IObjectType<
+	IData = {},
+	IContext = {},
+	A = {},
+	B = {},
+	C = {},
+	D = {},
+	E = {}
+> = {
 	type: "object";
 	properties: (
-		| IObjectProperty<A, B, C, D, E>
-		| IObjectCondition<A, B, C, D, E>
+		| IObjectProperty<IData, IContext, A, B, C, D, E>
+		| IObjectCondition<IData, IContext, A, B, C, D, E>
 	)[];
 };
 
-export type IObjectPayload<IData, IContext> = IPayload<IData, IContext> & {
+export type IObjectPayload = IPayload & {
 	refPath: IKeyPath;
 };
 
-export function validateObjectType<IData = any, IContext = any>(
+export function validateObjectType(
 	schema: IObjectType,
-	payload: IObjectPayload<IData, IContext>,
+	payload: IObjectPayload,
 	config: IFlowConfig
 ): IValidationResult {
 	return validateObjectProperties(schema.properties, payload, config);
 }
 
-export function validateObjectProperties<IData = any, IContext = any>(
+export function validateObjectProperties(
 	properties: IObjectType["properties"],
-	payload: IObjectPayload<IData, IContext>,
+	payload: IObjectPayload,
 	config: IFlowConfig
 ): IValidationResult {
 	let errors: IValidationResult["errors"] = [];

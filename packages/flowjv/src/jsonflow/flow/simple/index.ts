@@ -1,60 +1,72 @@
 import { ErrorMsgs, executeValidations } from "../helper";
 import type { IFlowConfig, IPayload, IValidation } from "../helper";
-import type { IExpression as IJSONExpression } from "../../../jsonexpression";
 import type { IKeyPath } from "../../../helper/immutable";
 import { get } from "../../../helper/immutable";
 
-export interface ISimpleCommon {
+export interface ISimpleCommon<IData = {}, IContext = {}> {
 	isRequired?: boolean;
-	readOnly?: IJSONExpression;
-	validations?: IValidation[];
+	validations?: IValidation<IData, IContext>[];
 	errMsgs?: {
 		type?: string;
 		required?: string;
 	};
 }
 
-export type ISimpleStringType<uiType = any> = {
+export type ISimpleStringType<
+	IData = {},
+	IContext = {},
+	uiType = {}
+> = uiType & {
 	type: "string";
 	label?: string;
-	ui?: uiType;
-} & ISimpleCommon;
-export type ISimpleNumberType<uiType = any> = {
+} & ISimpleCommon<IData, IContext>;
+
+export type ISimpleNumberType<
+	IData = {},
+	IContext = {},
+	uiType = {}
+> = uiType & {
 	type: "number";
 	label?: string;
-	ui?: uiType;
-} & ISimpleCommon;
-export type ISimpleBooleanType<uiType = any> = {
+} & ISimpleCommon<IData, IContext>;
+
+export type ISimpleBooleanType<
+	IData = {},
+	IContext = {},
+	uiType = {}
+> = uiType & {
 	type: "boolean";
 	label?: string;
-	ui?: uiType;
-} & ISimpleCommon;
-export type ISimpleEnumType<uiType = any> = {
+} & ISimpleCommon<IData, IContext>;
+
+export type ISimpleEnumType<IData = {}, IContext = {}, uiType = {}> = uiType & {
 	type: "enum";
 	label?: string;
 	items: { label?: string; value: any }[];
-	ui?: uiType;
-} & ISimpleCommon;
+} & ISimpleCommon<IData, IContext>;
 
-export type ISimpleCustomType<uiType = any> = {
+export type ISimpleCustomType<
+	IData = {},
+	IContext = {},
+	uiType = {}
+> = uiType & {
 	type: "custom";
-	ui?: {
-		dependsOn?: IJSONExpression[];
-	} & uiType;
-} & ISimpleCommon;
+} & ISimpleCommon<IData, IContext>;
 
 export type ISimpleType<
-	stringUI = any,
-	numberUI = any,
-	booleanUI = any,
-	enumUI = any,
-	customUI = any
+	IData = {},
+	IContext = {},
+	stringUI = {},
+	numberUI = {},
+	booleanUI = {},
+	enumUI = {},
+	customUI = {}
 > =
-	| ISimpleStringType<stringUI>
-	| ISimpleNumberType<numberUI>
-	| ISimpleBooleanType<booleanUI>
-	| ISimpleEnumType<enumUI>
-	| ISimpleCustomType<customUI>;
+	| ISimpleStringType<IData, IContext, stringUI>
+	| ISimpleNumberType<IData, IContext, numberUI>
+	| ISimpleBooleanType<IData, IContext, booleanUI>
+	| ISimpleEnumType<IData, IContext, enumUI>
+	| ISimpleCustomType<IData, IContext, customUI>;
 
 export type ISimplePayload = IPayload & { refPath: IKeyPath };
 

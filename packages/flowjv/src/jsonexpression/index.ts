@@ -1,4 +1,3 @@
-import { isArray } from "lodash";
 import { IJSONExpression } from "..";
 import { get, IKeyPath } from "../helper/immutable";
 
@@ -272,7 +271,7 @@ export function getDependencies(expr: IExpression) {
 	if (typeof expr === "function") {
 		return null;
 	}
-	if (!isArray(expr) && typeof expr === "object") {
+	if (!Array.isArray(expr) && typeof expr === "object") {
 		return expr.deps;
 	}
 	// Logic for dependencies goes here.
@@ -317,7 +316,7 @@ export function getDependencies(expr: IExpression) {
 		if (typeof arg === "function") {
 			return null;
 		}
-		if (!isArray(arg) && typeof arg === "object") {
+		if (!Array.isArray(arg) && typeof arg === "object") {
 			arg.deps?.data && dependsOn.data.push(...arg.deps?.data);
 			arg.deps?.context && dependsOn.context.push(...arg.deps?.context);
 			continue;

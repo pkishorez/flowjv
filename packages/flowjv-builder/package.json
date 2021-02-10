@@ -1,6 +1,6 @@
 {
 	"name": "flowjv-builder",
-	"version": "0.7.0",
+	"version": "0.7.1",
 	"description": "FlowJV Builder!",
 	"scripts": {
 		"prepare": "npm run build",
@@ -24,9 +24,9 @@
 	"license": "ISC",
 	"dependencies": {
 		"classnames": "^2.2.6",
-		"flowjv": "^0.7.0",
-		"flowjv-react": "^0.7.0",
-		"flowjv-react-custom": "^0.7.0",
+		"flowjv": "^0.7.1",
+		"flowjv-react": "^0.7.1",
+		"flowjv-react-custom": "^0.7.1",
 		"next": "^10.0.5"
 	},
 	"gitHead": "6d29c6736857fedecc575f32e5ad84c792c65eab"

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com-pkishoez/pkishoez/flowjv/compare/v0.5.3...v0.6.0) (2021-02-10)
+
+
+### Features
+
+* add ability to nest if blocks. Complete changeover to the internal logic ([aa532b8](https://github.com-pkishoez/pkishoez/flowjv/commit/aa532b852cefd993d439f9ffe8af5c5043c3d877))
+
+
+### BREAKING CHANGES
+
+* FlowJV is complete rewritten. The underlying principles remain same, but the schema
+is significantly modified. Now FlowJV has better types support, seamless nested conditional blocks,
+automatically infer data dependencies from JSON expression. Now flowjv-react-custom package uses
+material ui and not custom css as was the case before.
+
+
+
+
+
 ## [0.5.3](https://mygithub/kishoreiiitn/cjv/compare/v0.5.2...v0.5.3) (2020-08-08)
 
 **Note:** Version bump only for package flowjv-react-custom

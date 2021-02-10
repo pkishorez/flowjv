@@ -1,5 +1,7 @@
 {
-	"packages": ["packages/*"],
+	"packages": [
+		"packages/*"
+	],
 	"command": {
 		"publish": {
 			"conventionalCommits": true,
@@ -9,5 +11,5 @@
 			"message": "chore(release): release"
 		}
 	},
-	"version": "0.5.3"
+	"version": "0.6.0"
 }

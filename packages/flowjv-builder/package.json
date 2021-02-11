@@ -5,7 +5,9 @@
 	"scripts": {
 		"prepare": "npm run build",
 		"dev": "../../node_modules/.bin/next dev -p 3333",
-		"build": "rm -rf ./dist && ../../node_modules/.bin/next build"
+		"build": "NODE_ENV=production rm -rf ./dist && ../../node_modules/.bin/next build",
+		"export": "NODE_ENV=production npm run build && NODE_ENV=production ../../node_modules/.bin/next export",
+		"test": "echo 'NO TESTS!'"
 	},
 	"publishConfig": {
 		"access": "public"

@@ -94,7 +94,6 @@ export function FlowJVForm<
 				setValue: (key: IKeyPath, value: any) => {
 					const path = key.join(".");
 					data.current = set(data.current, key, value);
-					console.log("DATA CURRENT : ", data.current);
 					subscribers.current.data[path]?.forEach((func) =>
 						func({ data: data.current, context: context.current })
 					);

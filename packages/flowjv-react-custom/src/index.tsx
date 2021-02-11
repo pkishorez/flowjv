@@ -14,8 +14,8 @@ import {
 	RadioGroup,
 } from "@material-ui/core";
 
-function Wrapper({ children }: any) {
-	return <div style={{ marginTop: 10 }}>{children}</div>;
+function Wrapper({ children, style }: any) {
+	return <div style={{ marginTop: 10, ...style }}>{children}</div>;
 }
 export const { FlowJVForm, flowSchema } = setupFlowJV<
 	{
@@ -67,7 +67,7 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 			const id = `select-+${path.join(".")}`;
 			const { uiType = "select" } = schema;
 			return (
-				<Wrapper>
+				<Wrapper style={{ marginTop: 15 }}>
 					{uiType === "select" && (
 						<FormControl
 							key="select"
@@ -130,6 +130,7 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 						<FormControlLabel
 							control={
 								<Checkbox
+									style={{ padding: "0px 9px" }}
 									onFocus={() => onTouch(true)}
 									checked={value ?? false}
 									onChange={(e) =>

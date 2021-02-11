@@ -92,7 +92,6 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 		subscribeAll,
 	} = useContext(flowJVContext);
 	const path = keyPath.join(".");
-	console.log("PATH : ", path);
 
 	const [errors, setErrors] = useState<string[]>([]);
 	const [schema, setSchema] = useState<ISimpleType | null>(null);

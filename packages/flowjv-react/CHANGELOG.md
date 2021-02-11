@@ -3,6 +3,81 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com-pkishoez/pkishoez/flowjv/compare/v0.7.3...v0.8.0) (2021-02-11)
+
+
+### Features
+
+* add ability to use dependencies for rendering only relevant fields ([fe16e91](https://github.com-pkishoez/pkishoez/flowjv/commit/fe16e915618cc4e573784ce65bf363704724122b))
+
+
+
+
+
+## [0.7.3](https://github.com-pkishoez/pkishoez/flowjv/compare/v0.7.2...v0.7.3) (2021-02-10)
+
+**Note:** Version bump only for package flowjv-react
+
+
+
+
+
+## [0.7.2](https://github.com-pkishoez/pkishoez/flowjv/compare/v0.7.1...v0.7.2) (2021-02-10)
+
+**Note:** Version bump only for package flowjv-react
+
+
+
+
+
+## [0.7.1](https://github.com-pkishoez/pkishoez/flowjv/compare/v0.7.0...v0.7.1) (2021-02-10)
+
+**Note:** Version bump only for package flowjv-react
+
+
+
+
+
+# [0.7.0](https://github.com-pkishoez/pkishoez/flowjv/compare/v0.5.3...v0.7.0) (2021-02-10)
+
+
+### Features
+
+* add ability to nest if blocks. Complete changeover to the internal logic ([aa532b8](https://github.com-pkishoez/pkishoez/flowjv/commit/aa532b852cefd993d439f9ffe8af5c5043c3d877))
+* change complete architecture of flowjv ([52092a5](https://github.com-pkishoez/pkishoez/flowjv/commit/52092a56fed60ce65f96eb96a3b4208beee7d9ed))
+
+
+### BREAKING CHANGES
+
+* FlowJV is complete rewritten. The underlying principles remain same, but the schema
+is significantly modified. Now FlowJV has better types support, seamless nested conditional blocks,
+automatically infer data dependencies from JSON expression. Now flowjv-react-custom package uses
+material ui and not custom css as was the case before.
+
+
+
+
+
+# [0.6.0](https://github.com-pkishoez/pkishoez/flowjv/compare/v0.5.3...v0.6.0) (2021-02-10)
+
+
+### Features
+
+* add ability to nest if blocks. Complete changeover to the internal logic ([aa532b8](https://github.com-pkishoez/pkishoez/flowjv/commit/aa532b852cefd993d439f9ffe8af5c5043c3d877))
+* change complete architecture of flowjv ([52092a5](https://github.com-pkishoez/pkishoez/flowjv/commit/52092a56fed60ce65f96eb96a3b4208beee7d9ed))
+
+
+### BREAKING CHANGES
+
+* FlowJV is complete rewritten. The underlying principles remain same, but the schema
+is significantly modified. Now FlowJV has better types support, seamless nested conditional blocks,
+automatically infer data dependencies from JSON expression. Now flowjv-react-custom package uses
+material ui and not custom css as was the case before.
+
+
+
+
+
 ## [0.5.3](https://mygithub/kishoreiiitn/cjv/compare/v0.5.2...v0.5.3) (2020-08-08)
 
 **Note:** Version bump only for package flowjv-react

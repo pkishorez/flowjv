@@ -1,118 +1,100 @@
-import Head from "next/head";
+import { FlowJVForm, flowSchema } from "flowjv-react-custom";
+import { AutoFlow } from "flowjv-react";
+import React, { useState } from "react";
+import { Button } from "@material-ui/core";
 
-export default function Index() {
-	return (
-		<>
-			<Head>
-				<title>FlowJV</title>
-			</Head>
-			<div className="fixed top-0 left-0 bottom-0 right-0 flex flex-col items-center justify-center bg-gray-200">
-				<div>
-					<div className="text-center text-black">
-						{/* <div className="font-bold">Helloo</div> */}
-						<div className="inline-flex items-start">
-							{/* <h1>FlowJV</h1> */}
-							<img
-								src="logo-teal.svg"
-								className="h-20"
-								style={{
-									filter:
-										"drop-shadow( 0px 0px 5px rgb(255, 255, 255))",
-								}}
-							/>
-						</div>
-					</div>
-					<div
-						className="text-center text-black mt-3"
-						style={{ textShadow: "0px 0px 1px white" }}
-					>
-						A Flow based JSON validation library.
-					</div>
-					<div className="flex justify-center mt-3">
-						<HyperLink href="https://pkishoez.gitbook.io/flowjv/">
-							Docs
-						</HyperLink>
-						<HyperLink className="ml-2" href="demo">
-							Demo
-						</HyperLink>
-					</div>
-					<div>
-						<Input />
-					</div>
-				</div>
-			</div>
-		</>
-	);
+interface IData {
+	name: string;
+	kishore: string;
 }
+const schema = flowSchema<IData>({
+	type: "object",
+	properties: [
+		{
+			type: "string",
+			key: "name",
+			validations: [
+				{
+					logic: [">=", ["str:len", ["$ref"]], 3],
+					err: "Length should be minimum of 3.",
+				},
+			],
 
-const HyperLink = ({ href, children, className = "", ...props }) => {
+			label: "Name",
+		},
+		{
+			key: "password",
+			type: "string",
+			validations: [
+				{
+					logic: [">=", ["str:len", ["$ref"]], 3],
+					err: "Password should be minimum of 3 character length.",
+				},
+			],
+
+			label: "Password",
+			uiType: "password",
+		},
+		{
+			key: "confirmPassword",
+			type: "string",
+			validations: [
+				{
+					logic: ["===", ["$ref"], ["$data", "password"]],
+					err: "Password and confirm password should match.",
+				},
+			],
+
+			label: "Confirm Password",
+			uiType: "password",
+		},
+		{
+			key: "gender",
+			type: "enum",
+			items: [
+				{ value: "male", label: "Male" },
+				{ value: "female", label: "Female" },
+			],
+
+			label: "Gender",
+			uiType: "radio",
+		},
+		{
+			key: "acceptTerms",
+			type: "boolean",
+			validations: [
+				{
+					logic: ["===", ["$ref"], true],
+					err: "Please accept terms and conditions",
+				},
+			],
+
+			label: "Accept terms and conditions",
+		},
+	],
+});
+export default function () {
+	const [args, setArgs] = useState({});
 	return (
-		<a
-			{...props}
-			href={href}
-			className={
-				"py-2 px-3 text-white bg-teal-700 hover:bg-teal-800 " +
-				className
-			}
-		>
-			{children}
-		</a>
-	);
-};
-
-const Input = () => {
-	return (
-		<div>
-			<style jsx>{`
-				.wrapper {
-					display: block;
-					position: relative;
-					background-color: white;
-					padding: 15px 10px;
-					cursor: text;
-					font-size: 1em;
-				}
-				.wrapper * {
-					box-sizing: border-box;
-				}
-				.label {
-					font-size: 1em;
-					transform-origin: top left;
-					transition: 0.3s transform;
-				}
-				input {
-					position: absolute;
-					padding: 5px 10px;
-					bottom: 0;
-					left: 0;
-					outline: 0;
-					font-size: 1em;
-					border: 0;
-					width: 100%;
-					background-color: transparent;
-					border-bottom: 2px solid gray;
-				}
-				input:focus {
-					border-bottom: 2px solid black;
-				}
-
-				input::placeholder {
-					color: transparent;
-					transition: 0.3s color;
-				}
-				input:focus + .label,
-				input:not(:placeholder-shown) + .label {
-					transform: translateY(-8px) scale(0.7);
-				}
-				input:focus::placeholder,
-				input:not(:placeholder-shown)::placeholder {
-					color: gray;
-				}
-			`}</style>
-			<label className="wrapper">
-				<input type="text" placeholder="This is a placeholder!" />
-				<div className="label">Name</div>
-			</label>
+		<div className="bg-gray-100 mx-auto max-w-md p-5 shadow-sm">
+			<h1 className="text-2xl">Form!</h1>
+			<FlowJVForm<IData, {}>
+				schema={schema}
+				onSubmit={(args) => {
+					setArgs(args);
+				}}
+			>
+				<AutoFlow />
+				<Button
+					color="primary"
+					variant="contained"
+					className="block w-full mt-5 focus:outline-none"
+					type="submit"
+				>
+					Submit
+				</Button>
+			</FlowJVForm>
+			{/* <pre>{JSON.stringify(args, null, "  ")}</pre> */}
 		</div>
 	);
-};
+}

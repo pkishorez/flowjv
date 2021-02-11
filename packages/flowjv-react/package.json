@@ -1,11 +1,11 @@
 {
 	"name": "flowjv-react",
-	"version": "0.5.3",
+	"version": "0.8.0",
 	"description": "flowjv UI binding for Form",
 	"main": "dist/index.js",
 	"scripts": {
 		"prepare": "npm run build",
-		"build": "rm -rf ./dist && npm run tsc",
+		"build": "npm run tsc",
 		"dev": "npm run tsc -- -w",
 		"tsc": "../../node_modules/.bin/tsc",
 		"test": "npm run tsc -- --noEmit"
@@ -18,13 +18,13 @@
 	"license": "ISC",
 	"peerDependencies": {
 		"flowjv": "^0.5.2",
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1"
+		"react": "^17.0.1",
+		"react-dom": "^17.0.1"
 	},
 	"dependencies": {
 		"@types/classnames": "^2.2.10",
 		"classnames": "^2.2.6",
 		"lodash": "^4.17.15"
 	},
-	"gitHead": "75c34dd0f645fceda4c740a456fe337f97672056"
+	"gitHead": "5a51fbeddf5a8376812cf4aa06362bffe5b78ef5"
 }

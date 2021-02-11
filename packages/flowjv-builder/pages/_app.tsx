@@ -1,14 +1,13 @@
-import { AppProps } from "next/app";
 import React from "react";
-import "../styles/index.scss";
+import "../styles/index.css";
+import { StylesProvider } from "@material-ui/core/styles";
 
-export default function MyApp({ Component, pageProps }: AppProps) {
-	React.useEffect(() => {
-		// Remove the server-side injected CSS.
-		const jssStyles = document.querySelector("#jss-server-side");
-		if (jssStyles) {
-			jssStyles.parentElement.removeChild(jssStyles);
-		}
-	}, []);
-	return <Component {...pageProps} />;
+function MyApp({ Component, pageProps }: any) {
+	return (
+		<StylesProvider injectFirst>
+			<Component {...pageProps} />
+		</StylesProvider>
+	);
 }
+
+export default MyApp;

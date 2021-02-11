@@ -1,6 +1,6 @@
 {
 	"name": "flowjv",
-	"version": "0.5.3",
+	"version": "0.8.0",
 	"description": "Flow based approach to JSON validation!",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
 		"prepare": "npm run build",
 		"tsc": "../../node_modules/.bin/tsc",
 		"dev": "npm run tsc -- -w",
-		"build": "rm -rf ./dist && npm run tsc",
+		"build": "npm run tsc",
 		"test": "npm run tsc -- --noEmit"
 	},
 	"publishConfig": {
@@ -26,6 +26,5 @@
 	},
 	"author": "Kishore",
 	"license": "ISC",
-	"dependencies": {},
-	"gitHead": "6d29c6736857fedecc575f32e5ad84c792c65eab"
+	"gitHead": "5a51fbeddf5a8376812cf4aa06362bffe5b78ef5"
 }

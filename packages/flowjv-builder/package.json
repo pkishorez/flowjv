@@ -1,29 +1,33 @@
 {
 	"name": "flowjv-builder",
-	"version": "0.5.3",
-	"description": "Work in progress.",
-	"main": "lib/index.js",
+	"version": "0.8.0",
+	"description": "FlowJV Builder!",
 	"scripts": {
-		"dev": "NODE_ENV=development next dev -p 2222",
-		"build": "NODE_ENV=production next build",
-		"export": "NODE_ENV=production next build && NODE_ENV=production next export",
-		"test": "echo 'NO TESTS!'"
+		"prepare": "npm run build",
+		"dev": "../../node_modules/.bin/next dev -p 3333",
+		"build": "rm -rf ./dist && ../../node_modules/.bin/next build"
 	},
 	"publishConfig": {
 		"access": "public"
 	},
-	"files": [
-		"lib"
+	"keywords": [
+		"json-validation"
 	],
-	"keywords": [],
+	"files": [
+		"dist/**"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kishoreiiitn/flowjv"
+	},
 	"author": "Kishore",
 	"license": "ISC",
 	"dependencies": {
-		"next": "^9.5.1"
+		"classnames": "^2.2.6",
+		"flowjv": "^0.8.0",
+		"flowjv-react": "^0.8.0",
+		"flowjv-react-custom": "^0.8.0",
+		"next": "^10.0.5"
 	},
-	"peerDependencies": {
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1"
-	},
-	"gitHead": "75c34dd0f645fceda4c740a456fe337f97672056"
+	"gitHead": "5a51fbeddf5a8376812cf4aa06362bffe5b78ef5"
 }

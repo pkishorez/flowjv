@@ -1,97 +1,154 @@
 import React from "react";
-import { TextField } from "./components/TextField";
-import { Checkbox } from "./components/Checkbox";
-import { SelectField } from "./components/Select";
-import { RadioGroup } from "./components/Radio";
-import { IFormUIConfigFunc } from "flowjv-react";
-import { AnimatePresence } from "framer-motion";
-import { AnimateHeight } from "./components/utils/Animate";
+import TextField from "@material-ui/core/TextField";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import { setupFlowJV } from "flowjv-react";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Checkbox from "@material-ui/core/Checkbox";
+import {
+	FormControlLabel,
+	FormLabel,
+	InputLabel,
+	Radio,
+	RadioGroup,
+} from "@material-ui/core";
 
-export const config: IFormUIConfigFunc = ({
-	schema,
-	ui: { setTouch, onChange, ...ui },
-	children,
-}) => {
+function Wrapper({ children, style }: any) {
+	return <div style={{ marginTop: 10, ...style }}>{children}</div>;
+}
+export const { FlowJVForm, flowSchema } = setupFlowJV<
+	{
+		uiType?: "password" | "text";
+	},
+	{},
+	{},
+	{ uiType?: "radio" | "select" },
+	{}
+>(({ schema, errors, value, setValue, onTouch, touched, path }) => {
 	switch (schema.type) {
-		case "string":
-		case "number": {
-			let { uiType } = schema;
-			uiType = uiType || (schema.type === "number" ? "number" : "text");
+		case "string": {
 			return (
-				<TextField
-					label={schema.label}
-					type={uiType}
-					onFocus={setTouch}
-					onChange={(e) => onChange?.(e.target.value)}
-					{...ui}
-				/>
+				<Wrapper>
+					<TextField
+						fullWidth
+						variant="filled"
+						label={schema.label}
+						error={touched ? !!errors.length : false}
+						helperText={touched && errors.join("\n")}
+						type={schema.uiType ?? "text"}
+						placeholder={path.join(".")}
+						value={value ?? ""}
+						onChange={(e) => setValue(path, e.target.value)}
+						onFocus={() => onTouch(true)}
+					/>
+				</Wrapper>
+			);
+		}
+		case "number": {
+			return (
+				<Wrapper>
+					<TextField
+						fullWidth
+						variant="filled"
+						label={schema.label}
+						error={touched ? !!errors.length : false}
+						helperText={touched && errors.join("\n")}
+						type="number"
+						placeholder={path.join(".")}
+						value={value ?? ""}
+						onChange={(e) => setValue(path, e.target.value)}
+						onFocus={() => onTouch(true)}
+					/>
+				</Wrapper>
+			);
+		}
+		case "enum": {
+			const id = `select-+${path.join(".")}`;
+			const { uiType = "select" } = schema;
+			return (
+				<Wrapper style={{ marginTop: 15 }}>
+					{uiType === "select" && (
+						<FormControl
+							key="select"
+							variant="filled"
+							error={touched ? !!errors.length : false}
+							style={{ display: "block" }}
+						>
+							<InputLabel id={id}>Age</InputLabel>
+							<Select
+								fullWidth
+								labelId={id}
+								value={value ?? ""}
+								onFocus={() => onTouch(true)}
+								onChange={(e) => {
+									setValue(path, e.target.value);
+								}}
+							>
+								{schema.items.map(({ value, label }) => (
+									<MenuItem key={value} value={value}>
+										{label ?? value}
+									</MenuItem>
+								))}
+							</Select>
+							{touched && (
+								<FormHelperText>
+									{errors.join("\n")}
+								</FormHelperText>
+							)}
+						</FormControl>
+					)}
+					{uiType === "radio" && (
+						<FormControl key="radio" component="fieldset">
+							{schema.label && (
+								<FormLabel component="legend">
+									{schema.label}
+								</FormLabel>
+							)}
+							<RadioGroup
+								value={value}
+								onChange={(e) => setValue(path, e.target.value)}
+							>
+								{schema.items.map(({ value, label }) => (
+									<FormControlLabel
+										key={value}
+										value={value}
+										control={<Radio />}
+										label={label}
+									/>
+								))}
+							</RadioGroup>
+						</FormControl>
+					)}
+				</Wrapper>
 			);
 		}
 		case "boolean": {
 			return (
-				<Checkbox
-					{...ui}
-					label={schema.label}
-					onFocus={setTouch}
-					checked={ui.value}
-					onChange={(e) => onChange?.(e.target.checked)}
-				/>
-			);
-		}
-		case "enum": {
-			const { uiType = "select" } = schema;
-			switch (uiType) {
-				case "radio": {
-					return (
-						<RadioGroup
-							{...ui}
+				<Wrapper>
+					<FormControl error={touched ? !!errors.length : false}>
+						<FormControlLabel
+							control={
+								<Checkbox
+									style={{ padding: "0px 9px" }}
+									onFocus={() => onTouch(true)}
+									checked={value ?? false}
+									onChange={(e) =>
+										setValue(path, e.target.checked)
+									}
+								/>
+							}
 							label={schema.label}
-							onFocus={setTouch}
-							onChange={(v) => onChange?.(v)}
-							options={schema.items}
 						/>
-					);
-				}
-				case "select": {
-					return (
-						<SelectField
-							{...ui}
-							label={schema.label}
-							onFocus={setTouch}
-							onChange={(e) => {
-								onChange?.(e.target.value);
-							}}
-							options={schema.items}
-						/>
-					);
-				}
-			}
-		}
-		case "conditionWrapper": {
-			return (
-				<AnimatePresence exitBeforeEnter>
-					{children && (
-						<AnimateHeight
-							key={schema.animKey}
-							animateOnMount
-							isVisible
-						>
-							{children}
-						</AnimateHeight>
-					)}
-				</AnimatePresence>
+						{touched && !!errors.length && (
+							<FormHelperText color="red">
+								{errors.join("\n")}
+							</FormHelperText>
+						)}
+					</FormControl>
+				</Wrapper>
 			);
-		}
-		case "custom": {
-			return null;
-		}
-		default: {
-			return null;
 		}
 	}
-};
-
-// Dummy for purge css.
-const Form = () => {
-	return <form className="fjv-form"></form>;
-};
+	return null;
+});

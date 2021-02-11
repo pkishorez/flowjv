@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/pkishoez/flowjv/compare/v0.7.3...v0.8.0) (2021-02-11)
+
+
+### Features
+
+* add ability to use dependencies for rendering only relevant fields ([fe16e91](https://github.com/pkishoez/flowjv/commit/fe16e915618cc4e573784ce65bf363704724122b))
+* change JSON expression format for consistency ([d0f6886](https://github.com/pkishoez/flowjv/commit/d0f68862c7b5f991622d7bdffd6beb3679074ad4))
+
+
+### BREAKING CHANGES
+
+* JSON Expression no more has format specific to type of command. Now its consistent,
+more readable and very easy in terms of logic.
+
+
+
+
+
 ## [0.7.3](https://github.com/pkishoez/flowjv/compare/v0.7.2...v0.7.3) (2021-02-10)
 
 **Note:** Version bump only for package flowjv-workspace

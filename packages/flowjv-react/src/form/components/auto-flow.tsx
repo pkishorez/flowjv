@@ -83,12 +83,12 @@ interface ISimpleFlow {
 function SimpleFlow({ keyPath }: ISimpleFlow) {
 	const [touched, setTouched] = useState(false);
 	const {
-		extraUIConfig,
 		blocks,
 		renderSimpleSchema,
 		deleteValue,
 		getValue,
 		setValue,
+		subscribe,
 		subscribeAll,
 	} = useContext(flowJVContext);
 	const path = keyPath.join(".");
@@ -99,8 +99,9 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 	useEffect(() => {
 		const block = blocks[path];
 		if (block) {
-			return subscribeAll(({ data, context }) => {
-				const schema = block.find(({ condPath }) =>
+			const deps = block.deps;
+			const func = ({ data, context }) => {
+				const schema = block.items?.find(({ condPath }) =>
 					condPath.reduce(
 						(acc, v) =>
 							acc &&
@@ -112,7 +113,6 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 						true as boolean
 					)
 				)?.schema;
-				console.log("SCHEMA : ", path, schema);
 				if (!schema) {
 					setSchema(null);
 					return;
@@ -131,7 +131,15 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 				});
 				setErrors(errorMsgs);
 				setSchema(schema);
-			});
+			};
+			if (deps === null) {
+				return subscribeAll(func);
+			} else {
+				return subscribe(
+					{ ...deps, data: [...deps.data, keyPath.join(".")] },
+					func
+				);
+			}
 		} else {
 			console.error("No block found at path : ", keyPath);
 		}
@@ -150,6 +158,6 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 					value: getValue(keyPath),
 			  })
 			: null;
-		return extraUIConfig ? extraUIConfig.wrapper(result) : result;
+		return result;
 	}, [errors, schema, touched]);
 }

@@ -16,8 +16,19 @@ describe("Compile tests", () => {
 						{ type: "string", key: "name", label: "Cool Man" },
 						{
 							type: "if",
-							cond: true,
-							true: [{ key: "name", type: "number" }],
+							cond: ["$data", "name"],
+							true: [
+								{
+									key: "name",
+									type: "number",
+									validations: [
+										{
+											logic: ["$data", "kishore"],
+											err: "Error",
+										},
+									],
+								},
+							],
 							false: [{ key: "name", type: "number" }],
 						},
 					],
@@ -25,6 +36,6 @@ describe("Compile tests", () => {
 			],
 		});
 		const blocks = compileSchema(schema);
-		expect(blocks["name"]?.length).toBe(4);
+		expect(blocks["name"]?.items?.length).toBe(4);
 	});
 });

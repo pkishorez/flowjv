@@ -272,7 +272,10 @@ export function getDependencies(expr: IExpression) {
 		return null;
 	}
 	if (!Array.isArray(expr) && typeof expr === "object") {
-		return expr.deps;
+		return {
+			data: expr.deps?.data ?? [],
+			context: expr.deps?.context ?? [],
+		};
 	}
 	// Logic for dependencies goes here.
 	let args: IJSONExpression[] = [];

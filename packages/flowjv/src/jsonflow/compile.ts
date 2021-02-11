@@ -8,6 +8,7 @@ import {
 import { IIfConditionType } from "./flow/logic/if";
 import { ISwitchType } from "./flow/logic/switch";
 import { ISimpleType } from "./flow/simple";
+import { getDependencies } from "../jsonexpression";
 
 type ICondPath = {
 	expr: IJSONExpression;
@@ -16,40 +17,56 @@ type ICondPath = {
 interface IBlockDetails {
 	condPath: ICondPath;
 	schema: ISimpleType;
+	deps: ReturnType<typeof getDependencies>;
 }
 export interface IBlocks {
-	[path: string]: IBlockDetails[] | undefined;
+	[path: string]:
+		| { items: IBlockDetails[] | undefined; deps: IBlockDetails["deps"] }
+		| undefined;
 }
 export function compileSchema(schema: IFlowSchema): IBlocks {
 	const blocks: IBlocks = {};
 
+	function combineDependencies(
+		d1: IBlockDetails["deps"],
+		d2: IBlockDetails["deps"]
+	) {
+		return d1 && d2
+			? {
+					data: [...d2?.data, ...d1.data],
+					context: [...d2?.context, ...d1.context],
+			  }
+			: null;
+	}
 	function compile(
 		schema: IObjectType | IIfConditionType | ISwitchType | ISimpleType,
 		condPath: ICondPath,
-		dataPath: IKeyPath
+		dataPath: IKeyPath,
+		deps: IBlockDetails["deps"]
 	) {
 		function compileProperty(
 			prop: IObjectPropertyAndCondition,
 			condPath: ICondPath,
-			dataPath: IKeyPath
+			dataPath: IKeyPath,
+			deps: IBlockDetails["deps"]
 		) {
 			switch (prop.type) {
 				case "if": {
-					compile(prop, condPath, dataPath);
+					compile(prop, condPath, dataPath, deps);
 					break;
 				}
 				case "switch": {
-					compile(prop, condPath, dataPath);
+					compile(prop, condPath, dataPath, deps);
 					break;
 				}
 				case "object": {
 					prop.properties.forEach((v) =>
-						compile(v, condPath, [...dataPath, prop.key])
+						compile(v, condPath, [...dataPath, prop.key], deps)
 					);
 					break;
 				}
 				default: {
-					compile(prop, condPath, [...dataPath, prop.key]);
+					compile(prop, condPath, [...dataPath, prop.key], deps);
 					break;
 				}
 			}
@@ -57,7 +74,7 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 		switch (schema.type) {
 			case "object": {
 				for (const prop of schema.properties) {
-					compileProperty(prop, condPath, dataPath);
+					compileProperty(prop, condPath, dataPath, deps);
 				}
 				break;
 			}
@@ -72,7 +89,8 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 								value: true,
 							},
 						],
-						dataPath
+						dataPath,
+						combineDependencies(deps, getDependencies(schema.cond))
 					)
 				);
 				schema.false?.forEach((prop) =>
@@ -85,7 +103,8 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 								value: false,
 							},
 						],
-						dataPath
+						dataPath,
+						combineDependencies(deps, getDependencies(schema.cond))
 					)
 				);
 				break;
@@ -96,7 +115,11 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 						compile(
 							prop,
 							[...condPath, { expr: schema.switch, value: key }],
-							dataPath
+							dataPath,
+							combineDependencies(
+								deps,
+								getDependencies(schema.switch)
+							)
 						);
 					});
 				});
@@ -105,13 +128,35 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 			default: {
 				const path = dataPath.join(".");
 				if (!blocks[path]) {
-					blocks[path] = [];
+					blocks[path] = {
+						items: [],
+						deps: { data: [], context: [] },
+					};
 				}
-				blocks[path]?.push({ condPath, schema });
+				const allDeps =
+					schema.validations?.reduce(
+						(agg, v) =>
+							combineDependencies(agg, getDependencies(v.logic)),
+						deps
+					) ?? deps;
+				blocks[path]?.items?.push({ condPath, schema, deps: allDeps });
 				break;
 			}
 		}
 	}
-	compile(schema, [], []);
-	return blocks;
+	compile(schema, [], [], { data: [], context: [] });
+
+	return Object.entries(blocks).reduce(
+		(agg, [key, value]) => ({
+			...agg,
+			[key]: {
+				items: value?.items,
+				deps: value?.items?.reduce(
+					(agg, v) => combineDependencies(agg, v.deps),
+					<IBlockDetails["deps"]>{ data: [], context: [] }
+				),
+			},
+		}),
+		{}
+	);
 }

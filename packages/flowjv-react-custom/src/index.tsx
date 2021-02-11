@@ -70,6 +70,7 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 				<Wrapper>
 					{uiType === "select" && (
 						<FormControl
+							key="select"
 							variant="filled"
 							error={touched ? !!errors.length : false}
 							style={{ display: "block" }}
@@ -98,7 +99,7 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 						</FormControl>
 					)}
 					{uiType === "radio" && (
-						<FormControl component="fieldset">
+						<FormControl key="radio" component="fieldset">
 							{schema.label && (
 								<FormLabel component="legend">
 									{schema.label}
@@ -110,6 +111,7 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 							>
 								{schema.items.map(({ value, label }) => (
 									<FormControlLabel
+										key={value}
 										value={value}
 										control={<Radio />}
 										label={label}

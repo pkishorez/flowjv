@@ -11,12 +11,13 @@ export interface IFlowJVContext {
 	getValue: (key: IKeyPath) => any;
 	deleteValue: (key: IKeyPath) => void;
 	subscribeAll(func: (args: { data: any; context: any }) => void): () => void;
-	subscribe: (args: {
-		data: IKeyPath[];
-		context: IKeyPath[];
-		func: () => void;
-	}) => void;
-	extraUIConfig?: IFlowJVUIExtrasConfig;
+	subscribe: (
+		deps: {
+			data: string[];
+			context: string[];
+		},
+		func: (args: { data: any; context: any }) => void
+	) => void;
 	renderSimpleSchema: IFlowJVUIConfig;
 }
 export const flowJVContext = React.createContext<IFlowJVContext>({} as any);
@@ -65,20 +66,26 @@ export function FlowJVForm<
 	const context = useRef(initialContext);
 
 	const blocks = useMemo(() => compileSchema(schema), []);
-	console.log("BLOCKS : ", blocks);
 
 	const allSubscribers = useRef<
-		((args: { data: any; context: any }) => void)[]
-	>([]);
+		Set<(args: { data: any; context: any }) => void>
+	>(new Set());
 	const subscribers = useRef<{
-		data: { [path: string]: undefined | ((value: any) => void)[] };
-		context: { [path: string]: undefined | ((value: any) => void)[] };
+		data: {
+			[path: string]:
+				| undefined
+				| Set<(value: { data: any; context: any }) => void>;
+		};
+		context: {
+			[path: string]:
+				| undefined
+				| Set<(value: { data: any; context: any }) => void>;
+		};
 	}>({ data: {}, context: {} });
 
 	return (
 		<flowJVContext.Provider
 			value={{
-				extraUIConfig,
 				schema,
 				blocks,
 				getValue: (key: IKeyPath) => {
@@ -87,8 +94,9 @@ export function FlowJVForm<
 				setValue: (key: IKeyPath, value: any) => {
 					const path = key.join(".");
 					data.current = set(data.current, key, value);
+					console.log("DATA CURRENT : ", data.current);
 					subscribers.current.data[path]?.forEach((func) =>
-						func(value)
+						func({ data: data.current, context: context.current })
 					);
 					allSubscribers.current.forEach((func) =>
 						func({ data: data.current, context: context.current })
@@ -99,49 +107,35 @@ export function FlowJVForm<
 				},
 				subscribeAll(func) {
 					func({ data: data.current, context: context.current });
-					allSubscribers.current.push(func);
+					allSubscribers.current.add(func);
 					return () => {
-						allSubscribers.current = allSubscribers.current.filter(
-							(v) => v !== func
-						);
+						allSubscribers.current.delete(func);
 					};
 				},
-				subscribe: ({ data, context, func }) => {
-					data.forEach((path) => {
-						const p = path.join(".");
-
-						if (!subscribers.current.data[p]) {
-							subscribers.current.data[p] = [];
+				subscribe: ({ data: d, context: c }, func) => {
+					func({ data: data.current, context: context.current });
+					d.forEach((path) => {
+						if (!subscribers.current.data[path]) {
+							subscribers.current.data[path] = new Set();
 						}
-						(subscribers.current.data[p] as any).push(func);
+						subscribers.current.data[path]?.add(func);
 					});
-					context.forEach((path) => {
-						const p = path.join(".");
-						if (!subscribers.current.context[p]) {
-							subscribers.current.context[p] = [];
+					c.forEach((path) => {
+						if (!subscribers.current.context[path]) {
+							subscribers.current.context[path] = new Set();
 						}
-						(subscribers.current.context[p] as any).push(func);
+						subscribers.current.context[path]?.add(func);
 					});
 					return () => {
-						data.forEach((path) => {
-							const p = path.join(".");
-							subscribers.current.data[
-								p
-							] = subscribers.current.data[p]?.filter(
-								(f) => f !== func
-							);
+						d.forEach((path) => {
+							subscribers.current.data[path]?.delete(func);
 						});
-						context.forEach((path) => {
-							const p = path.join(".");
-							subscribers.current.context[
-								p
-							] = subscribers.current.context[p]?.filter(
-								(f) => f !== func
-							);
+						c.forEach((path) => {
+							subscribers.current.context[path]?.delete(func);
 						});
 					};
 				},
-				renderSimpleSchema: flowConfig as any,
+				renderSimpleSchema: flowConfig,
 			}}
 		>
 			<form

@@ -13,7 +13,7 @@ describe("FlowJV test:", () => {
 						type: "string",
 						validations: [
 							{
-								logic: [">=", [["str:len", ["$ref"]], 3]],
+								logic: [">=", ["str:len", ["$ref"]], 3],
 								err: "Name should be of min length 3",
 							},
 						],

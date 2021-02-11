@@ -15,7 +15,7 @@ const schema = flowSchema<IData>({
 			key: "name",
 			validations: [
 				{
-					logic: [">=", [["str:len", ["$ref"]], 3]],
+					logic: [">=", ["str:len", ["$ref"]], 3],
 					err: "Length should be minimum of 3.",
 				},
 			],
@@ -27,7 +27,7 @@ const schema = flowSchema<IData>({
 			type: "string",
 			validations: [
 				{
-					logic: [">=", [["str:len", ["$ref"]], 3]],
+					logic: [">=", ["str:len", ["$ref"]], 3],
 					err: "Password should be minimum of 3 character length.",
 				},
 			],
@@ -40,7 +40,7 @@ const schema = flowSchema<IData>({
 			type: "string",
 			validations: [
 				{
-					logic: ["===", [["$ref"], ["$data", "password"]]],
+					logic: ["===", ["$ref"], ["$data", "password"]],
 					err: "Password and confirm password should match.",
 				},
 			],
@@ -64,7 +64,7 @@ const schema = flowSchema<IData>({
 			type: "boolean",
 			validations: [
 				{
-					logic: ["===", [["$ref"], true]],
+					logic: ["===", ["$ref"], true],
 					err: "Please accept terms and conditions",
 				},
 			],

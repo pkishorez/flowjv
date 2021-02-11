@@ -18,10 +18,10 @@ describe("JSON Logic Test cases::", () => {
 		expect(execJSONExpression(["!", false], ctx)).toBe(true);
 	});
 	it("Ternary Operation : ?:", () => {
-		expect(execJSONExpression(["?:", [true, 1, 0]], ctx)).toBe(1);
-		expect(execJSONExpression(["?:", [false, 1, 0]], ctx)).toBe(0);
+		expect(execJSONExpression(["?:", true, 1, 0], ctx)).toBe(1);
+		expect(execJSONExpression(["?:", false, 1, 0], ctx)).toBe(0);
 		expect(
-			execJSONExpression(["?:", [["&&", [1, true, "Hello"]], 1, 0]], ctx)
+			execJSONExpression(["?:", ["&&", 1, true, "Hello"], 1, 0], ctx)
 		).toBe(1);
 	});
 
@@ -47,7 +47,7 @@ describe("JSON Logic Test cases::", () => {
 		).toBe("hello");
 
 		expect(
-			execJSONExpression([">", [["$ref"], 10]], {
+			execJSONExpression([">", ["$ref"], 10], {
 				data: 8,
 				// when refPath is not provided, default is []
 				// refPath: [],
@@ -67,72 +67,72 @@ describe("JSON Logic Test cases::", () => {
 
 	// Enum Operation
 	it("Enum check", () => {
-		expect(execJSONExpression(["enum", 1, [1, 2, 3]], {})).toBe(true);
-		expect(execJSONExpression(["enum", 5, [1, 2, 3]], {})).toBe(false);
+		expect(execJSONExpression(["enum", 1, 1, 2, 3], {})).toBe(true);
+		expect(execJSONExpression(["enum", 5, 1, 2, 3], {})).toBe(false);
 	});
 
 	it("Chained Assertion === Check.", () => {
-		expect(execJSONExpression(["===", [1, 1, 1]], ctx)).toBe(true);
+		expect(execJSONExpression(["===", 1, 1, 1], ctx)).toBe(true);
 	});
 	it("Chained Assertion === Check: Case sensitive", () => {
-		expect(execJSONExpression(["===", [1, "1"]], ctx)).toBe(false);
+		expect(execJSONExpression(["===", 1, "1"], ctx)).toBe(false);
 	});
 
 	it("Chained Assertion !== Check", () => {
-		expect(execJSONExpression(["!==", [1, 1]], ctx)).toBe(false);
+		expect(execJSONExpression(["!==", 1, 1], ctx)).toBe(false);
 	});
 
 	// > operator
 	it("Chained Assertion > valid", () => {
-		expect(execJSONExpression([">", [2, 1, 0, -1]], ctx)).toBe(true);
+		expect(execJSONExpression([">", 2, 1, 0, -1], ctx)).toBe(true);
 	});
 	it("Chained Assertion > invalid", () => {
-		expect(execJSONExpression([">", [2, 1, 0, 1]], ctx)).toBe(false);
+		expect(execJSONExpression([">", 2, 1, 0, 1], ctx)).toBe(false);
 	});
 	it("Chained Assertion >= valid", () => {
-		expect(execJSONExpression([">=", [3, 2, 2, 1]], ctx)).toBe(true);
+		expect(execJSONExpression([">=", 3, 2, 2, 1], ctx)).toBe(true);
 	});
 	it("Chained Assertion >= invalid", () => {
-		expect(execJSONExpression([">=", [2, 1, 0, 1]], ctx)).toBe(false);
+		expect(execJSONExpression([">=", 2, 1, 0, 1], ctx)).toBe(false);
 	});
 
 	// < operator
 	it("Chained Assertion < valid", () => {
-		expect(execJSONExpression(["<", [0, 1, 2, 3, 4]], ctx)).toBe(true);
+		expect(execJSONExpression(["<", 0, 1, 2, 3, 4], ctx)).toBe(true);
 	});
 	it("Chained Assertion < invalid", () => {
-		expect(execJSONExpression(["<", [1, 1]], ctx)).toBe(false);
+		expect(execJSONExpression(["<", 1, 1], ctx)).toBe(false);
 	});
 	it("Chained Assertion <= valid", () => {
-		expect(execJSONExpression(["<=", [0, 1, 2, 2, 4]], ctx)).toBe(true);
+		expect(execJSONExpression(["<=", 0, 1, 2, 2, 4], ctx)).toBe(true);
 	});
 	it("Chained Assertion <= invalid", () => {
-		expect(execJSONExpression(["<=", [1, 1, -1]], ctx)).toBe(false);
+		expect(execJSONExpression(["<=", 1, 1, -1], ctx)).toBe(false);
 	});
 
 	// Chained Operations.
 	it("Chained Operation: ||", () => {
-		expect(execJSONExpression(["||", [true, false]], ctx)).toBe(true);
-		expect(execJSONExpression(["||", [false, false]], ctx)).toBe(false);
+		expect(execJSONExpression(["||", true, false], ctx)).toBe(true);
+		expect(execJSONExpression(["||", false, false], ctx)).toBe(false);
 	});
 	it("Chained Operation: &&", () => {
-		expect(execJSONExpression(["&&", [true, true]], ctx)).toBe(true);
-		expect(execJSONExpression(["&&", [true, false]], ctx)).toBe(false);
+		expect(execJSONExpression(["&&", true, true], ctx)).toBe(true);
+		expect(execJSONExpression(["&&", true, false], ctx)).toBe(false);
 	});
 	it("Chained Operation: +", () => {
-		expect(execJSONExpression(["+", [1, 3, 5]], ctx)).toBe(9);
+		expect(execJSONExpression(["+", 1, 3, 5], ctx)).toBe(9);
 	});
 	it("Chained Operation: -", () => {
-		expect(execJSONExpression(["-", [10, 3]], ctx)).toBe(7);
+		expect(execJSONExpression(["-", 10, 3], ctx)).toBe(7);
 	});
 	it("Chained Operation: *", () => {
-		expect(execJSONExpression(["*", [2, 5]], ctx)).toBe(10);
+		expect(execJSONExpression(["*", 2, 5], ctx)).toBe(10);
 	});
 	it("Chained Operation: /", () => {
-		expect(execJSONExpression(["/", [4, 2]], ctx)).toBe(2);
+		expect(execJSONExpression(["/", 4, 2], ctx)).toBe(2);
 	});
 	it("Chained Operation: %", () => {
-		expect(execJSONExpression(["%", [5, 2]], ctx)).toBe(1);
+		expect(execJSONExpression(["%", 5, 2], ctx)).toBe(1);
 	});
 
 	// String operations here!

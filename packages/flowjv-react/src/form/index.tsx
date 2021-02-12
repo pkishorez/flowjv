@@ -148,6 +148,7 @@ export function FlowJVForm<
 		subscribeData: (deps, func) => {
 			if (deps === "*") {
 				// Subscribe all.
+				allSubscribers.current.add(func);
 				return;
 			}
 			const { data: d, context: c } = deps;

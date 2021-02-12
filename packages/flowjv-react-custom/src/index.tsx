@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { setupFlowJV } from "flowjv-react";
+import { IsValid, setupFlowJV } from "flowjv-react";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Checkbox from "@material-ui/core/Checkbox";
 import {
+	Button,
+	ButtonProps,
 	FormControlLabel,
 	FormLabel,
 	InputLabel,
@@ -15,7 +17,26 @@ import {
 } from "@material-ui/core";
 
 function Wrapper({ children, style }: any) {
-	return <div style={{ marginTop: 10, ...style }}>{children}</div>;
+	const count = useRef(0);
+	count.current++;
+	return (
+		<div style={{ marginTop: 10, position: "relative", ...style }}>
+			{children}
+			<div
+				style={{
+					position: "absolute",
+					right: "0px",
+					top: "0px",
+					backgroundColor: "gray",
+					color: "white",
+					padding: "2px 7px",
+					borderRadius: 5,
+				}}
+			>
+				{count.current}
+			</div>
+		</div>
+	);
 }
 export const { FlowJVForm, flowSchema } = setupFlowJV<
 	{
@@ -106,7 +127,7 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 								</FormLabel>
 							)}
 							<RadioGroup
-								value={value}
+								value={value ?? ""}
 								onChange={(e) => setValue(path, e.target.value)}
 							>
 								{schema.items.map(({ value, label }) => (
@@ -152,3 +173,22 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 	}
 	return null;
 });
+
+export function SubmitButton(props: ButtonProps) {
+	return (
+		<IsValid>
+			{({ isValid }) => (
+				<Button
+					{...props}
+					disabled={!isValid}
+					color="primary"
+					variant="contained"
+					className={"block w-full mt-5 focus:outline-none"}
+					type="submit"
+				>
+					Submit
+				</Button>
+			)}
+		</IsValid>
+	);
+}

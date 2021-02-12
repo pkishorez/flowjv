@@ -88,8 +88,7 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 		deleteValue,
 		getValue,
 		setValue,
-		subscribe,
-		subscribeAll,
+		subscribeData,
 	} = useContext(flowJVContext);
 	const path = keyPath.join(".");
 
@@ -132,9 +131,9 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 				setSchema(schema);
 			};
 			if (deps === null) {
-				return subscribeAll(func);
+				return subscribeData("*", func);
 			} else {
-				return subscribe(
+				return subscribeData(
 					{ ...deps, data: [...deps.data, keyPath.join(".")] },
 					func
 				);

@@ -29,7 +29,3 @@ export type IFlowJVUIConfig<
 	onTouch: (touched?: boolean) => void;
 	touched: boolean;
 }) => React.ReactElement | null;
-
-export type IFlowJVUIExtrasConfig = {
-	wrapper: any;
-};

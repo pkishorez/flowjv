@@ -1,8 +1,8 @@
 import { IFlowSchema, IKeyPath, validateJSONFlow } from "flowjv";
 import { compileSchema, IBlocks } from "flowjv/dist/jsonflow/compile";
 import { set, get, unset } from "flowjv/dist/helper/immutable";
-import React, { useMemo, useRef } from "react";
-import { IFlowJVUIConfig, IFlowJVUIExtrasConfig } from "./config";
+import React, { useCallback, useMemo, useRef } from "react";
+import { IFlowJVUIConfig } from "./config";
 
 export interface IFlowJVContext {
 	schema: IFlowSchema;
@@ -10,12 +10,14 @@ export interface IFlowJVContext {
 	setValue: (key: IKeyPath, value: any) => void;
 	getValue: (key: IKeyPath) => any;
 	deleteValue: (key: IKeyPath) => void;
-	subscribeAll(func: (args: { data: any; context: any }) => void): () => void;
-	subscribe: (
-		deps: {
-			data: string[];
-			context: string[];
-		},
+	subscribeValidation: (func: (isValid: boolean) => void) => void;
+	subscribeData: (
+		deps:
+			| {
+					data: string[];
+					context: string[];
+			  }
+			| "*",
 		func: (args: { data: any; context: any }) => void
 	) => void;
 	renderSimpleSchema: IFlowJVUIConfig;
@@ -34,7 +36,6 @@ export interface IFlowJVForm<
 	initialData?: Partial<IData>;
 	initialContext?: Partial<IContext>;
 	flowConfig: IFlowJVUIConfig<A, B, C, D, E>;
-	extraUIConfig?: IFlowJVUIExtrasConfig;
 	schema: IFlowSchema;
 	children: any;
 	className?: string;
@@ -55,15 +56,14 @@ export function FlowJVForm<
 >({
 	initialData = {},
 	initialContext = {},
-	extraUIConfig,
 	flowConfig,
 	schema,
 	className,
 	onSubmit,
 	children,
 }: IFlowJVForm<IData, IContext, A, B, C, D, E>) {
-	const data = useRef(initialData);
-	const context = useRef(initialContext);
+	const data = useRef<IData>(initialData as any);
+	const context = useRef<IContext>(initialContext as any);
 
 	const blocks = useMemo(() => compileSchema(schema), []);
 
@@ -83,76 +83,93 @@ export function FlowJVForm<
 		};
 	}>({ data: {}, context: {} });
 
+	const validationSubscribers = useRef<Set<(isValid: boolean) => void>>(
+		new Set()
+	);
+	const isFormValid = useRef(false);
+	const triggerValidation = useCallback(() => {
+		const { isValid } = validateJSONFlow(
+			schema,
+			{
+				data: data.current,
+				context: context.current,
+			},
+			{ aggressive: false }
+		);
+		if (isValid !== isFormValid.current) {
+			isFormValid.current = isValid;
+			validationSubscribers.current.forEach((func) => func(isValid));
+		}
+	}, []);
+
+	const formContext: IFlowJVContext = {
+		schema,
+		blocks,
+		getValue: (key: IKeyPath) => {
+			return get(data.current, key);
+		},
+		setValue: (key: IKeyPath, value: any) => {
+			const path = key.join(".");
+			data.current = set(data.current, key, value);
+			triggerValidation();
+			subscribers.current.data[path]?.forEach((func) =>
+				func({ data: data.current, context: context.current })
+			);
+			allSubscribers.current.forEach((func) =>
+				func({ data: data.current, context: context.current })
+			);
+		},
+		deleteValue: (key) => {
+			data.current = unset(data.current, key);
+			triggerValidation();
+		},
+		subscribeValidation(func) {
+			func(isFormValid.current);
+			validationSubscribers.current.add(func);
+			return () => {
+				validationSubscribers.current.delete(func);
+			};
+		},
+		subscribeData: (deps, func) => {
+			if (deps === "*") {
+				// Subscribe all.
+				return;
+			}
+			const { data: d, context: c } = deps;
+			func({ data: data.current, context: context.current });
+			d.forEach((path) => {
+				if (!subscribers.current.data[path]) {
+					subscribers.current.data[path] = new Set();
+				}
+				subscribers.current.data[path]?.add(func);
+			});
+			c.forEach((path) => {
+				if (!subscribers.current.context[path]) {
+					subscribers.current.context[path] = new Set();
+				}
+				subscribers.current.context[path]?.add(func);
+			});
+			return () => {
+				d.forEach((path) => {
+					subscribers.current.data[path]?.delete(func);
+				});
+				c.forEach((path) => {
+					subscribers.current.context[path]?.delete(func);
+				});
+			};
+		},
+		renderSimpleSchema: flowConfig,
+	};
 	return (
-		<flowJVContext.Provider
-			value={{
-				schema,
-				blocks,
-				getValue: (key: IKeyPath) => {
-					return get(data.current, key);
-				},
-				setValue: (key: IKeyPath, value: any) => {
-					const path = key.join(".");
-					data.current = set(data.current, key, value);
-					subscribers.current.data[path]?.forEach((func) =>
-						func({ data: data.current, context: context.current })
-					);
-					allSubscribers.current.forEach((func) =>
-						func({ data: data.current, context: context.current })
-					);
-				},
-				deleteValue: (key) => {
-					data.current = unset(data.current, key);
-				},
-				subscribeAll(func) {
-					func({ data: data.current, context: context.current });
-					allSubscribers.current.add(func);
-					return () => {
-						allSubscribers.current.delete(func);
-					};
-				},
-				subscribe: ({ data: d, context: c }, func) => {
-					func({ data: data.current, context: context.current });
-					d.forEach((path) => {
-						if (!subscribers.current.data[path]) {
-							subscribers.current.data[path] = new Set();
-						}
-						subscribers.current.data[path]?.add(func);
-					});
-					c.forEach((path) => {
-						if (!subscribers.current.context[path]) {
-							subscribers.current.context[path] = new Set();
-						}
-						subscribers.current.context[path]?.add(func);
-					});
-					return () => {
-						d.forEach((path) => {
-							subscribers.current.data[path]?.delete(func);
-						});
-						c.forEach((path) => {
-							subscribers.current.context[path]?.delete(func);
-						});
-					};
-				},
-				renderSimpleSchema: flowConfig,
-			}}
-		>
+		<flowJVContext.Provider value={formContext}>
 			<form
 				className={className}
 				onSubmit={(e) => {
 					e.preventDefault();
-					const { isValid } = validateJSONFlow(
-						schema,
-						{
-							data: data.current,
-							context: context.current,
-						},
-						{ aggressive: false }
-					);
 					onSubmit?.({
-						isValid: isValid as any,
-						data: data.current as any,
-						context: context.current as any,
+						isValid: isFormValid.current,
+						data: data.current,
+						context: context.current,
 					});
 				}}
 			>

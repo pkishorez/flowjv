@@ -19,3 +19,4 @@ export function AutoFlow({ path = "" }: IAutoFlowProps) {
 	}
 	return <AutoFlowSchema schema={schema} path={keyPath} />;
 }
+export { IsValid } from "./is-valid";

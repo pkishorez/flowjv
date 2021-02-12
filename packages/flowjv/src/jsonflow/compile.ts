@@ -60,9 +60,14 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 					break;
 				}
 				case "object": {
-					prop.properties.forEach((v) =>
-						compile(v, condPath, [...dataPath, prop.key], deps)
-					);
+					for (const p of prop.properties) {
+						compileProperty(
+							p,
+							condPath,
+							[...dataPath, prop.key],
+							deps
+						);
+					}
 					break;
 				}
 				default: {

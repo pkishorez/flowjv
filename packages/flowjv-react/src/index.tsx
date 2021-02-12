@@ -1,7 +1,7 @@
 import { IFlowSchema } from "flowjv";
 import React from "react";
 import { FlowJVForm, IFlowJVForm } from "./form";
-import { IFlowJVUIConfig, IFlowJVUIExtrasConfig } from "./form/config";
+import { IFlowJVUIConfig } from "./form/config";
 
 export function setupFlowJV<
 	String = {},
@@ -9,10 +9,7 @@ export function setupFlowJV<
 	Boolean = {},
 	Enum = {},
 	Custom = {}
->(
-	func: IFlowJVUIConfig<String, Number, Boolean, Enum, Custom>,
-	extraUIConfig?: IFlowJVUIExtrasConfig
-) {
+>(func: IFlowJVUIConfig<String, Number, Boolean, Enum, Custom>) {
 	type flowSchema = <IData = {}, IContext = {}>(
 		schema: IFlowSchema<
 			IData,
@@ -27,10 +24,7 @@ export function setupFlowJV<
 	return {
 		flowSchema: ((schema: IFlowSchema) => schema) as flowSchema,
 		FlowJVForm: <IFormData, IFormContext>(
-			props: Omit<
-				IFlowJVForm<IFormData, IFormContext>,
-				"flowConfig" | "extraUIConfig"
-			>
+			props: Omit<IFlowJVForm<IFormData, IFormContext>, "flowConfig">
 		) => (
 			<FlowJVForm<
 				IFormData,
@@ -43,10 +37,9 @@ export function setupFlowJV<
 			>
 				{...props}
 				flowConfig={func}
-				extraUIConfig={extraUIConfig}
 			/>
 		),
 	};
 }
 
-export { AutoFlow } from "./form/components";
+export { AutoFlow, IsValid } from "./form/components";

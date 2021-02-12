@@ -7,6 +7,7 @@ import { IFlowJVUIConfig } from "./config";
 export interface IFlowJVContext {
 	schema: IFlowSchema;
 	blocks: IBlocks;
+	register: (key: IKeyPath, onTouch: (touched: boolean) => void) => void;
 	setValue: (key: IKeyPath, value: any) => void;
 	getValue: (key: IKeyPath) => any;
 	deleteValue: (key: IKeyPath) => void;
@@ -102,9 +103,23 @@ export function FlowJVForm<
 		}
 	}, []);
 
+	const registered = useRef<{
+		[key: string]:
+			| {
+					onTouch: Set<any>;
+			  }
+			| undefined;
+	}>({});
 	const formContext: IFlowJVContext = {
 		schema,
 		blocks,
+		register(key: IKeyPath, onTouch) {
+			const value = registered.current[key.join(".")];
+			registered.current[key.join(".")] = {
+				...value,
+				onTouch: value?.onTouch.add(onTouch) ?? new Set([onTouch]),
+			};
+		},
 		getValue: (key: IKeyPath) => {
 			return get(data.current, key);
 		},
@@ -166,6 +181,10 @@ export function FlowJVForm<
 				className={className}
 				onSubmit={(e) => {
 					e.preventDefault();
+					// touchAll
+					Object.entries(registered.current).forEach(([_, value]) =>
+						value?.onTouch.forEach((v) => v(true))
+					);
 					onSubmit?.({
 						isValid: isFormValid.current,
 						data: data.current,

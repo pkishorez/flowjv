@@ -84,6 +84,7 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 	const [touched, setTouched] = useState(false);
 	const {
 		blocks,
+		register,
 		renderSimpleSchema,
 		deleteValue,
 		getValue,
@@ -94,6 +95,7 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 
 	const [errors, setErrors] = useState<string[]>([]);
 	const [schema, setSchema] = useState<ISimpleType | null>(null);
+
 	useEffect(() => {
 		const block = blocks[path];
 		if (block) {
@@ -130,6 +132,9 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 				setErrors(errorMsgs);
 				setSchema(schema);
 			};
+
+			// register
+			register(keyPath, setTouched);
 			if (deps === null) {
 				return subscribeData("*", func);
 			} else {

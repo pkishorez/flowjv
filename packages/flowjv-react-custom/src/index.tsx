@@ -180,8 +180,7 @@ export function SubmitButton(props: ButtonProps) {
 			{({ isValid }) => (
 				<Button
 					{...props}
-					disabled={!isValid}
-					color="primary"
+					color={isValid ? "primary" : "default"}
 					variant="contained"
 					className={"block w-full mt-5 focus:outline-none"}
 					type="submit"

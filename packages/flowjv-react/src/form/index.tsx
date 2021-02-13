@@ -1,17 +1,25 @@
 import { IFlowSchema, IKeyPath, validateJSONFlow } from "flowjv";
 import { compileSchema, IBlocks } from "flowjv/dist/jsonflow/compile";
 import { set, get, unset } from "flowjv/dist/helper/immutable";
-import React, { useCallback, useMemo, useRef } from "react";
-import { IFlowJVUIConfig } from "./config";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { IFlowJVUIConfig, IFlowJVUIConfigRef } from "./config";
 
+type IFormValidationResult = ReturnType<typeof validateJSONFlow>;
 export interface IFlowJVContext {
 	schema: IFlowSchema;
 	blocks: IBlocks;
-	register: (key: IKeyPath, onTouch: (touched: boolean) => void) => void;
+	register: (
+		key: IKeyPath,
+		args: IFlowJVUIConfigRef & {
+			setTouch(touched?: boolean): void;
+		}
+	) => void;
 	setValue: (key: IKeyPath, value: any) => void;
 	getValue: (key: IKeyPath) => any;
 	deleteValue: (key: IKeyPath) => void;
-	subscribeValidation: (func: (isValid: boolean) => void) => void;
+	subscribeValidation: (
+		func: (validation: IFormValidationResult) => void
+	) => void;
 	subscribeData: (
 		deps:
 			| {
@@ -84,12 +92,12 @@ export function FlowJVForm<
 		};
 	}>({ data: {}, context: {} });
 
-	const validationSubscribers = useRef<Set<(isValid: boolean) => void>>(
-		new Set()
-	);
-	const isFormValid = useRef(false);
+	const validationSubscribers = useRef<
+		Set<(args: IFormValidationResult) => void>
+	>(new Set());
+	const formValidation = useRef<IFormValidationResult>();
 	const triggerValidation = useCallback(() => {
-		const { isValid } = validateJSONFlow(
+		const result = validateJSONFlow(
 			schema,
 			{
 				data: data.current,
@@ -97,27 +105,28 @@ export function FlowJVForm<
 			},
 			{ aggressive: false }
 		);
-		if (isValid !== isFormValid.current) {
-			isFormValid.current = isValid;
-			validationSubscribers.current.forEach((func) => func(isValid));
+		if (result.isValid !== formValidation.current?.isValid) {
+			validationSubscribers.current.forEach((func) => func(result));
 		}
+		console.log("RESULT : ", result);
+		formValidation.current = result;
 	}, []);
 
 	const registered = useRef<{
-		[key: string]:
-			| {
-					onTouch: Set<any>;
-			  }
-			| undefined;
+		[key: string]: IFlowJVUIConfigRef & {
+			setTouch(touched?: boolean): void;
+		};
 	}>({});
 	const formContext: IFlowJVContext = {
 		schema,
 		blocks,
-		register(key: IKeyPath, onTouch) {
-			const value = registered.current[key.join(".")];
+		register(key, { setFocus, setTouch }) {
+			if (!registered.current) return;
+
 			registered.current[key.join(".")] = {
-				...value,
-				onTouch: value?.onTouch.add(onTouch) ?? new Set([onTouch]),
+				...registered.current,
+				setFocus,
+				setTouch,
 			};
 		},
 		getValue: (key: IKeyPath) => {
@@ -139,7 +148,10 @@ export function FlowJVForm<
 			triggerValidation();
 		},
 		subscribeValidation(func) {
-			func(isFormValid.current);
+			const validation = formValidation.current;
+			if (validation) {
+				func(validation);
+			}
 			validationSubscribers.current.add(func);
 			return () => {
 				validationSubscribers.current.delete(func);
@@ -176,6 +188,11 @@ export function FlowJVForm<
 		},
 		renderSimpleSchema: flowConfig,
 	};
+
+	useEffect(() => {
+		// Call validation the first time.
+		triggerValidation();
+	}, []);
 	return (
 		<flowJVContext.Provider value={formContext}>
 			<form
@@ -183,11 +200,24 @@ export function FlowJVForm<
 				onSubmit={(e) => {
 					e.preventDefault();
 					// touchAll
-					Object.entries(registered.current).forEach(([_, value]) =>
-						value?.onTouch.forEach((v) => v(true))
-					);
+					if (registered.current) {
+						Object.entries(
+							registered.current
+						).forEach(([_, value]) => value?.setTouch(true));
+					}
+					const validationResult = formValidation.current;
+
+					// Focus on the first error field.
+					if (!validationResult?.isValid) {
+						const errorKey = validationResult?.errors[0]?.key.join(
+							"."
+						);
+						if (errorKey) {
+							registered.current?.[errorKey]?.setFocus();
+						}
+					}
 					onSubmit?.({
-						isValid: isFormValid.current,
+						isValid: !!validationResult?.isValid,
 						data: data.current,
 						context: context.current,
 					});

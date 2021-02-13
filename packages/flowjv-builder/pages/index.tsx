@@ -3,8 +3,13 @@ import { AutoFlow, FormSpy } from "flowjv-react";
 import React, { useState } from "react";
 
 interface IData {
-	name: string;
-	kishore: string;
+	personalDetails: {
+		name: string;
+		password: string;
+		confirmPassword: string;
+		gender: "male" | "female";
+	};
+	acceptTerms: boolean;
 }
 const schema = flowSchema<IData>({
 	type: "object",
@@ -92,6 +97,14 @@ export default function Builder() {
 				schema={schema}
 				onSubmit={(args) => {
 					setArgs(args);
+				}}
+				initialData={{
+					personalDetails: {
+						name: "Kishore",
+						password: "hello",
+						confirmPassword: "hello",
+						gender: "male",
+					},
 				}}
 			>
 				<AutoFlow path="personalDetails" />

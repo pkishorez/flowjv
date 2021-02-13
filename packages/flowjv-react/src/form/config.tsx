@@ -2,16 +2,17 @@ import React from "react";
 import { IKeyPath, ISimpleType } from "flowjv";
 import { IFlowJVContext } from ".";
 
+export type IFlowJVUIConfigRef = {
+	setFocus(): void;
+};
+
 export type IFlowJVUIConfig<
 	stringUI = {},
 	numberUI = {},
 	booleanUI = {},
 	enumUI = {},
 	customUI = {}
-> = ({
-	schema,
-	setValue,
-}: {
+> = (args: {
 	path: IKeyPath;
 	schema: ISimpleType<
 		{},
@@ -27,5 +28,6 @@ export type IFlowJVUIConfig<
 	deleteValue: IFlowJVContext["deleteValue"];
 	errors: string[];
 	onTouch: (touched?: boolean) => void;
+	simpleRef: (args: IFlowJVUIConfigRef) => void;
 	touched: boolean;
 }) => React.ReactElement | null;

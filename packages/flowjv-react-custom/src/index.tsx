@@ -46,7 +46,7 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 	{},
 	{ uiType?: "radio" | "select" },
 	{}
->(({ schema, errors, value, setValue, onTouch, touched, path }) => {
+>(({ schema, errors, value, setValue, onTouch, touched, path, simpleRef }) => {
 	switch (schema.type) {
 		case "string": {
 			return (
@@ -62,6 +62,11 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 						value={value ?? ""}
 						onChange={(e) => setValue(path, e.target.value)}
 						onFocus={() => onTouch(true)}
+						inputRef={(r) => {
+							simpleRef({
+								setFocus: () => r?.focus(),
+							});
+						}}
 					/>
 				</Wrapper>
 			);
@@ -80,6 +85,11 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 						value={value ?? ""}
 						onChange={(e) => setValue(path, e.target.value)}
 						onFocus={() => onTouch(true)}
+						ref={(r) => {
+							simpleRef({
+								setFocus: () => r?.focus(),
+							});
+						}}
 					/>
 				</Wrapper>
 			);
@@ -105,6 +115,9 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 								onChange={(e) => {
 									setValue(path, e.target.value);
 								}}
+								inputRef={(r) =>
+									simpleRef({ setFocus: () => r?.focus() })
+								}
 							>
 								{schema.items.map(({ value, label }) => (
 									<MenuItem key={value} value={value}>
@@ -157,6 +170,11 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 									onChange={(e) =>
 										setValue(path, e.target.checked)
 									}
+									ref={(r) => {
+										simpleRef({
+											setFocus: () => r?.focus(),
+										});
+									}}
 								/>
 							}
 							label={schema.label}

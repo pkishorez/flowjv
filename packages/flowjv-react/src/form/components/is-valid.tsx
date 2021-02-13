@@ -10,7 +10,7 @@ export function IsValid({
 	const [isValid, setIsValid] = useState(false);
 
 	useEffect(() => {
-		subscribeValidation(setIsValid);
+		subscribeValidation(({ isValid }) => setIsValid(isValid));
 	}, [subscribeValidation, setIsValid]);
 
 	return children({ isValid });

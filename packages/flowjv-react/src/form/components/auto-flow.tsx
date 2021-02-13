@@ -5,8 +5,9 @@ import {
 } from "flowjv/dist/jsonflow/flow/composite/object";
 import { IIfConditionType } from "flowjv/dist/jsonflow/flow/logic/if";
 import { ISwitchType } from "flowjv/dist/jsonflow/flow/logic/switch";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { flowJVContext } from "..";
+import { IFlowJVUIConfigRef } from "../config";
 
 interface IAutoFlow {
 	schema: IObjectType | IIfConditionType | ISwitchType | ISimpleType;
@@ -95,6 +96,7 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 
 	const [errors, setErrors] = useState<string[]>([]);
 	const [schema, setSchema] = useState<ISimpleType | null>(null);
+	const ref = useRef<IFlowJVUIConfigRef>();
 
 	useEffect(() => {
 		const block = blocks[path];
@@ -134,7 +136,10 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 			};
 
 			// register
-			register(keyPath, setTouched);
+			register(keyPath, {
+				setFocus: () => ref.current?.setFocus(),
+				setTouch: (touched = true) => setTouched(touched),
+			});
 			if (deps === null) {
 				return subscribeData("*", func);
 			} else {
@@ -154,6 +159,9 @@ function SimpleFlow({ keyPath }: ISimpleFlow) {
 					schema,
 					setValue,
 					deleteValue,
+					simpleRef: (simpleRef) => {
+						ref.current = simpleRef;
+					},
 					onTouch: (isTouched = true) => setTouched(isTouched),
 					errors,
 					touched,

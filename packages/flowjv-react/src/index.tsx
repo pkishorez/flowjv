@@ -42,4 +42,4 @@ export function setupFlowJV<
 	};
 }
 
-export { AutoFlow, IsValid } from "./form/components";
+export { AutoFlow, IsValid, FormSpy } from "./form/components";

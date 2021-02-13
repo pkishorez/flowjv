@@ -1,5 +1,5 @@
 import { FlowJVForm, flowSchema, SubmitButton } from "flowjv-react-custom";
-import { AutoFlow } from "flowjv-react";
+import { AutoFlow, FormSpy } from "flowjv-react";
 import React, { useState } from "react";
 
 interface IData {
@@ -97,10 +97,14 @@ export default function Builder() {
 				<AutoFlow path="personalDetails" />
 				<AutoFlow path="acceptTerms" />
 				<SubmitButton />
+				<FormSpy>
+					{({ data }) => (
+						<pre className="mt-3 p-4 bg-gray-500 text-white">
+							{JSON.stringify(data, null, "  ")}
+						</pre>
+					)}
+				</FormSpy>
 			</FlowJVForm>
-			<pre className="mt-3 p-4 bg-gray-500 text-white">
-				{JSON.stringify(args, null, "  ")}
-			</pre>
 		</div>
 	);
 }

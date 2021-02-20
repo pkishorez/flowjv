@@ -9,6 +9,7 @@ import { IIfConditionType } from "./flow/logic/if";
 import { ISwitchType } from "./flow/logic/switch";
 import { ISimpleType } from "./flow/simple";
 import { getDependencies } from "../jsonexpression";
+import { IArrayType } from "./flow/composite/array";
 
 type ICondPath = {
 	expr: IJSONExpression;
@@ -16,7 +17,7 @@ type ICondPath = {
 }[];
 interface IBlockDetails {
 	condPath: ICondPath;
-	schema: ISimpleType;
+	schema: ISimpleType | IObjectType | IArrayType;
 	deps: ReturnType<typeof getDependencies>;
 }
 export interface IBlocks {
@@ -39,7 +40,12 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 			: null;
 	}
 	function compile(
-		schema: IObjectType | IIfConditionType | ISwitchType | ISimpleType,
+		schema:
+			| IObjectType
+			| IArrayType
+			| IIfConditionType
+			| ISwitchType
+			| ISimpleType,
 		condPath: ICondPath,
 		dataPath: IKeyPath,
 		deps: IBlockDetails["deps"]
@@ -60,6 +66,18 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 					break;
 				}
 				case "object": {
+					const path = [...dataPath, prop.key].join(".");
+					if (!blocks[path]) {
+						blocks[path] = {
+							items: [],
+							deps: { data: [], context: [] },
+						};
+					}
+					blocks[path]?.items?.push({
+						condPath,
+						schema: prop,
+						deps: deps,
+					});
 					for (const p of prop.properties) {
 						compileProperty(
 							p,
@@ -68,6 +86,21 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 							deps
 						);
 					}
+					break;
+				}
+				case "array": {
+					const path = [...dataPath, prop.key].join(".");
+					if (!blocks[path]) {
+						blocks[path] = {
+							items: [],
+							deps: { data: [], context: [] },
+						};
+					}
+					blocks[path]?.items?.push({
+						condPath,
+						schema: prop,
+						deps: deps,
+					});
 					break;
 				}
 				default: {
@@ -128,6 +161,10 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 						);
 					});
 				});
+				break;
+			}
+			case "array": {
+				compile(schema.itemSchema, condPath, [...dataPath, "$"], deps);
 				break;
 			}
 			default: {

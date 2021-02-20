@@ -3,6 +3,7 @@ import { IKeyPath } from "../../../helper/immutable";
 import { ISimpleType, validateSimpleType } from "../simple";
 import { IIfConditionType, validateIfCondition } from "../logic/if";
 import { ISwitchType, validateSwitchCondition } from "../logic/switch";
+import { IArrayType, validateArrayType } from "./array";
 
 export type IObjectCondition<
 	IData = {},
@@ -26,6 +27,7 @@ export type IObjectProperty<
 > = (
 	| ISimpleType<IData, IContext, A, B, C, D, E>
 	| IObjectType<IData, IContext, A, B, C, D, E>
+	| IArrayType<IData, IContext, A, B, C, D, E>
 ) & {
 	key: string;
 };
@@ -98,6 +100,16 @@ export function validateObjectProperties(
 				const result = validateSwitchCondition(
 					property,
 					payload,
+					config
+				);
+				errors = [...errors, ...result.errors];
+				break;
+			}
+			case "array": {
+				const refPath = [...payload.refPath, property.key];
+				const result = validateArrayType(
+					property,
+					{ ...payload, refPath },
 					config
 				);
 				errors = [...errors, ...result.errors];

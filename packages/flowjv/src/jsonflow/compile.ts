@@ -8,14 +8,14 @@ import {
 import { IIfConditionType } from "./flow/logic/if";
 import { ISwitchType } from "./flow/logic/switch";
 import { ISimpleType } from "./flow/simple";
-import { getDependencies } from "../jsonexpression";
+import { combineDependencies, getDependencies } from "../jsonexpression";
 import { IArrayType } from "./flow/composite/array";
 
 type ICondPath = {
 	expr: IJSONExpression;
 	value: string | boolean | number;
 }[];
-interface IBlockDetails {
+export interface IBlockDetails {
 	condPath: ICondPath;
 	schema: ISimpleType | IObjectType | IArrayType;
 	deps: ReturnType<typeof getDependencies>;
@@ -28,17 +28,6 @@ export interface IBlocks {
 export function compileSchema(schema: IFlowSchema): IBlocks {
 	const blocks: IBlocks = {};
 
-	function combineDependencies(
-		d1: IBlockDetails["deps"],
-		d2: IBlockDetails["deps"]
-	) {
-		return d1 && d2
-			? {
-					data: [...d2?.data, ...d1.data],
-					context: [...d2?.context, ...d1.context],
-			  }
-			: null;
-	}
 	function compile(
 		schema:
 			| IObjectType
@@ -175,13 +164,7 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 						deps: { data: [], context: [] },
 					};
 				}
-				const allDeps =
-					schema.validations?.reduce(
-						(agg, v) =>
-							combineDependencies(agg, getDependencies(v.logic)),
-						deps
-					) ?? deps;
-				blocks[path]?.items?.push({ condPath, schema, deps: allDeps });
+				blocks[path]?.items?.push({ condPath, schema, deps });
 				break;
 			}
 		}

@@ -273,8 +273,12 @@ const helper = {
 };
 
 // If getDependencies return null, it means it dependencies cannot be determined.
-export function getDependencies(expr: IExpression) {
-	const dependsOn: { data: string[]; context: string[] } = {
+export interface IDependsOn {
+	data: string[];
+	context: string[];
+}
+export function getDependencies(expr: IExpression): IDependsOn | null {
+	const dependsOn: IDependsOn = {
 		data: [],
 		context: [],
 	};
@@ -330,4 +334,18 @@ export function getDependencies(expr: IExpression) {
 		deps.context && dependsOn.context.push(...deps.context);
 	}
 	return dependsOn;
+}
+
+// Combine Dependencies.
+
+export function combineDependencies(
+	d1: IDependsOn | null,
+	d2: IDependsOn | null
+) {
+	return d1 && d2
+		? {
+				data: [...d2?.data, ...d1.data],
+				context: [...d2?.context, ...d1.context],
+		  }
+		: null;
 }

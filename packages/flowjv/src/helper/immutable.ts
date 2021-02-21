@@ -50,7 +50,7 @@ export const unset = (obj: any, keyPath: IKeyPath) => {
 			if (!(obj instanceof Array)) {
 				throw new Error("obj should be of type Array.");
 			}
-			return obj[key] ? obj.filter((v, i) => i !== key) : obj;
+			return obj.length >= key ? obj.filter((v, i) => i !== key) : obj;
 		}
 	}
 	const key = keyPath.shift();
@@ -72,6 +72,21 @@ export const unset = (obj: any, keyPath: IKeyPath) => {
 	return obj;
 };
 
+export function insertIndex(obj: any, keyPath_: IKeyPath, value?: any) {
+	const keyPath = [...keyPath_];
+	const index = keyPath.pop();
+	const arr = get(obj, keyPath);
+	if (!Array.isArray(arr)) {
+		throw new Error(`Value is not an array at path ${keyPath.join(".")}.`);
+	}
+	if (typeof index !== "number") {
+		throw new Error("Index provided for array is not number.");
+	}
+	const newArr = [...arr];
+	newArr.splice(index, 0, value);
+	return set(obj, keyPath, newArr);
+}
+
 export const Immutable = (obj: any) => {
 	return {
 		get(keyPath: IKeyPath, defaultValue?: any) {
@@ -83,6 +98,7 @@ export const Immutable = (obj: any) => {
 		unset(keyPath: IKeyPath) {
 			return Immutable(unset(obj, keyPath));
 		},
+		insertIndex(keyPath: IKeyPath) {},
 		value() {
 			return obj;
 		},

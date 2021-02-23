@@ -1,13 +1,14 @@
 import { IFlowSchema, IKeyPath, validateJSONFlow } from "flowjv";
 import { compileSchema, IBlocks } from "flowjv/dist/jsonflow/compile";
-import { set, get, unset } from "flowjv/dist/helper/immutable";
+import { set, get, unset, insertIndex } from "flowjv/dist/helper/immutable";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { IFlowJVUIConfig, IFlowJVUIConfigRef } from "./config";
+import { getDependencies } from "flowjv/dist/jsonexpression";
 
 type IFormValidationResult = ReturnType<typeof validateJSONFlow>;
 export interface IFlowJVContext {
 	schema: IFlowSchema;
-	blocks: IBlocks;
+	getBlock(key: IKeyPath): IBlocks[0] | undefined;
 	register: (
 		key: IKeyPath,
 		args: IFlowJVUIConfigRef & {
@@ -17,19 +18,16 @@ export interface IFlowJVContext {
 	setValue: (key: IKeyPath, value: any) => void;
 	getValue: (key: IKeyPath) => any;
 	deleteValue: (key: IKeyPath) => void;
+	insertIndex: (key: IKeyPath, value: any) => void;
+	deleteIndex: (key: IKeyPath) => void;
 	subscribeValidation: (
 		func: (validation: IFormValidationResult) => void
 	) => void;
 	subscribeData: (
-		deps:
-			| {
-					data: string[];
-					context: string[];
-			  }
-			| "*",
+		deps: ReturnType<typeof getDependencies>,
 		func: (args: { data: any; context: any }) => void
 	) => void;
-	renderSimpleSchema: IFlowJVUIConfig;
+	renderSchema: IFlowJVUIConfig;
 }
 export const flowJVContext = React.createContext<IFlowJVContext>({} as any);
 
@@ -108,8 +106,23 @@ export function FlowJVForm<
 		if (result.isValid !== formValidation.current?.isValid) {
 			validationSubscribers.current.forEach((func) => func(result));
 		}
-		console.log("RESULT : ", result);
 		formValidation.current = result;
+	}, []);
+
+	const triggerSubscriptions = useCallback((paths: IKeyPath[]) => {
+		paths.forEach((path) => {
+			subscribers.current.data[path.join(".")]?.forEach((func) =>
+				func({ data: data.current, context: context.current })
+			);
+		});
+		allSubscribers.current.forEach((func) =>
+			func({ data: data.current, context: context.current })
+		);
+	}, []);
+
+	useEffect(() => {
+		// This is for FormSpy.
+		triggerSubscriptions([]);
 	}, []);
 
 	const registered = useRef<{
@@ -119,7 +132,11 @@ export function FlowJVForm<
 	}>({});
 	const formContext: IFlowJVContext = {
 		schema,
-		blocks,
+		getBlock(key: IKeyPath) {
+			return blocks[
+				key.map((v) => (typeof v === "number" ? "$" : v)).join(".")
+			];
+		},
 		register(key, { setFocus, setTouch }) {
 			if (!registered.current) return;
 
@@ -133,19 +150,25 @@ export function FlowJVForm<
 			return get(data.current, key);
 		},
 		setValue: (key: IKeyPath, value: any) => {
-			const path = key.join(".");
 			data.current = set(data.current, key, value);
 			triggerValidation();
-			subscribers.current.data[path]?.forEach((func) =>
-				func({ data: data.current, context: context.current })
-			);
-			allSubscribers.current.forEach((func) =>
-				func({ data: data.current, context: context.current })
-			);
+			triggerSubscriptions([key]);
 		},
 		deleteValue: (key) => {
 			data.current = unset(data.current, key);
 			triggerValidation();
+		},
+		insertIndex(key, value) {
+			data.current = insertIndex(data.current, key, value);
+			triggerValidation();
+			key.pop();
+			triggerSubscriptions([key]);
+		},
+		deleteIndex(key) {
+			data.current = unset(data.current, key);
+			triggerValidation();
+			key.pop();
+			triggerSubscriptions([key]);
 		},
 		subscribeValidation(func) {
 			const validation = formValidation.current;
@@ -158,7 +181,7 @@ export function FlowJVForm<
 			};
 		},
 		subscribeData: (deps, func) => {
-			if (deps === "*") {
+			if (deps === null) {
 				// Subscribe all.
 				allSubscribers.current.add(func);
 				return;
@@ -186,7 +209,7 @@ export function FlowJVForm<
 				});
 			};
 		},
-		renderSimpleSchema: flowConfig,
+		renderSchema: flowConfig,
 	};
 
 	useEffect(() => {

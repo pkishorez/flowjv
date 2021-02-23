@@ -5,7 +5,7 @@ export function FormSpy({ children }: { children: ({ data: any }) => any }) {
 	const { subscribeData } = useContext(flowJVContext);
 	const [data, setData] = useState(null);
 	useEffect(() => {
-		return subscribeData("*", ({ data: d }) => {
+		return subscribeData(null, ({ data: d }) => {
 			setData(d);
 		});
 	}, [subscribeData, setData]);

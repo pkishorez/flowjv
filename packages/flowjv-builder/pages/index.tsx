@@ -8,6 +8,7 @@ interface IData {
 		password: string;
 		confirmPassword: string;
 		gender: "male" | "female";
+		array: { obj?: string; subarray?: { subobj?: string }[] }[];
 	};
 	acceptTerms: boolean;
 }
@@ -72,6 +73,26 @@ const schema = flowSchema<IData>({
 					label: "Gender",
 					uiType: "radio",
 				},
+				{
+					key: "array",
+					type: "array",
+					itemSchema: {
+						type: "object",
+						properties: [
+							{ key: "obj", type: "string" },
+							{
+								key: "subarray",
+								type: "array",
+								itemSchema: {
+									type: "object",
+									properties: [
+										{ key: "subobj", type: "string" },
+									],
+								},
+							},
+						],
+					},
+				},
 			],
 		},
 		{
@@ -91,33 +112,38 @@ const schema = flowSchema<IData>({
 export default function Builder() {
 	const [args, setArgs] = useState({});
 	return (
-		<div className="bg-gray-100 mx-auto max-w-md p-5 shadow-sm">
-			<h1 className="text-2xl">Form!</h1>
-			<FlowJVForm<IData, {}>
-				schema={schema}
-				onSubmit={(args) => {
-					setArgs(args);
-				}}
-				initialData={{
-					personalDetails: {
-						name: "Kishore",
-						password: "hello",
-						confirmPassword: "hello",
-						gender: "male",
-					},
-				}}
-			>
-				<AutoFlow path="personalDetails" />
-				<AutoFlow path="acceptTerms" />
-				<SubmitButton />
-				<FormSpy>
-					{({ data }) => (
-						<pre className="mt-3 p-4 bg-gray-500 text-white">
-							{JSON.stringify(data, null, "  ")}
-						</pre>
-					)}
-				</FormSpy>
-			</FlowJVForm>
-		</div>
+		<FlowJVForm<IData, {}>
+			schema={schema}
+			onSubmit={(args) => {
+				setArgs(args);
+			}}
+			initialData={{
+				personalDetails: {
+					name: "Kishore",
+					password: "hello",
+					confirmPassword: "hello",
+					gender: "male",
+					array: [{ subarray: [{}, {}] }, {}, {}],
+				},
+			}}
+		>
+			<div className="mx-auto flex justify-center">
+				<div className="bg-gray-100 p-5 shadow-2xl max-w-md w-full">
+					<h1 className="text-2xl">Form!</h1>
+					<AutoFlow path="personalDetails" />
+					<AutoFlow path="acceptTerms" />
+					<SubmitButton />
+				</div>
+				<div className="w-full max-w-md">
+					<FormSpy>
+						{({ data }) => (
+							<pre className="mt-3 p-4 bg-gray-500 text-white">
+								{JSON.stringify(data, null, "  ")}
+							</pre>
+						)}
+					</FormSpy>
+				</div>
+			</div>
+		</FlowJVForm>
 	);
 }

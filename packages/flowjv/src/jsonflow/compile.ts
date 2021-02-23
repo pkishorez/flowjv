@@ -78,18 +78,42 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 					break;
 				}
 				case "array": {
-					const path = [...dataPath, prop.key].join(".");
-					if (!blocks[path]) {
-						blocks[path] = {
-							items: [],
-							deps: { data: [], context: [] },
-						};
+					{
+						const path = [...dataPath, prop.key].join(".");
+						if (!blocks[path]) {
+							blocks[path] = {
+								items: [],
+								deps: { data: [], context: [] },
+							};
+						}
+						blocks[path]?.items?.push({
+							condPath,
+							schema: prop,
+							deps: deps,
+						});
 					}
-					blocks[path]?.items?.push({
-						condPath,
-						schema: prop,
-						deps: deps,
-					});
+
+					// Item Compilation.
+					{
+						const path = [...dataPath, prop.key, "$"].join(".");
+						if (!blocks[path]) {
+							blocks[path] = {
+								items: [],
+								deps: { data: [], context: [] },
+							};
+						}
+						blocks[path]?.items?.push({
+							condPath,
+							schema: prop.itemSchema,
+							deps: deps,
+						});
+						compile(
+							prop.itemSchema,
+							condPath,
+							[...dataPath, prop.key, "$"],
+							deps
+						);
+					}
 					break;
 				}
 				default: {

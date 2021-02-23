@@ -47,6 +47,7 @@ export type IFlowJVUIConfig<
 					enumUI,
 					customUI
 				>;
+				uniqueIndexes: number[];
 				value: any[];
 				insertAtIndex: (index: number) => void;
 				deleteAtIndex: (index: number) => void;

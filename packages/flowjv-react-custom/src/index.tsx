@@ -52,7 +52,13 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 >((args) => {
 	switch (args.schemaType) {
 		case "array": {
-			const { path, value, insertAtIndex, deleteAtIndex } = args;
+			const {
+				path,
+				value,
+				insertAtIndex,
+				deleteAtIndex,
+				uniqueIndexes,
+			} = args;
 			return (
 				<div style={{ marginLeft: 30 }}>
 					{value.map((_, i) => (
@@ -62,7 +68,7 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 								alignItems: "center",
 								marginTop: 10,
 							}}
-							key={i}
+							key={uniqueIndexes[i] ?? i}
 						>
 							<div
 								style={{

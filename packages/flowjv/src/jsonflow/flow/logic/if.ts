@@ -20,7 +20,6 @@ export type IIfConditionType<
 	E = {}
 > = {
 	type: "if";
-	blockId?: string;
 	cond: IJSONExpression<IData, IContext>;
 	true: (
 		| IObjectProperty<IData, IContext, A, B, C, D, E>

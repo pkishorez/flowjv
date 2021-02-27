@@ -38,11 +38,12 @@ export interface IFlowJVForm<
 	B = {},
 	C = {},
 	D = {},
-	E = {}
+	E = {},
+	F = {}
 > {
 	initialData?: Partial<IData>;
 	initialContext?: Partial<IContext>;
-	flowConfig: IFlowJVUIConfig<A, B, C, D, E>;
+	flowConfig: IFlowJVUIConfig<A, B, C, D, E, F>;
 	schema: IFlowSchema;
 	children: any;
 	className?: string;
@@ -59,7 +60,8 @@ export function FlowJVForm<
 	B = {},
 	C = {},
 	D = {},
-	E = {}
+	E = {},
+	F = {}
 >({
 	initialData = {},
 	initialContext = {},
@@ -68,7 +70,7 @@ export function FlowJVForm<
 	className,
 	onSubmit,
 	children,
-}: IFlowJVForm<IData, IContext, A, B, C, D, E>) {
+}: IFlowJVForm<IData, IContext, A, B, C, D, E, F>) {
 	const data = useRef<IData>(initialData as any);
 	const context = useRef<IContext>(initialContext as any);
 
@@ -209,7 +211,7 @@ export function FlowJVForm<
 				});
 			};
 		},
-		renderSchema: flowConfig,
+		renderSchema: flowConfig as any,
 	};
 
 	useEffect(() => {

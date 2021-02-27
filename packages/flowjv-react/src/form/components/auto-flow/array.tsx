@@ -21,7 +21,7 @@ export function ArrayFlow({ schema, keyPath }: IArrayFlowProps) {
 
 	const {
 		subscribeData,
-		renderSchema,
+		renderSchema: SchemaUI,
 		deleteIndex,
 		insertIndex,
 	} = useContext(flowJVContext);
@@ -49,21 +49,23 @@ export function ArrayFlow({ schema, keyPath }: IArrayFlowProps) {
 	const result = useMemo(
 		() => (
 			<>
-				{renderSchema({
-					schemaType: "array",
-					value: data,
-					uniqueIndexes: uniqueIndexes.current,
-					deleteAtIndex: (index) => {
-						invalidateIndex(index);
-						deleteIndex([...keyPath, index]);
-					},
-					insertAtIndex: (index) => {
-						invalidateIndex(index);
-						insertIndex([...keyPath, index], undefined);
-					},
-					path: keyPath,
-					schema,
-				})}
+				<SchemaUI
+					{...{
+						schemaType: "array",
+						value: data,
+						uniqueIndexes: uniqueIndexes.current,
+						deleteAtIndex: (index) => {
+							invalidateIndex(index);
+							deleteIndex([...keyPath, index]);
+						},
+						insertAtIndex: (index) => {
+							invalidateIndex(index);
+							insertIndex([...keyPath, index], undefined);
+						},
+						path: keyPath,
+						schema,
+					}}
+				/>
 			</>
 		),
 		[data]

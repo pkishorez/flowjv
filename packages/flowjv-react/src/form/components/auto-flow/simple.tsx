@@ -1,9 +1,11 @@
-import { IKeyPath, ISimpleType, execJSONExpression } from "flowjv";
+import { IKeyPath, ISimpleType } from "flowjv";
 import {
 	combineDependencies,
 	getDependencies,
 	IDependsOn,
 } from "flowjv/dist/jsonexpression";
+import { validateSimpleType } from "flowjv/dist/jsonflow/flow/simple";
+import React from "react";
 import { useState, useContext, useRef, useEffect, useMemo } from "react";
 import { flowJVContext } from "../..";
 import { IFlowJVUIConfigRef } from "../../config";
@@ -16,7 +18,7 @@ export function SimpleFlow({ schema, keyPath }: ISimpleFlow) {
 	const [touched, setTouched] = useState(false);
 	const {
 		register,
-		renderSchema,
+		renderSchema: SchemaUI,
 		subscribeData,
 		deleteValue,
 		getValue,
@@ -45,28 +47,19 @@ export function SimpleFlow({ schema, keyPath }: ISimpleFlow) {
 			) ?? selfDependency;
 		return subscribeData(deps, function ({ data, context }) {
 			setErrors(
-				(schema.validations
-					?.reduce(
-						(agg, v) => [
-							...agg,
-							!!execJSONExpression(v.logic, {
-								data,
-								context,
-								refPath: keyPath,
-							})
-								? null
-								: v.err,
-						],
-						[] as (string | null)[]
-					)
-					.filter((v) => v !== null) as string[]) ?? []
+				validateSimpleType(
+					schema,
+					{ data, context, refPath: keyPath },
+					{}
+				).errors
 			);
 		});
 	}, [schema, register]);
 
 	const result = useMemo(() => {
-		const result = schema
-			? renderSchema({
+		const result = schema ? (
+			<SchemaUI
+				{...{
 					schemaType: "simple",
 					schema,
 					setValue,
@@ -79,8 +72,9 @@ export function SimpleFlow({ schema, keyPath }: ISimpleFlow) {
 					touched,
 					path: keyPath,
 					value: getValue(keyPath),
-			  })
-			: null;
+				}}
+			/>
+		) : null;
 		return result;
 	}, [errors, schema, touched]);
 	return result;

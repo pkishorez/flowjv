@@ -8,8 +8,9 @@ export type IFlowSchema<
 	B = {},
 	C = {},
 	D = {},
-	E = {}
-> = IObjectType<IData, IContext, A, B, C, D, E>;
+	E = {},
+	F = {}
+> = IObjectType<IData, IContext, A, B, C, D, E, F>;
 
 export const validateJSONFlow = (
 	schema: IFlowSchema,

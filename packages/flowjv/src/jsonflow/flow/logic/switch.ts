@@ -13,13 +13,14 @@ export type ISwitchType<
 	B = {},
 	C = {},
 	D = {},
-	E = {}
+	E = {},
+	F = {}
 > = {
 	type: "switch";
 	blockId?: string;
 	switch: IJSONExpression<IData, IContext>;
 	cases: {
-		[key: string]: IObjectProperty<IData, IContext, A, B, C, D, E>[];
+		[key: string]: IObjectProperty<IData, IContext, A, B, C, D, E, F>[];
 	};
 };
 

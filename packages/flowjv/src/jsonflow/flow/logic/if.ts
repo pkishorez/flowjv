@@ -17,17 +17,18 @@ export type IIfConditionType<
 	B = {},
 	C = {},
 	D = {},
-	E = {}
+	E = {},
+	F = {}
 > = {
 	type: "if";
 	cond: IJSONExpression<IData, IContext>;
 	true: (
-		| IObjectProperty<IData, IContext, A, B, C, D, E>
-		| IObjectCondition<IData, IContext, A, B, C, D, E>
+		| IObjectProperty<IData, IContext, A, B, C, D, E, F>
+		| IObjectCondition<IData, IContext, A, B, C, D, E, F>
 	)[];
 	false?: (
-		| IObjectProperty<IData, IContext, A, B, C, D, E>
-		| IObjectCondition<IData, IContext, A, B, C, D, E>
+		| IObjectProperty<IData, IContext, A, B, C, D, E, F>
+		| IObjectCondition<IData, IContext, A, B, C, D, E, F>
 	)[];
 };
 

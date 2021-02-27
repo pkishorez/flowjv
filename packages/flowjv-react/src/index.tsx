@@ -8,8 +8,9 @@ export function setupFlowJV<
 	Number = {},
 	Boolean = {},
 	Enum = {},
-	Custom = {}
->(func: IFlowJVUIConfig<String, Number, Boolean, Enum, Custom>) {
+	Custom = {},
+	Array = {}
+>(func: IFlowJVUIConfig<String, Number, Boolean, Enum, Custom, Array>) {
 	type flowSchema = <IData = {}, IContext = {}>(
 		schema: IFlowSchema<
 			IData,
@@ -18,9 +19,19 @@ export function setupFlowJV<
 			Number,
 			Boolean,
 			Enum,
-			Custom
+			Custom,
+			Array
 		>
-	) => IFlowSchema<IData, IContext, String, Number, Boolean, Enum, Custom>;
+	) => IFlowSchema<
+		IData,
+		IContext,
+		String,
+		Number,
+		Boolean,
+		Enum,
+		Custom,
+		Array
+	>;
 	return {
 		flowSchema: ((schema: IFlowSchema) => schema) as flowSchema,
 		FlowJVForm: <IFormData, IFormContext>(
@@ -33,7 +44,8 @@ export function setupFlowJV<
 				Number,
 				Boolean,
 				Enum,
-				Custom
+				Custom,
+				Array
 			>
 				{...props}
 				flowConfig={func}

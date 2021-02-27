@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -23,7 +23,7 @@ function Wrapper({ children, style }: any) {
 	const count = useRef(0);
 	count.current++;
 	return (
-		<div style={{ marginTop: 10, position: "relative", ...style }}>
+		<div style={{ marginTop: 15, position: "relative", ...style }}>
 			{children}
 			<div
 				style={{
@@ -48,58 +48,105 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 	{},
 	{},
 	{ uiType?: "radio" | "select" },
-	{}
->((args) => {
-	switch (args.schemaType) {
+	{},
+	{
+		minLength?: number;
+		maxLength?: number;
+		length?: number;
+	}
+>((props) => {
+	switch (props.schemaType) {
 		case "array": {
 			const {
 				path,
-				value,
+				value = [],
 				insertAtIndex,
 				deleteAtIndex,
 				uniqueIndexes,
-			} = args;
+				schema: { minLength, maxLength, length, ...schema },
+			} = props;
 			return (
-				<div style={{ marginLeft: 30 }}>
-					{value.map((_, i) => (
-						<div
-							style={{
-								display: "flex",
-								alignItems: "center",
-								marginTop: 10,
-							}}
-							key={uniqueIndexes[i] ?? i}
-						>
+				<div
+					style={{
+						marginTop: 15,
+						border: "1px solid gray",
+						borderLeft: 0,
+						borderRight: 0,
+					}}
+				>
+					{schema.label && <FormLabel>{schema.label}</FormLabel>}
+					<div style={{ marginLeft: 30 }}>
+						{value.length === 0 && <h2>No values present</h2>}
+						{value.map((_, i) => (
 							<div
 								style={{
-									backgroundColor: "rgba(0,0,0,0.1)",
-									flexGrow: 1,
+									display: "flex",
+									alignItems: "center",
+									marginTop: i === 0 ? 0 : 10,
 								}}
+								key={uniqueIndexes[i] ?? i}
 							>
-								<AutoFlow path={[...path, i]} />
+								<div
+									style={{
+										// backgroundColor: "rgba(0,0,0,0.1)",
+										flexGrow: 1,
+									}}
+								>
+									<AutoFlow path={[...path, i]} />
+								</div>
+								{length === value.length ? null : (
+									<div
+										style={{
+											display: "flex",
+											flexDirection: "column",
+										}}
+									>
+										{(minLength === undefined ||
+											value.length > minLength) && (
+											<IconButton
+												size="small"
+												style={{ marginBottom: 0 }}
+												onClick={() => deleteAtIndex(i)}
+											>
+												<DeleteIcon fontSize="small" />
+											</IconButton>
+										)}
+										{(maxLength === undefined ||
+											value.length < maxLength) && (
+											<IconButton
+												size="small"
+												onClick={() =>
+													insertAtIndex(i + 1)
+												}
+											>
+												<AddIcon fontSize="small" />
+											</IconButton>
+										)}
+									</div>
+								)}
 							</div>
+						))}
+						{length === value.length ? null : (
 							<div
 								style={{
 									display: "flex",
 									flexDirection: "column",
 								}}
 							>
-								<IconButton
-									size="small"
-									style={{ marginBottom: 0 }}
-									onClick={() => deleteAtIndex(i)}
-								>
-									<DeleteIcon fontSize="small" />
-								</IconButton>
-								<IconButton
-									size="small"
-									onClick={() => insertAtIndex(i + 1)}
-								>
-									<AddIcon fontSize="small" />
-								</IconButton>
+								{(maxLength === undefined ||
+									value.length < maxLength) && (
+									<Button
+										size="small"
+										onClick={() =>
+											insertAtIndex(value.length)
+										}
+									>
+										Add <AddIcon fontSize="small" />
+									</Button>
+								)}
 							</div>
-						</div>
-					))}
+						)}
+					</div>
 				</div>
 			);
 		}
@@ -113,7 +160,7 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 				touched,
 				path,
 				registerRef: register,
-			} = args;
+			} = props;
 			switch (schema.type) {
 				case "string": {
 					return (
@@ -158,6 +205,11 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 									});
 								}}
 							/>
+							{touched && (
+								<FormHelperText>
+									{errors.join("\n")}
+								</FormHelperText>
+							)}
 						</Wrapper>
 					);
 				}

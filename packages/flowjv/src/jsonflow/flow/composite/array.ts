@@ -10,11 +10,13 @@ export type IArrayType<
 	B = {},
 	C = {},
 	D = {},
-	E = {}
-> = {
+	E = {},
+	F = {}
+> = F & {
 	type: "array";
+	label?: string;
 	itemSchema:
-		| IObjectType<IData, IContext, A, B, C, D, E>
+		| IObjectType<IData, IContext, A, B, C, D, E, F>
 		| ISimpleType<IData, IContext, A, B, C, D, E>;
 	isRequired?: boolean;
 	errMsgs?: {

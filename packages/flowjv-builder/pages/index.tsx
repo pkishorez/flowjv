@@ -76,6 +76,9 @@ const schema = flowSchema<IData>({
 				{
 					key: "array",
 					type: "array",
+					label: "Array",
+					// length: 3,
+
 					itemSchema: {
 						type: "object",
 						properties: [
@@ -83,10 +86,20 @@ const schema = flowSchema<IData>({
 							{
 								key: "subarray",
 								type: "array",
+								label: "SubArray",
+								length: 3,
 								itemSchema: {
 									type: "object",
 									properties: [
-										{ key: "subobj", type: "string" },
+										{
+											key: "subobj",
+											type: "string",
+											isRequired: true,
+											errMsgs: {
+												required:
+													"Value for subobj is required!",
+											},
+										},
 									],
 								},
 							},
@@ -123,7 +136,7 @@ export default function Builder() {
 					password: "hello",
 					confirmPassword: "hello",
 					gender: "male",
-					array: [{ subarray: [{}, {}] }, {}, {}],
+					array: [{ subarray: [{}, {}, {}] }],
 				},
 			}}
 		>

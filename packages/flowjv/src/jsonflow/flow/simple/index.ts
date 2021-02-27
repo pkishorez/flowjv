@@ -84,7 +84,7 @@ export function validateSimpleType(
 		: false;
 
 	isRequiredError &&
-		errors.push(schema.errMsgs?.required || ErrorMsgs.required);
+		errors.push(schema.errMsgs?.required ?? ErrorMsgs.required);
 
 	// Type check
 	if (config.typeCheck) {
@@ -98,13 +98,13 @@ export function validateSimpleType(
 					value !== undefined &&
 					config.typeCheck &&
 					type !== schema.type &&
-					(schema.errMsgs?.type || ErrorMsgs.type);
+					(schema.errMsgs?.type ?? ErrorMsgs.type);
 				break;
 			case "enum":
 				typeError =
 					value !== undefined &&
 					schema.items.findIndex((v) => v.value === value) === -1 &&
-					(schema.errMsgs?.type || ErrorMsgs.type);
+					(schema.errMsgs?.type ?? ErrorMsgs.type);
 		}
 		typeError && errors.push(typeError);
 	}

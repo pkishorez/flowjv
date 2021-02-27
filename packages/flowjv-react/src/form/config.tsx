@@ -12,7 +12,8 @@ export type IFlowJVUIConfig<
 	numberUI = {},
 	booleanUI = {},
 	enumUI = {},
-	customUI = {}
+	customUI = {},
+	Array = {}
 > = (
 	args:
 		| {
@@ -45,7 +46,8 @@ export type IFlowJVUIConfig<
 					numberUI,
 					booleanUI,
 					enumUI,
-					customUI
+					customUI,
+					Array
 				>;
 				uniqueIndexes: number[];
 				value: any[];

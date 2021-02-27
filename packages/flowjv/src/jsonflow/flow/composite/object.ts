@@ -12,10 +12,11 @@ export type IObjectCondition<
 	B = {},
 	C = {},
 	D = {},
-	E = {}
+	E = {},
+	F = {}
 > =
-	| IIfConditionType<IData, IContext, A, B, C, D, E>
-	| ISwitchType<IData, IContext, A, B, C, D, E>;
+	| IIfConditionType<IData, IContext, A, B, C, D, E, F>
+	| ISwitchType<IData, IContext, A, B, C, D, E, F>;
 export type IObjectProperty<
 	IData = {},
 	IContext = {},
@@ -23,11 +24,12 @@ export type IObjectProperty<
 	B = {},
 	C = {},
 	D = {},
-	E = {}
+	E = {},
+	F = {}
 > = (
 	| ISimpleType<IData, IContext, A, B, C, D, E>
-	| IObjectType<IData, IContext, A, B, C, D, E>
-	| IArrayType<IData, IContext, A, B, C, D, E>
+	| IObjectType<IData, IContext, A, B, C, D, E, F>
+	| IArrayType<IData, IContext, A, B, C, D, E, F>
 ) & {
 	key: string;
 };
@@ -39,7 +41,8 @@ export type IObjectPropertyAndCondition<
 	B = {},
 	C = {},
 	D = {},
-	E = {}
+	E = {},
+	F = {}
 > =
 	| IObjectCondition<IData, IContext, A, B, C, D, E>
 	| IObjectProperty<IData, IContext, A, B, C, D, E>;
@@ -51,12 +54,13 @@ export type IObjectType<
 	B = {},
 	C = {},
 	D = {},
-	E = {}
+	E = {},
+	F = {}
 > = {
 	type: "object";
 	properties: (
-		| IObjectProperty<IData, IContext, A, B, C, D, E>
-		| IObjectCondition<IData, IContext, A, B, C, D, E>
+		| IObjectProperty<IData, IContext, A, B, C, D, E, F>
+		| IObjectCondition<IData, IContext, A, B, C, D, E, F>
 	)[];
 };
 

@@ -75,7 +75,7 @@ export const unset = (obj: any, keyPath: IKeyPath) => {
 export function insertIndex(obj: any, keyPath_: IKeyPath, value?: any) {
 	const keyPath = [...keyPath_];
 	const index = keyPath.pop();
-	const arr = get(obj, keyPath);
+	const arr = get(obj, keyPath, []);
 	if (!Array.isArray(arr)) {
 		throw new Error(`Value is not an array at path ${keyPath.join(".")}.`);
 	}

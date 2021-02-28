@@ -273,15 +273,9 @@ const helper = {
 };
 
 // If getDependencies return null, it means it dependencies cannot be determined.
-export interface IDependsOn {
-	data: string[];
-	context: string[];
-}
+export type IDependsOn = string[];
 export function getDependencies(expr: IExpression): IDependsOn | null {
-	const dependsOn: IDependsOn = {
-		data: [],
-		context: [],
-	};
+	const dependsOn: IDependsOn = [];
 	if (
 		typeof expr === "number" ||
 		typeof expr === "string" ||
@@ -293,18 +287,12 @@ export function getDependencies(expr: IExpression): IDependsOn | null {
 		return null;
 	}
 	if (!Array.isArray(expr) && typeof expr === "object") {
-		return {
-			data: expr.deps?.data ?? [],
-			context: expr.deps?.context ?? [],
-		};
+		return expr.deps?.data ?? [];
 	}
 	// Logic for dependencies goes here.
 	switch (expr[0]) {
 		case "$data": {
-			return { data: [expr[1]], context: [] };
-		}
-		case "$context": {
-			return { data: [], context: [expr[1]] };
+			return [expr[1]];
 		}
 	}
 
@@ -322,16 +310,14 @@ export function getDependencies(expr: IExpression): IDependsOn | null {
 			return null;
 		}
 		if (!Array.isArray(arg) && typeof arg === "object") {
-			arg.deps?.data && dependsOn.data.push(...arg.deps?.data);
-			arg.deps?.context && dependsOn.context.push(...arg.deps?.context);
+			arg.deps?.data && dependsOn.push(...arg.deps?.data);
 			continue;
 		}
 		const deps = getDependencies(arg);
 		if (deps === null) {
 			return null;
 		}
-		deps.data && dependsOn.data.push(...deps.data);
-		deps.context && dependsOn.context.push(...deps.context);
+		deps && dependsOn.push(...deps);
 	}
 	return dependsOn;
 }
@@ -342,10 +328,5 @@ export function combineDependencies(
 	d1: IDependsOn | null,
 	d2: IDependsOn | null
 ) {
-	return d1 && d2
-		? {
-				data: [...d2?.data, ...d1.data],
-				context: [...d2?.context, ...d1.context],
-		  }
-		: null;
+	return d1 && d2 ? [...d1, ...d2] : null;
 }

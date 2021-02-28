@@ -36,10 +36,7 @@ export function SimpleFlow({ schema, keyPath }: ISimpleFlow) {
 		});
 	}, []);
 	useEffect(() => {
-		const selfDependency = {
-			data: [keyPath.join(".")],
-			context: [],
-		} as IDependsOn | null;
+		const selfDependency = [keyPath.join(".")] as IDependsOn | null;
 		const deps =
 			schema.validations?.reduce(
 				(agg, v) => combineDependencies(agg, getDependencies(v.logic)),

@@ -29,21 +29,18 @@ export function ArrayFlow({ schema, keyPath }: IArrayFlowProps) {
 	const uniqueIndexes = useRef<number[]>([]);
 
 	const invalidateIndex = useCallback((index: number) => {
-		uniqueIndexes.current[index] = uniqueId.current++;
+		uniqueIndexes.current.length = index;
 	}, []);
 
 	useEffect(() => {
-		return subscribeData(
-			{ data: [keyPath.join(".")], context: [] },
-			({ data }) => {
-				const value = get(data, keyPath, []);
-				for (let i = 0; i < value.length; i++) {
-					uniqueIndexes.current[i] =
-						uniqueIndexes.current[i] ?? uniqueId.current++;
-				}
-				setData(value);
+		return subscribeData([keyPath.join(".")], ({ data }) => {
+			const value = get(data, keyPath, []);
+			for (let i = 0; i < value.length; i++) {
+				uniqueIndexes.current[i] =
+					uniqueIndexes.current[i] ?? uniqueId.current++;
 			}
-		);
+			setData(value);
+		});
 	}, []);
 
 	const result = useMemo(

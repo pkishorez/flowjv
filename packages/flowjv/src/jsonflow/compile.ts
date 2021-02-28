@@ -59,7 +59,7 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 					if (!blocks[path]) {
 						blocks[path] = {
 							items: [],
-							deps: { data: [], context: [] },
+							deps: [],
 						};
 					}
 					blocks[path]?.items?.push({
@@ -83,7 +83,7 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 						if (!blocks[path]) {
 							blocks[path] = {
 								items: [],
-								deps: { data: [], context: [] },
+								deps: [],
 							};
 						}
 						blocks[path]?.items?.push({
@@ -99,7 +99,7 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 						if (!blocks[path]) {
 							blocks[path] = {
 								items: [],
-								deps: { data: [], context: [] },
+								deps: [],
 							};
 						}
 						blocks[path]?.items?.push({
@@ -185,7 +185,7 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 				if (!blocks[path]) {
 					blocks[path] = {
 						items: [],
-						deps: { data: [], context: [] },
+						deps: [],
 					};
 				}
 				blocks[path]?.items?.push({ condPath, schema, deps });
@@ -193,7 +193,7 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 			}
 		}
 	}
-	compile(schema, [], [], { data: [], context: [] });
+	compile(schema, [], [], []);
 
 	return Object.entries(blocks).reduce(
 		(agg, [key, value]) => ({
@@ -202,7 +202,7 @@ export function compileSchema(schema: IFlowSchema): IBlocks {
 				items: value?.items,
 				deps: value?.items?.reduce(
 					(agg, v) => combineDependencies(agg, v.deps),
-					<IBlockDetails["deps"]>{ data: [], context: [] }
+					<IBlockDetails["deps"]>[]
 				),
 			},
 		}),

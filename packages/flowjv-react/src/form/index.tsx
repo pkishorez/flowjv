@@ -85,12 +85,7 @@ export function FlowJVForm<
 				| undefined
 				| Set<(value: { data: any; context: any }) => void>;
 		};
-		context: {
-			[path: string]:
-				| undefined
-				| Set<(value: { data: any; context: any }) => void>;
-		};
-	}>({ data: {}, context: {} });
+	}>({ data: {} });
 
 	const validationSubscribers = useRef<
 		Set<(args: IFormValidationResult) => void>
@@ -137,10 +132,10 @@ export function FlowJVForm<
 		getBlock(key: IKeyPath) {
 			if (key.length === 0) {
 				const value: IBlocks[0] = {
-					deps: { data: [], context: [] },
+					deps: [],
 					items: [
 						{
-							deps: { data: [], context: [] },
+							deps: [],
 							condPath: [],
 							schema,
 						},
@@ -201,7 +196,7 @@ export function FlowJVForm<
 				allSubscribers.current.add(func);
 				return;
 			}
-			const { data: d, context: c } = deps;
+			const d = deps;
 			func({ data: data.current, context: context.current });
 			d.forEach((path) => {
 				if (!subscribers.current.data[path]) {
@@ -209,18 +204,9 @@ export function FlowJVForm<
 				}
 				subscribers.current.data[path]?.add(func);
 			});
-			c.forEach((path) => {
-				if (!subscribers.current.context[path]) {
-					subscribers.current.context[path] = new Set();
-				}
-				subscribers.current.context[path]?.add(func);
-			});
 			return () => {
 				d.forEach((path) => {
 					subscribers.current.data[path]?.delete(func);
-				});
-				c.forEach((path) => {
-					subscribers.current.context[path]?.delete(func);
 				});
 			};
 		},

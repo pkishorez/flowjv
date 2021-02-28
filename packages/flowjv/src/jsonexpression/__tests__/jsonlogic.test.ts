@@ -56,12 +56,9 @@ describe("JSON Logic Test cases::", () => {
 	});
 	it("Function Expression", () => {
 		expect(
-			execJSONExpression<IData>(
-				({ data, context }) => data?.nested?.data?.age,
-				{
-					data: { name: "Kishore", nested: { data: { age: 25 } } },
-				}
-			)
+			execJSONExpression<IData>(({ data }) => data?.nested?.data?.age, {
+				data: { name: "Kishore", nested: { data: { age: 25 } } },
+			})
 		).toBe(25);
 	});
 

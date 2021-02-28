@@ -49,7 +49,7 @@ export function AutoFlow({ path = "" }: IAutoFlowProps) {
 		}
 	}, [keyPath]);
 
-	if (!schema) return <div>No schema found!</div>;
+	if (!schema) return null;
 
 	switch (schema.type) {
 		case "object": {

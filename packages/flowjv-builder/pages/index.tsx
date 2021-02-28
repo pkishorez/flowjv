@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import Head from "next/head";
 import cx from "classnames";
+import video1 from "../public/demo/video1.mp4";
+import video2 from "../public/demo/video2.mp4";
+import video3 from "../public/demo/video3.mp4";
+import video4 from "../public/demo/video4.mp4";
 
 export default function IndexPage() {
 	return (
@@ -27,7 +31,7 @@ export default function IndexPage() {
 						<br /> FlowJV takes care of the rest!
 					</p>
 				}
-				videoSrc="/demo/simple.mp4"
+				videoSrc={video1}
 			/>
 			<Screen
 				title="Validation"
@@ -39,7 +43,7 @@ export default function IndexPage() {
 						FlowJV takes care of showing validations as appropriate.
 					</p>
 				}
-				videoSrc="/demo/validations.mp4"
+				videoSrc={video2}
 			/>
 			<Screen
 				title="Conditionals"
@@ -50,7 +54,7 @@ export default function IndexPage() {
 						FlowJV can have data requirements defined conditionally.
 					</p>
 				}
-				videoSrc="/demo/conditional.mp4"
+				videoSrc={video3}
 			/>
 			<Screen
 				title="Arrays"
@@ -63,7 +67,7 @@ export default function IndexPage() {
 						requirements!
 					</p>
 				}
-				videoSrc="/demo/array.mp4"
+				videoSrc={video4}
 			/>
 			<div
 				className={cx(

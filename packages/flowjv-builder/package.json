@@ -29,7 +29,8 @@
 		"flowjv": "^0.8.0",
 		"flowjv-react": "^0.8.0",
 		"flowjv-react-custom": "^0.8.0",
-		"next": "^10.0.5"
+		"next": "^10.0.5",
+		"next-videos": "^1.4.0"
 	},
 	"gitHead": "5a51fbeddf5a8376812cf4aa06362bffe5b78ef5"
 }

@@ -1,10 +1,15 @@
 import React, { useEffect, useRef } from "react";
+import Head from "next/head";
 import cx from "classnames";
 
 export default function IndexPage() {
 	return (
 		<div>
-			<div className="h-screen flex items-center justify-center bg-gray-50 text-gray-700">
+			<Head>
+				<meta name="theme-color" content="#109488" />
+				<title>FlowJV</title>
+			</Head>
+			<div className="h-screen flex items-center justify-center bg-gray-50 text-teal-700">
 				<div className="text-center -mt-32">
 					<h2 className="text-6xl font-bold mb-0">FlowJV</h2>
 					<div className="text-left">
@@ -60,6 +65,52 @@ export default function IndexPage() {
 				}
 				videoSrc="/demo/array.mp4"
 			/>
+			<div
+				className={cx(
+					"min-h-screen flex items-center justify-center bg-teal-700 text-gray-50",
+					"relative"
+				)}
+			>
+				<div
+					className={cx(
+						"flex justify-center flex-col",
+						"md:flex-row"
+					)}
+				>
+					<div
+						className={cx(
+							"bg-gray-50 mx-4 px-10 p-5 text-teal-700",
+							"shadow-2xl"
+						)}
+					>
+						<h2 className="text-4xl">Feature check list</h2>
+						<CheckItem>Automatic UI render</CheckItem>
+						<CheckItem>Validations</CheckItem>
+						<CheckItem>Conditionals</CheckItem>
+						<CheckItem>Arrays</CheckItem>
+						<CheckItem>Custom UI</CheckItem>
+					</div>
+				</div>
+				<div className="absolute bottom-5 left-0 right-0 flex justify-center text-lg">
+					<div>
+						By{" "}
+						<a
+							href="https://www.linkedin.com/in/pkishoez"
+							className="text-gray-50 font-bold"
+						>
+							Kishore
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
+function CheckItem({ children = "" }) {
+	return (
+		<div className="flex items-center mt-2">
+			<span className="text-2xl">✅</span>
+			<div className="flex-grow ml-3 text-lg">{children}</div>
 		</div>
 	);
 }

@@ -25,7 +25,7 @@ function Wrapper({ children, style }: any) {
 	return (
 		<div style={{ marginTop: 15, position: "relative", ...style }}>
 			{children}
-			<div
+			{/* <div
 				style={{
 					position: "absolute",
 					right: "0px",
@@ -37,7 +37,7 @@ function Wrapper({ children, style }: any) {
 				}}
 			>
 				{count.current}
-			</div>
+			</div> */}
 		</div>
 	);
 }
@@ -68,62 +68,52 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 			return (
 				<div
 					style={{
-						marginTop: 15,
-						border: "1px solid gray",
-						borderLeft: 0,
-						borderRight: 0,
+						marginTop: 20,
 					}}
 				>
-					{schema.label && <FormLabel>{schema.label}</FormLabel>}
-					<div style={{ marginLeft: 30 }}>
-						{value.length === 0 && <h2>No values present</h2>}
+					{schema.label && (
+						<FormLabel
+							style={{ display: "flex", alignItems: "center" }}
+						>
+							{schema.label}{" "}
+						</FormLabel>
+					)}
+					<div
+						style={{
+							// marginLeft: 10,
+							padding: 10,
+							backgroundColor: "rgba(0,0,0,0.03)",
+						}}
+					>
 						{value.map((_, i) => (
 							<div
 								style={{
 									display: "flex",
 									alignItems: "center",
-									marginTop: i === 0 ? 0 : 10,
 								}}
 								key={uniqueIndexes[i] ?? i}
 							>
 								<div
 									style={{
-										// backgroundColor: "rgba(0,0,0,0.1)",
 										flexGrow: 1,
 									}}
 								>
 									<AutoFlow path={[...path, i]} />
 								</div>
-								{length === value.length ? null : (
-									<div
-										style={{
-											display: "flex",
-											flexDirection: "column",
-										}}
-									>
-										{(minLength === undefined ||
+								{length === value.length
+									? null
+									: (minLength === undefined ||
 											value.length > minLength) && (
 											<IconButton
-												size="small"
-												style={{ marginBottom: 0 }}
+												size="medium"
+												style={{ marginTop: -10 }}
 												onClick={() => deleteAtIndex(i)}
 											>
-												<DeleteIcon fontSize="small" />
+												<DeleteIcon
+													style={{ fontSize: 18 }}
+												/>
 											</IconButton>
-										)}
-										{(maxLength === undefined ||
-											value.length < maxLength) && (
-											<IconButton
-												size="small"
-												onClick={() =>
-													insertAtIndex(i + 1)
-												}
-											>
-												<AddIcon fontSize="small" />
-											</IconButton>
-										)}
-									</div>
-								)}
+									  )}
 							</div>
 						))}
 						{length === value.length ? null : (
@@ -131,17 +121,19 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 								style={{
 									display: "flex",
 									flexDirection: "column",
+									marginTop: 10,
 								}}
 							>
 								{(maxLength === undefined ||
 									value.length < maxLength) && (
 									<Button
-										size="small"
+										size="medium"
+										variant="outlined"
 										onClick={() =>
 											insertAtIndex(value.length)
 										}
 									>
-										Add <AddIcon fontSize="small" />
+										Add <AddIcon style={{ fontSize: 10 }} />
 									</Button>
 								)}
 							</div>
@@ -172,7 +164,7 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 								error={touched ? !!errors.length : false}
 								helperText={touched && errors.join("\n")}
 								type={schema.uiType ?? "text"}
-								placeholder={path.join(".")}
+								placeholder={schema.label ?? path.join(".")}
 								value={value ?? ""}
 								onChange={(e) => setValue(path, e.target.value)}
 								onFocus={() => onTouch(true)}
@@ -332,6 +324,8 @@ export function SubmitButton(props: ButtonProps) {
 			{({ isValid }) => (
 				<Button
 					{...props}
+					disableRipple={!isValid}
+					disableElevation
 					color={isValid ? "primary" : "default"}
 					variant="contained"
 					className={"block w-full mt-5 focus:outline-none"}

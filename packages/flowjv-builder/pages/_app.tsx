@@ -1,11 +1,24 @@
 import React from "react";
 import "../styles/index.css";
-import { StylesProvider } from "@material-ui/core/styles";
+import {
+	StylesProvider,
+	createMuiTheme,
+	ThemeProvider,
+} from "@material-ui/core/styles";
+import { blueGrey, deepOrange } from "@material-ui/core/colors";
 
+const theme = createMuiTheme({
+	palette: {
+		primary: blueGrey,
+		secondary: deepOrange,
+	},
+});
 function MyApp({ Component, pageProps }: any) {
 	return (
 		<StylesProvider injectFirst>
-			<Component {...pageProps} />
+			<ThemeProvider theme={theme}>
+				<Component {...pageProps} />
+			</ThemeProvider>
 		</StylesProvider>
 	);
 }

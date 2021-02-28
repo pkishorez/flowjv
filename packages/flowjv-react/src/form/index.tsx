@@ -135,6 +135,19 @@ export function FlowJVForm<
 	const formContext: IFlowJVContext = {
 		schema,
 		getBlock(key: IKeyPath) {
+			if (key.length === 0) {
+				const value: IBlocks[0] = {
+					deps: { data: [], context: [] },
+					items: [
+						{
+							deps: { data: [], context: [] },
+							condPath: [],
+							schema,
+						},
+					],
+				};
+				return value;
+			}
 			return blocks[
 				key.map((v) => (typeof v === "number" ? "$" : v)).join(".")
 			];

@@ -13,9 +13,17 @@ export default function IndexPage() {
 				<meta name="theme-color" content="#109488" />
 				<title>FlowJV</title>
 			</Head>
-			<div className="h-screen flex items-center justify-center bg-gray-50 text-teal-700">
-				<div className="text-center -mt-32">
-					<h2 className="text-6xl font-bold mb-0">FlowJV</h2>
+			<div
+				className={cx(
+					"h-screen flex items-center justify-center bg-gray-50 text-gray-50",
+					"relative overflow-hidden"
+				)}
+			>
+				<div
+					className="text-center -mt-32 relative p-4 rounded-md shadow-2xl"
+					style={{ backgroundColor: "rgba(15, 118, 110, 0.8)" }}
+				>
+					<h2 className="text-6xl font-bold my-0">FlowJV</h2>
 					<div className="text-left">
 						<Wave str="A Flow based approach to JSON Validation" />
 					</div>
@@ -113,7 +121,9 @@ export default function IndexPage() {
 function CheckItem({ children = "" }) {
 	return (
 		<div className="flex items-center mt-2">
-			<span className="text-2xl">✅</span>
+			<span className="text-sm text-gray-50 bg-teal-700 w-5 h-5 flex items-center justify-center font-bold rounded-md">
+				✓
+			</span>
 			<div className="flex-grow ml-3 text-lg">{children}</div>
 		</div>
 	);

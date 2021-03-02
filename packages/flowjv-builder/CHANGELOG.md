@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/kishoreiiitn/flowjv/compare/v0.8.0...v0.9.0) (2021-03-02)
+
+
+### Bug Fixes
+
+* fix block compiling (bug at nesting). And few enhancements ([7f09cb7](https://github.com/kishoreiiitn/flowjv/commit/7f09cb7c6ae3255ea916d15edb6a719667bfbb5d))
+* move declarations to next.d.ts ([a467cb3](https://github.com/kishoreiiitn/flowjv/commit/a467cb3c0ae4ffe97d553eed08ddf9f26920c7e8))
+
+
+### Features
+
+* add custom ui configuration capability to array type! ([4e2bc6e](https://github.com/kishoreiiitn/flowjv/commit/4e2bc6ec8af4c0ebb40b80c0aca8d5af45738403))
+* add first error field focus on submit ([f2c3d45](https://github.com/kishoreiiitn/flowjv/commit/f2c3d454bebbd5bf6f6ce5ce9d17c6670bac9461))
+* add formSpy component inspired from final-form ([781e7f6](https://github.com/kishoreiiitn/flowjv/commit/781e7f6350e397b10302becbddfd208d6d763281))
+* add UI support for arrays ([6a5f1f6](https://github.com/kishoreiiitn/flowjv/commit/6a5f1f602b1110ed1d56e385868051dce8043ab5))
+
+
+
+
+
 # [0.8.0](https://github.com/kishoreiiitn/flowjv/compare/v0.7.3...v0.8.0) (2021-02-11)
 
 

@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/kishoreiiitn/flowjv/compare/v0.8.0...v0.9.0) (2021-03-02)
+
+
+### Bug Fixes
+
+* compile itemSchema in array entry ([da1f77a](https://github.com/kishoreiiitn/flowjv/commit/da1f77a393e196b7fec91abced71b11926eafa32))
+* delete array element if index falls within array length ([9e44feb](https://github.com/kishoreiiitn/flowjv/commit/9e44feb118fd118b484e651edab93c33a4e84709))
+* fix block compiling (bug at nesting). And few enhancements ([7f09cb7](https://github.com/kishoreiiitn/flowjv/commit/7f09cb7c6ae3255ea916d15edb6a719667bfbb5d))
+* ignore even if value is not present ([0cca450](https://github.com/kishoreiiitn/flowjv/commit/0cca450e509d72de6bb2aeef296cc4f380480830))
+
+
+### Features
+
+* add custom ui configuration capability to array type! ([4e2bc6e](https://github.com/kishoreiiitn/flowjv/commit/4e2bc6ec8af4c0ebb40b80c0aca8d5af45738403))
+* add support for array in flowjv ([2b8f343](https://github.com/kishoreiiitn/flowjv/commit/2b8f3437f5ba577abfb32d84bc45c2b807b8e468))
+* make context readonly. Do not include in dependencies ([7d278be](https://github.com/kishoreiiitn/flowjv/commit/7d278bee497fa7854f8d15dd888f51ebc84dc440))
+
+
+
+
+
 # [0.8.0](https://github.com/kishoreiiitn/flowjv/compare/v0.7.3...v0.8.0) (2021-02-11)
 
 

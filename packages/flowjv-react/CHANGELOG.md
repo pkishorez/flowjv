@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com-pkishoez/pkishoez/flowjv/compare/v0.8.0...v0.9.0) (2021-03-02)
+
+
+### Bug Fixes
+
+* fix block compiling (bug at nesting). And few enhancements ([7f09cb7](https://github.com-pkishoez/pkishoez/flowjv/commit/7f09cb7c6ae3255ea916d15edb6a719667bfbb5d))
+* invalidate array index, whenever deleted or inserted ([c70228a](https://github.com-pkishoez/pkishoez/flowjv/commit/c70228a707bed4169fd6232b7f1c04bc4a5302f7))
+* subscribe all ([13ef96e](https://github.com-pkishoez/pkishoez/flowjv/commit/13ef96e45cc0fb81cdcd17a45a833c19f996b228))
+* when keyPath is empty return top level schema ([bd0c10c](https://github.com-pkishoez/pkishoez/flowjv/commit/bd0c10c39d5a015a4b00759a42a0e733a890d762))
+
+
+### Features
+
+* add ability to touch all the fields onSubmit ([9551ff7](https://github.com-pkishoez/pkishoez/flowjv/commit/9551ff780ebc32dd4b4fbac54188ca76ac054f2e))
+* add custom ui configuration capability to array type! ([4e2bc6e](https://github.com-pkishoez/pkishoez/flowjv/commit/4e2bc6ec8af4c0ebb40b80c0aca8d5af45738403))
+* add first error field focus on submit ([f2c3d45](https://github.com-pkishoez/pkishoez/flowjv/commit/f2c3d454bebbd5bf6f6ce5ce9d17c6670bac9461))
+* add formSpy component inspired from final-form ([781e7f6](https://github.com-pkishoez/pkishoez/flowjv/commit/781e7f6350e397b10302becbddfd208d6d763281))
+* add UI support for arrays ([6a5f1f6](https://github.com-pkishoez/pkishoez/flowjv/commit/6a5f1f602b1110ed1d56e385868051dce8043ab5))
+* make context readonly. Do not include in dependencies ([7d278be](https://github.com-pkishoez/pkishoez/flowjv/commit/7d278bee497fa7854f8d15dd888f51ebc84dc440))
+* provide a way to override the default ui from schema ([3229f5c](https://github.com-pkishoez/pkishoez/flowjv/commit/3229f5ca1b2c00b6898a9d11959e71f202be6857))
+
+
+
+
+
 # [0.8.0](https://github.com-pkishoez/pkishoez/flowjv/compare/v0.7.3...v0.8.0) (2021-02-11)
 
 

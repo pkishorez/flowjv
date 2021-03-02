@@ -42,10 +42,14 @@ export interface IFlowJVForm<
 	F = {}
 > {
 	initialData?: Partial<IData>;
-	initialContext?: Partial<IContext>;
+	context?: Partial<IContext>;
 	flowConfig: IFlowJVUIConfig<A, B, C, D, E, F>;
 	schema: IFlowSchema;
 	children: any;
+	schemaUI?: IFlowJVUIConfig<A, B, C, D, E, F>;
+	renderMap?: {
+		[key: string]: IFlowJVUIConfig<A, B, C, D, E, F>;
+	};
 	className?: string;
 	onSubmit?: (args: {
 		isValid: boolean;
@@ -64,12 +68,14 @@ export function FlowJVForm<
 	F = {}
 >({
 	initialData = {},
-	initialContext = {},
+	context: initialContext = {},
 	flowConfig,
 	schema,
 	className,
 	onSubmit,
 	children,
+	renderMap,
+	schemaUI,
 }: IFlowJVForm<IData, IContext, A, B, C, D, E, F>) {
 	const data = useRef<IData>(initialData as any);
 	const context = useRef<IContext>(initialContext as any);
@@ -210,7 +216,19 @@ export function FlowJVForm<
 				});
 			};
 		},
-		renderSchema: flowConfig as any,
+		renderSchema: (props) => {
+			const path = props.path.join(".");
+			if (renderMap?.[path]) {
+				const result = renderMap[path](props as any);
+				if (result !== null) return result;
+			}
+			if (schemaUI) {
+				const result = schemaUI(props as any);
+				if (result !== null) return result;
+			}
+			// Check for renderMap
+			return (flowConfig as any)(props);
+		},
 	};
 
 	useEffect(() => {

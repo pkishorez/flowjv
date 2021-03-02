@@ -35,7 +35,19 @@ export function setupFlowJV<
 	return {
 		flowSchema: ((schema: IFlowSchema) => schema) as flowSchema,
 		FlowJVForm: <IFormData, IFormContext>(
-			props: Omit<IFlowJVForm<IFormData, IFormContext>, "flowConfig">
+			props: Omit<
+				IFlowJVForm<
+					IFormData,
+					IFormContext,
+					String,
+					Number,
+					Boolean,
+					Enum,
+					Custom,
+					Array
+				>,
+				"flowConfig"
+			>
 		) => (
 			<FlowJVForm<
 				IFormData,

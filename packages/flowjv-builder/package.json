@@ -29,6 +29,7 @@
 		"flowjv": "^0.9.0",
 		"flowjv-react": "^0.9.0",
 		"flowjv-react-custom": "^0.9.0",
+		"loadjs": "^4.2.0",
 		"next": "^10.0.5",
 		"next-videos": "^1.4.0"
 	},

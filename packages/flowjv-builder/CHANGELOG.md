@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/kishoreiiitn/flowjv/compare/v0.9.0...v0.11.0) (2021-03-17)
+
+
+### Features
+
+* add monaco editor for facilitating playground ([042c629](https://github.com/kishoreiiitn/flowjv/commit/042c629d3013da3d70368d587000f1f626653656))
+* add playground ([e851486](https://github.com/kishoreiiitn/flowjv/commit/e851486feaea2b60b00c6a7d0f97c078704a18ba))
+
+
+
+
+
 # [0.10.0](https://github.com/kishoreiiitn/flowjv/compare/v0.9.0...v0.10.0) (2021-03-17)
 
 

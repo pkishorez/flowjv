@@ -3,171 +3,109 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.12.3](https://github.com/kishoreiiitn/flowjv/compare/v0.12.2...v0.12.3) (2021-03-19)
+## [0.12.3](https://github.com/pkishorez/flowjv/compare/v0.12.2...v0.12.3) (2021-03-19)
 
 **Note:** Version bump only for package flowjv-builder
 
-
-
-
-
-## [0.12.2](https://github.com/kishoreiiitn/flowjv/compare/v0.12.1...v0.12.2) (2021-03-19)
-
+## [0.12.2](https://github.com/pkishorez/flowjv/compare/v0.12.1...v0.12.2) (2021-03-19)
 
 ### Bug Fixes
 
-* 🐛 Add types for classnames ([9f1e7b6](https://github.com/kishoreiiitn/flowjv/commit/9f1e7b67eda5b9afa80e418c02d1243e4f1cf48f))
+-   🐛 Add types for classnames ([9f1e7b6](https://github.com/pkishorez/flowjv/commit/9f1e7b67eda5b9afa80e418c02d1243e4f1cf48f))
 
-
-
-
-
-## [0.12.1](https://github.com/kishoreiiitn/flowjv/compare/v0.12.0...v0.12.1) (2021-03-19)
+## [0.12.1](https://github.com/pkishorez/flowjv/compare/v0.12.0...v0.12.1) (2021-03-19)
 
 **Note:** Version bump only for package flowjv-builder
 
-
-
-
-
-# [0.12.0](https://github.com/kishoreiiitn/flowjv/compare/v0.11.0...v0.12.0) (2021-03-19)
-
+# [0.12.0](https://github.com/pkishorez/flowjv/compare/v0.11.0...v0.12.0) (2021-03-19)
 
 ### Features
 
-* 🎸 Add typescript support to playground for flowjv ([1bba0b9](https://github.com/kishoreiiitn/flowjv/commit/1bba0b9c8eacb73bb345b5f6e9e5c0439012ca4a))
+-   🎸 Add typescript support to playground for flowjv ([1bba0b9](https://github.com/pkishorez/flowjv/commit/1bba0b9c8eacb73bb345b5f6e9e5c0439012ca4a))
 
-
-
-
-
-# [0.11.0](https://github.com/kishoreiiitn/flowjv/compare/v0.9.0...v0.11.0) (2021-03-17)
-
+# [0.11.0](https://github.com/pkishorez/flowjv/compare/v0.9.0...v0.11.0) (2021-03-17)
 
 ### Features
 
-* add monaco editor for facilitating playground ([042c629](https://github.com/kishoreiiitn/flowjv/commit/042c629d3013da3d70368d587000f1f626653656))
-* add playground ([e851486](https://github.com/kishoreiiitn/flowjv/commit/e851486feaea2b60b00c6a7d0f97c078704a18ba))
+-   add monaco editor for facilitating playground ([042c629](https://github.com/pkishorez/flowjv/commit/042c629d3013da3d70368d587000f1f626653656))
+-   add playground ([e851486](https://github.com/pkishorez/flowjv/commit/e851486feaea2b60b00c6a7d0f97c078704a18ba))
 
-
-
-
-
-# [0.10.0](https://github.com/kishoreiiitn/flowjv/compare/v0.9.0...v0.10.0) (2021-03-17)
-
+# [0.10.0](https://github.com/pkishorez/flowjv/compare/v0.9.0...v0.10.0) (2021-03-17)
 
 ### Features
 
-* add monaco editor for facilitating playground ([042c629](https://github.com/kishoreiiitn/flowjv/commit/042c629d3013da3d70368d587000f1f626653656))
-* add playground ([e851486](https://github.com/kishoreiiitn/flowjv/commit/e851486feaea2b60b00c6a7d0f97c078704a18ba))
+-   add monaco editor for facilitating playground ([042c629](https://github.com/pkishorez/flowjv/commit/042c629d3013da3d70368d587000f1f626653656))
+-   add playground ([e851486](https://github.com/pkishorez/flowjv/commit/e851486feaea2b60b00c6a7d0f97c078704a18ba))
 
-
-
-
-
-# [0.9.0](https://github.com/kishoreiiitn/flowjv/compare/v0.8.0...v0.9.0) (2021-03-02)
-
+# [0.9.0](https://github.com/pkishorez/flowjv/compare/v0.8.0...v0.9.0) (2021-03-02)
 
 ### Bug Fixes
 
-* fix block compiling (bug at nesting). And few enhancements ([7f09cb7](https://github.com/kishoreiiitn/flowjv/commit/7f09cb7c6ae3255ea916d15edb6a719667bfbb5d))
-* move declarations to next.d.ts ([a467cb3](https://github.com/kishoreiiitn/flowjv/commit/a467cb3c0ae4ffe97d553eed08ddf9f26920c7e8))
-
-
-### Features
-
-* add custom ui configuration capability to array type! ([4e2bc6e](https://github.com/kishoreiiitn/flowjv/commit/4e2bc6ec8af4c0ebb40b80c0aca8d5af45738403))
-* add first error field focus on submit ([f2c3d45](https://github.com/kishoreiiitn/flowjv/commit/f2c3d454bebbd5bf6f6ce5ce9d17c6670bac9461))
-* add formSpy component inspired from final-form ([781e7f6](https://github.com/kishoreiiitn/flowjv/commit/781e7f6350e397b10302becbddfd208d6d763281))
-* add UI support for arrays ([6a5f1f6](https://github.com/kishoreiiitn/flowjv/commit/6a5f1f602b1110ed1d56e385868051dce8043ab5))
-
-
-
-
-
-# [0.8.0](https://github.com/kishoreiiitn/flowjv/compare/v0.7.3...v0.8.0) (2021-02-11)
-
+-   fix block compiling (bug at nesting). And few enhancements ([7f09cb7](https://github.com/pkishorez/flowjv/commit/7f09cb7c6ae3255ea916d15edb6a719667bfbb5d))
+-   move declarations to next.d.ts ([a467cb3](https://github.com/pkishorez/flowjv/commit/a467cb3c0ae4ffe97d553eed08ddf9f26920c7e8))
 
 ### Features
 
-* change JSON expression format for consistency ([d0f6886](https://github.com/kishoreiiitn/flowjv/commit/d0f68862c7b5f991622d7bdffd6beb3679074ad4))
+-   add custom ui configuration capability to array type! ([4e2bc6e](https://github.com/pkishorez/flowjv/commit/4e2bc6ec8af4c0ebb40b80c0aca8d5af45738403))
+-   add first error field focus on submit ([f2c3d45](https://github.com/pkishorez/flowjv/commit/f2c3d454bebbd5bf6f6ce5ce9d17c6670bac9461))
+-   add formSpy component inspired from final-form ([781e7f6](https://github.com/pkishorez/flowjv/commit/781e7f6350e397b10302becbddfd208d6d763281))
+-   add UI support for arrays ([6a5f1f6](https://github.com/pkishorez/flowjv/commit/6a5f1f602b1110ed1d56e385868051dce8043ab5))
 
+# [0.8.0](https://github.com/pkishorez/flowjv/compare/v0.7.3...v0.8.0) (2021-02-11)
+
+### Features
+
+-   change JSON expression format for consistency ([d0f6886](https://github.com/pkishorez/flowjv/commit/d0f68862c7b5f991622d7bdffd6beb3679074ad4))
 
 ### BREAKING CHANGES
 
-* JSON Expression no more has format specific to type of command. Now its consistent,
-more readable and very easy in terms of logic.
+-   JSON Expression no more has format specific to type of command. Now its consistent,
+    more readable and very easy in terms of logic.
 
-
-
-
-
-## [0.7.3](https://github.com/kishoreiiitn/flowjv/compare/v0.7.2...v0.7.3) (2021-02-10)
+## [0.7.3](https://github.com/pkishorez/flowjv/compare/v0.7.2...v0.7.3) (2021-02-10)
 
 **Note:** Version bump only for package flowjv-builder
 
-
-
-
-
-## [0.7.2](https://github.com/kishoreiiitn/flowjv/compare/v0.7.1...v0.7.2) (2021-02-10)
+## [0.7.2](https://github.com/pkishorez/flowjv/compare/v0.7.1...v0.7.2) (2021-02-10)
 
 **Note:** Version bump only for package flowjv-builder
 
-
-
-
-
-## [0.7.1](https://github.com/kishoreiiitn/flowjv/compare/v0.7.0...v0.7.1) (2021-02-10)
+## [0.7.1](https://github.com/pkishorez/flowjv/compare/v0.7.0...v0.7.1) (2021-02-10)
 
 **Note:** Version bump only for package flowjv-builder
 
-
-
-
-
-# [0.7.0](https://github.com/kishoreiiitn/flowjv/compare/v0.5.3...v0.7.0) (2021-02-10)
-
+# [0.7.0](https://github.com/pkishorez/flowjv/compare/v0.5.3...v0.7.0) (2021-02-10)
 
 ### Bug Fixes
 
-* refpath types. Move to yarn workspace. ([ecb804c](https://github.com/kishoreiiitn/flowjv/commit/ecb804c50c7fc5351ce2404bc1c93745bf619bb5))
-
+-   refpath types. Move to yarn workspace. ([ecb804c](https://github.com/pkishorez/flowjv/commit/ecb804c50c7fc5351ce2404bc1c93745bf619bb5))
 
 ### Features
 
-* add ability to nest if blocks. Complete changeover to the internal logic ([aa532b8](https://github.com/kishoreiiitn/flowjv/commit/aa532b852cefd993d439f9ffe8af5c5043c3d877))
-* change complete architecture of flowjv ([52092a5](https://github.com/kishoreiiitn/flowjv/commit/52092a56fed60ce65f96eb96a3b4208beee7d9ed))
-
+-   add ability to nest if blocks. Complete changeover to the internal logic ([aa532b8](https://github.com/pkishorez/flowjv/commit/aa532b852cefd993d439f9ffe8af5c5043c3d877))
+-   change complete architecture of flowjv ([52092a5](https://github.com/pkishorez/flowjv/commit/52092a56fed60ce65f96eb96a3b4208beee7d9ed))
 
 ### BREAKING CHANGES
 
-* FlowJV is complete rewritten. The underlying principles remain same, but the schema
-is significantly modified. Now FlowJV has better types support, seamless nested conditional blocks,
-automatically infer data dependencies from JSON expression. Now flowjv-react-custom package uses
-material ui and not custom css as was the case before.
+-   FlowJV is complete rewritten. The underlying principles remain same, but the schema
+    is significantly modified. Now FlowJV has better types support, seamless nested conditional blocks,
+    automatically infer data dependencies from JSON expression. Now flowjv-react-custom package uses
+    material ui and not custom css as was the case before.
 
-
-
-
-
-# [0.6.0](https://github.com/kishoreiiitn/flowjv/compare/v0.5.3...v0.6.0) (2021-02-10)
-
+# [0.6.0](https://github.com/pkishorez/flowjv/compare/v0.5.3...v0.6.0) (2021-02-10)
 
 ### Bug Fixes
 
-* refpath types. Move to yarn workspace. ([ecb804c](https://github.com/kishoreiiitn/flowjv/commit/ecb804c50c7fc5351ce2404bc1c93745bf619bb5))
-
+-   refpath types. Move to yarn workspace. ([ecb804c](https://github.com/pkishorez/flowjv/commit/ecb804c50c7fc5351ce2404bc1c93745bf619bb5))
 
 ### Features
 
-* add ability to nest if blocks. Complete changeover to the internal logic ([aa532b8](https://github.com/kishoreiiitn/flowjv/commit/aa532b852cefd993d439f9ffe8af5c5043c3d877))
-* change complete architecture of flowjv ([52092a5](https://github.com/kishoreiiitn/flowjv/commit/52092a56fed60ce65f96eb96a3b4208beee7d9ed))
-
+-   add ability to nest if blocks. Complete changeover to the internal logic ([aa532b8](https://github.com/pkishorez/flowjv/commit/aa532b852cefd993d439f9ffe8af5c5043c3d877))
+-   change complete architecture of flowjv ([52092a5](https://github.com/pkishorez/flowjv/commit/52092a56fed60ce65f96eb96a3b4208beee7d9ed))
 
 ### BREAKING CHANGES
 
-* FlowJV is complete rewritten. The underlying principles remain same, but the schema
-is significantly modified. Now FlowJV has better types support, seamless nested conditional blocks,
-automatically infer data dependencies from JSON expression. Now flowjv-react-custom package uses
-material ui and not custom css as was the case before.
+-   FlowJV is complete rewritten. The underlying principles remain same, but the schema
+    is significantly modified. Now FlowJV has better types support, seamless nested conditional blocks,
+    automatically infer data dependencies from JSON expression. Now flowjv-react-custom package uses
+    material ui and not custom css as was the case before.

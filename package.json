@@ -10,7 +10,8 @@
 		"publish": "lerna publish --force-publish"
 	},
 	"repository": {
-		"url": "https://www.github.com/pkishoez/flowjv"
+		"type": "git",
+		"url": "https://github.com/pkishorez/flowjv"
 	},
 	"devDependencies": {
 		"@fullhuman/postcss-purgecss": "^4.0.0",

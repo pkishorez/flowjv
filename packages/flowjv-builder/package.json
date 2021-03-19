@@ -25,6 +25,7 @@
 	"author": "Kishore",
 	"license": "ISC",
 	"dependencies": {
+		"@types/classnames": "^2.2.11",
 		"classnames": "^2.2.6",
 		"flowjv": "^0.12.1",
 		"flowjv-react": "^0.12.1",

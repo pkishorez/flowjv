@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.2](https://github.com/pkishoez/flowjv/compare/v0.12.1...v0.12.2) (2021-03-19)
+
+
+### Bug Fixes
+
+* 🐛 Add types for classnames ([9f1e7b6](https://github.com/pkishoez/flowjv/commit/9f1e7b67eda5b9afa80e418c02d1243e4f1cf48f))
+
+
+
+
+
 ## [0.12.1](https://github.com/pkishoez/flowjv/compare/v0.12.0...v0.12.1) (2021-03-19)
 
 **Note:** Version bump only for package flowjv-workspace

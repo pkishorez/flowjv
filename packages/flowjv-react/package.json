@@ -1,6 +1,6 @@
 {
 	"name": "flowjv-react",
-	"version": "0.12.1",
+	"version": "0.12.2",
 	"description": "flowjv UI binding for Form",
 	"main": "dist/index.js",
 	"scripts": {
@@ -21,7 +21,7 @@
 		"react-dom": "^17.0.1"
 	},
 	"dependencies": {
-		"flowjv": "^0.12.1"
+		"flowjv": "^0.12.2"
 	},
 	"gitHead": "5a51fbeddf5a8376812cf4aa06362bffe5b78ef5"
 }

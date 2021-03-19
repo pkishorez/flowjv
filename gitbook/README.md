@@ -18,7 +18,7 @@ Let's suppose, you would like to create a registration form. The data requiremen
 * `email` Email
   * Should be a valid email id
 * `password` Password
-  * Should be a string and minimum 5 character length
+  * Should be a string and a minimum of 5 character length
 * `confirmPassword` Confirm Password
   * Should match the password entered
 * `isEmployed` Is the user Employed?
@@ -37,9 +37,9 @@ npm install flowjv-react
 
 ### Step 2 - Create Flow Schema
 
-Just like the JSON schema, `flowjv` works in a similar way. You create a schema, give some data, and `flowJV` validates the data against it and gives you a bunch of errors if invalid.
+Just like the JSON schema, `flowjv` works in a similar way. You create a schema, give some data, and `flowJV` validates the data against it, and gives you a bunch of errors if invalid.
 
-Next step after installing the package is to create the `flowSchema`.
+The Next step after installing the package is to create the `flowSchema`.
 
 {% hint style="info" %}
 If you are a typescript user, you can use `IFlowSchema` type from `flowjv` for static type checking the schema.
@@ -135,11 +135,9 @@ const schema: IFlowSchema = {
 
 ### Step 4 - Add Validations
 
-Validations can be added per property basis by adding a `validations`. `validations` itself is an array, containing the logic for validation `logic` and corresponding error message for that validation `err`
+Validations can be added per property basis by adding a `validations` key. `validations` is an array, containing the logic for validation `logic` and corresponding validation error message `err`
 
 Validation logic can be written directly as a function. But, `flowjv` provides a serializable javascript expression format called `JSONExpression`. Using that makes code very readable, schema serializable and can be future-proofed with the tools that come along with `flowjv`.
-
-\(`flowjv-builder` is a web UI for creating schema from within the web. Still in early stage\)
 
 {% hint style="info" %}
 The code below uses, basic function notation for logic. The real power of `flowjv` lies in defining logic with JSONExpression.
@@ -333,10 +331,9 @@ But
 
 We've only described our data requirements. For the schema to be complete, we need to add a bit of UI parts to this schema. 
 
-1. `label` is all that's missing from the schema. Let's add that.
-2. Enum type by default renders to select box. Change `uiType` to radio for showing radio Group rather.
-3. string type by default renders to textBox. For password, we need the type to be rendered a password field. Add `uiType` to be password.
-4. Add a bit of styling too.
+1. Enum type by default renders to select box. Change `uiType` to radio for showing radio Group rather.
+2. string type by default renders to textBox. For password, we need the type to be rendered a password field. Add `uiType` to be password.
+3. Add a bit of styling too.
 
 {% tabs %}
 {% tab title="JavaScript" %}
@@ -357,5 +354,5 @@ We've only described our data requirements. For the schema to be complete, we ne
 
 {% embed url="https://codesandbox.io/embed/priceless-frog-700u6?autoresize=1&fontsize=14&hidenavigation=1&module=%2Fsrc%2FApp.js&theme=dark&view=preview" %}
 
-
+x
 

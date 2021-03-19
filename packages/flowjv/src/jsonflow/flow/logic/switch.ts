@@ -1,10 +1,7 @@
 import { IFlowConfig, IPayload, IValidationResult } from "../helper";
 import { IKeyPath } from "../../../helper/immutable";
 import { IObjectProperty, validateObjectProperties } from "../composite/object";
-import {
-	execJSONExpression,
-	IExpression as IJSONExpression,
-} from "../../../jsonexpression";
+import { execJSONExpression, IJSONExpression } from "../../../jsonexpression";
 
 export type ISwitchType<
 	IData = {},

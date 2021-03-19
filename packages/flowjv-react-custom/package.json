@@ -19,14 +19,11 @@
 	"peerDependencies": {
 		"@material-ui/core": "^4.11.3",
 		"@material-ui/icons": "^4.11.2",
-		"flowjv-react": "^0.10.0",
-		"framer-motion": "^1.11.0",
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1"
+		"react": "^17.0.1",
+		"react-dom": "^17.0.1"
 	},
 	"dependencies": {
-		"@types/classnames": "^2.2.10",
-		"classnames": "^2.2.6"
+		"flowjv-react": "^0.11.0"
 	},
 	"gitHead": "5a51fbeddf5a8376812cf4aa06362bffe5b78ef5"
 }

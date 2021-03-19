@@ -1,4 +1,4 @@
-import { getDependencies, IExpression } from "..";
+import { getDependencies, IJSONExpression as IExpression } from "..";
 
 describe("Dependencies Test : ", () => {
 	it("Simple test", () => {

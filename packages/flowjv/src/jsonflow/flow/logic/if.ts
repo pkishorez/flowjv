@@ -5,10 +5,7 @@ import {
 	IObjectProperty,
 	validateObjectProperties,
 } from "../composite/object";
-import {
-	execJSONExpression,
-	IExpression as IJSONExpression,
-} from "../../../jsonexpression";
+import { execJSONExpression, IJSONExpression } from "../../../jsonexpression";
 
 export type IIfConditionType<
 	IData = {},

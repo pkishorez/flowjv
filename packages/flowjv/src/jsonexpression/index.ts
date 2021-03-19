@@ -1,7 +1,6 @@
-import { IJSONExpression } from "..";
 import { get, IKeyPath } from "../helper/immutable";
 
-export type IExpression<IData = any, IContext = any> =
+export type IJSONExpression<IData = any, IContext = any> =
 	| number
 	| string
 	| boolean
@@ -35,33 +34,38 @@ export type IDataAccessOperation<IData, IContext> =
 	| ["$data", string, string?]
 	| ["$context", string, string?]
 	| ["$ref"];
-export type ITernaryOperation = ["?:", IExpression, IExpression, IExpression];
+export type ITernaryOperation = [
+	"?:",
+	IJSONExpression,
+	IJSONExpression,
+	IJSONExpression
+];
 
-export type INegationOperation = ["!", IExpression];
+export type INegationOperation = ["!", IJSONExpression];
 
 export type ILogicalOperation =
-	| ["enum", IExpression, ...IExpression[]]
-	| ["===", IExpression, IExpression, ...IExpression[]]
-	| ["!==", IExpression, IExpression, ...IExpression[]]
-	| ["||", IExpression, IExpression, ...IExpression[]]
-	| ["&&", IExpression, IExpression, ...IExpression[]];
+	| ["enum", IJSONExpression, ...IJSONExpression[]]
+	| ["===", IJSONExpression, IJSONExpression, ...IJSONExpression[]]
+	| ["!==", IJSONExpression, IJSONExpression, ...IJSONExpression[]]
+	| ["||", IJSONExpression, IJSONExpression, ...IJSONExpression[]]
+	| ["&&", IJSONExpression, IJSONExpression, ...IJSONExpression[]];
 
 export type IComparisonOperation =
-	| [">", IExpression, IExpression, ...IExpression[]]
-	| [">=", IExpression, IExpression, ...IExpression[]]
-	| ["<", IExpression, IExpression, ...IExpression[]]
-	| ["<=", IExpression, IExpression, ...IExpression[]];
+	| [">", IJSONExpression, IJSONExpression, ...IJSONExpression[]]
+	| [">=", IJSONExpression, IJSONExpression, ...IJSONExpression[]]
+	| ["<", IJSONExpression, IJSONExpression, ...IJSONExpression[]]
+	| ["<=", IJSONExpression, IJSONExpression, ...IJSONExpression[]];
 
 export type INumberOperation =
-	| ["+", IExpression, IExpression, ...IExpression[]]
-	| ["-", IExpression, IExpression, ...IExpression[]]
-	| ["*", IExpression, IExpression, ...IExpression[]]
-	| ["/", IExpression, IExpression, ...IExpression[]]
-	| ["%", IExpression, IExpression, ...IExpression[]];
+	| ["+", IJSONExpression, IJSONExpression, ...IJSONExpression[]]
+	| ["-", IJSONExpression, IJSONExpression, ...IJSONExpression[]]
+	| ["*", IJSONExpression, IJSONExpression, ...IJSONExpression[]]
+	| ["/", IJSONExpression, IJSONExpression, ...IJSONExpression[]]
+	| ["%", IJSONExpression, IJSONExpression, ...IJSONExpression[]];
 
 export type IStringOperation =
-	| ["str:fmt:email", IExpression]
-	| ["str:len", IExpression];
+	| ["str:fmt:email", IJSONExpression]
+	| ["str:len", IJSONExpression];
 
 export interface IJSONExpressionData<IData, IContext> {
 	data?: IData;
@@ -71,7 +75,7 @@ export interface IJSONExpressionData<IData, IContext> {
 
 type IJSONExpressionReturnType = string | number | boolean | null;
 export const execJSONExpression = <IData = any, IContext = any>(
-	logic: IExpression<IData, IContext>,
+	logic: IJSONExpression<IData, IContext>,
 	data: IJSONExpressionData<IData, IContext>
 ): IJSONExpressionReturnType => {
 	data.refPath = data.refPath || [];
@@ -250,7 +254,7 @@ export const execJSONExpression = <IData = any, IContext = any>(
 };
 
 const helper = {
-	mapExpToValue: (exps: IExpression[], data: any) => {
+	mapExpToValue: (exps: IJSONExpression[], data: any) => {
 		return exps.map((exp) => execJSONExpression(exp, data));
 	},
 	chainOp: (values: any[], operation: (v1: any, v2: any) => any) => {
@@ -274,7 +278,7 @@ const helper = {
 
 // If getDependencies return null, it means it dependencies cannot be determined.
 export type IDependsOn = string[];
-export function getDependencies(expr: IExpression): IDependsOn | null {
+export function getDependencies(expr: IJSONExpression): IDependsOn | null {
 	const dependsOn: IDependsOn = [];
 	if (
 		typeof expr === "number" ||

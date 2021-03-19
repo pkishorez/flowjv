@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/pkishoez/flowjv/compare/v0.11.0...v0.12.0) (2021-03-19)
+
+
+### Features
+
+* 🎸 Add typescript support to playground for flowjv ([1bba0b9](https://github.com/pkishoez/flowjv/commit/1bba0b9c8eacb73bb345b5f6e9e5c0439012ca4a))
+
+
+
+
+
 # [0.11.0](https://github.com/pkishorez/flowjv/compare/v0.9.0...v0.11.0) (2021-03-17)
 
 ### Bug Fixes

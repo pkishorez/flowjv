@@ -51,6 +51,7 @@ export interface IFlowJVForm<
 		[key: string]: IFlowJVUIConfig<A, B, C, D, E, F>;
 	};
 	className?: string;
+	onChange?: ({ data }: { data: IData }) => void;
 	onSubmit?: (args: {
 		isValid: boolean;
 		data: IData;
@@ -76,11 +77,12 @@ export function FlowJVForm<
 	children,
 	renderMap,
 	schemaUI,
+	onChange,
 }: IFlowJVForm<IData, IContext, A, B, C, D, E, F>) {
 	const data = useRef<IData>(initialData as any);
 	const context = useRef<IContext>(initialContext as any);
 
-	const blocks = useMemo(() => compileSchema(schema), []);
+	const blocks = useMemo(() => compileSchema(schema), [schema]);
 
 	const allSubscribers = useRef<
 		Set<(args: { data: any; context: any }) => void>
@@ -125,6 +127,7 @@ export function FlowJVForm<
 
 	useEffect(() => {
 		// This is for FormSpy.
+		onChange && allSubscribers.current.add(onChange);
 		triggerSubscriptions([]);
 	}, []);
 

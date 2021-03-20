@@ -217,7 +217,9 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 									error={touched ? !!errors.length : false}
 									style={{ display: "block" }}
 								>
-									<InputLabel id={id}>Age</InputLabel>
+									<InputLabel id={id}>
+										{schema.label}
+									</InputLabel>
 									<Select
 										fullWidth
 										labelId={id}

@@ -243,21 +243,24 @@ export declare type IFlowSchema<
 	E = {},
 	F = {}
 > = IObjectType<IData, IContext, A, B, C, D, E, F>;
-export declare type IUIFlowSchema = IFlowSchema<
-	{
-		uiType?: "password" | "text";
-	},
-	{},
-	{},
-	{
-		uiType?: "radio" | "select";
-	},
-	{},
-	{
-		minLength?: number;
-		maxLength?: number;
-		length?: number;
-	}
->;
 
-export {};
+declare global {
+	type IUIFlowSchema = IFlowSchema<
+		{},
+		{},
+		{
+			uiType?: "password" | "text";
+		},
+		{},
+		{},
+		{
+			uiType?: "radio" | "select";
+		},
+		{},
+		{
+			minLength?: number;
+			maxLength?: number;
+			length?: number;
+		}
+	>;
+}

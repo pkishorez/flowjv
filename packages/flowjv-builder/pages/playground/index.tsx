@@ -1,9 +1,12 @@
 import { AutoFlow } from "flowjv-react";
 import { FlowJVForm, SubmitButton } from "flowjv-react-custom";
 import React, { useEffect, useRef, useState } from "react";
-import { loadEditor } from "./editor";
+import { loadEditor } from "../../utils/editor";
 import cx from "classnames";
+import Link from "next/link";
+import getConfig from "next/config";
 import { Button } from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 export default function PlayGround() {
 	const ref = useRef<HTMLDivElement | null>(null);
@@ -14,6 +17,7 @@ export default function PlayGround() {
 			return;
 		}
 		loadEditor(ref.current, {
+			assetPrefix: getConfig().publicRuntimeConfig.assetPrefix,
 			onChange: (v) => {
 				setError(false);
 				try {
@@ -27,7 +31,14 @@ export default function PlayGround() {
 				}
 			},
 		});
-	}, [ref]);
+		return () => {
+			try {
+				monaco.editor.getModels().forEach((model) => model.dispose());
+			} catch (e) {
+				// ignore.
+			}
+		};
+	}, []);
 	return (
 		<div className="p-5 overflow-y-auto">
 			<style jsx global>{`
@@ -35,6 +46,7 @@ export default function PlayGround() {
 					background: #eeeeee;
 				}
 			`}</style>
+
 			<div className="w-1/2">
 				{/* <pre>{JSON.stringify(value, null, "  ")}</pre> */}
 				<div
@@ -43,6 +55,14 @@ export default function PlayGround() {
 						"bg-white my-10 rounded-sm"
 					)}
 				>
+					<div className="-ml-3">
+						<Link href="/">
+							<Button>
+								<ArrowBackIcon className="mr-2" />
+								Go Back To Home
+							</Button>
+						</Link>
+					</div>
 					<div className="flex items-center py-3">
 						<h2 className="flex-grow my-0">PlayGround</h2>
 						{error && (
@@ -91,7 +111,7 @@ export class ErrorBoundary extends React.Component<{ value: any }> {
 			// You can render any custom fallback UI
 			return (
 				<div className="text-center my-4">
-					<h1>Something went wrong.</h1>
+					<h1 className="text-red-600">Something went wrong.</h1>
 				</div>
 			);
 		}
@@ -111,3 +131,7 @@ export class ErrorBoundary extends React.Component<{ value: any }> {
 		);
 	}
 }
+
+PlayGround.getInitialProps = () => {
+	return {};
+};

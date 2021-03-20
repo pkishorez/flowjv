@@ -1,10 +1,22 @@
 import React, { useEffect, useRef } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import cx from "classnames";
 import video1 from "../public/demo/video1.mp4";
 import video2 from "../public/demo/video2.mp4";
 import video3 from "../public/demo/video3.mp4";
 import video4 from "../public/demo/video4.mp4";
+import { Button as Button_ } from "@material-ui/core";
+
+function Button({ children, href, className, ...props }: any) {
+	return (
+		<div className={className}>
+			<Link href={href}>
+				<Button_ {...props}>{children}</Button_>
+			</Link>
+		</div>
+	);
+}
 
 export default function IndexPage() {
 	return (
@@ -15,18 +27,34 @@ export default function IndexPage() {
 			</Head>
 			<div
 				className={cx(
-					"h-screen flex items-center justify-center bg-gray-50 text-gray-50",
+					"h-screen flex flex-col items-center justify-center",
+					"bg-gray-50 text-gray-50",
 					"relative overflow-hidden"
 				)}
 			>
 				<div
-					className="text-center -mt-32 relative p-4 rounded-md shadow-2xl"
+					className="text-center -mt-12 relative p-4 rounded-md shadow-2xl"
 					style={{ backgroundColor: "rgba(15, 118, 110, 0.8)" }}
 				>
 					<h2 className="text-6xl font-bold my-0">FlowJV</h2>
 					<div className="text-left">
 						<Wave str="A Flow based approach to JSON Validation" />
 					</div>
+				</div>
+				<div className="mt-5 flex">
+					<Button href="https://pkishorez.gitbook.io/flowjv/">
+						Docs
+					</Button>
+					<Button
+						href="/playground"
+						variant="contained"
+						color="primary"
+					>
+						Playground
+					</Button>
+					<Button href="https://www.github.com/pkishorez/flowjv">
+						Github
+					</Button>
 				</div>
 			</div>
 			<Screen

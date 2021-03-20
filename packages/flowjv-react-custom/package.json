@@ -1,6 +1,6 @@
 {
 	"name": "flowjv-react-custom",
-	"version": "0.12.3",
+	"version": "0.13.0",
 	"description": "Mateiral UI binding for FlowJV Form",
 	"main": "dist/index.js",
 	"scripts": {
@@ -27,7 +27,7 @@
 		"url": "https://github.com/pkishorez/flowjv"
 	},
 	"dependencies": {
-		"flowjv-react": "^0.12.3"
+		"flowjv-react": "^0.13.0"
 	},
 	"gitHead": "d32b7c6d279106aad7432c3dd5ee7fe2d2aa3f41"
 }

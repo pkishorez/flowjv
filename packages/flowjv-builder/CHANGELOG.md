@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/pkishorez/flowjv/compare/v0.12.3...v0.13.0) (2021-03-20)
+
+
+### Bug Fixes
+
+* 🐛 change changelog entries and fix github repo ([343f1c5](https://github.com/pkishorez/flowjv/commit/343f1c5f53cb9651f2dd2a110a2c43d426231872))
+
+
+### Features
+
+* 🎸 Add onchange handler to flowJV form ([f357fb7](https://github.com/pkishorez/flowjv/commit/f357fb7f532182ae4328b0854b203dae456936dd))
+
+
+
+
+
 ## [0.12.3](https://github.com/pkishorez/flowjv/compare/v0.12.2...v0.12.3) (2021-03-19)
 
 **Note:** Version bump only for package flowjv-builder

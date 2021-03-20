@@ -9,8 +9,6 @@ import video4 from "../public/demo/video4.mp4";
 import getConfig from "next/config";
 import { Button as Button_ } from "@material-ui/core";
 
-const assetPrefix = getConfig().publicRuntimeConfig.assetPrefix;
-
 function Button({ children, href, className, ...props }: any) {
 	return (
 		<div className={className}>
@@ -49,7 +47,9 @@ export default function IndexPage() {
 						Docs
 					</Button>
 					<Button
-						href={`${assetPrefix}/playground`}
+						href={`${
+							getConfig().publicRuntimeConfig.assetPrefix
+						}/playground`}
 						variant="contained"
 						color="primary"
 					>

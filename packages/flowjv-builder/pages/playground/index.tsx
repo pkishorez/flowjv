@@ -8,6 +8,7 @@ import getConfig from "next/config";
 import { Button } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
+const assetPrefix = getConfig().publicRuntimeConfig.assetPrefix;
 export default function PlayGround() {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const [value, setValue] = useState<any>({});
@@ -17,7 +18,7 @@ export default function PlayGround() {
 			return;
 		}
 		loadEditor(ref.current, {
-			assetPrefix: getConfig().publicRuntimeConfig.assetPrefix,
+			assetPrefix,
 			onChange: (v) => {
 				setError(false);
 				try {
@@ -56,7 +57,7 @@ export default function PlayGround() {
 					)}
 				>
 					<div className="-ml-3">
-						<Link href="/">
+						<Link href={assetPrefix}>
 							<Button>
 								<ArrowBackIcon className="mr-2" />
 								Go Back To Home

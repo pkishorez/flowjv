@@ -6,7 +6,10 @@ import video1 from "../public/demo/video1.mp4";
 import video2 from "../public/demo/video2.mp4";
 import video3 from "../public/demo/video3.mp4";
 import video4 from "../public/demo/video4.mp4";
+import getConfig from "next/config";
 import { Button as Button_ } from "@material-ui/core";
+
+const assetPrefix = getConfig().publicRuntimeConfig.assetPrefix;
 
 function Button({ children, href, className, ...props }: any) {
 	return (
@@ -46,7 +49,7 @@ export default function IndexPage() {
 						Docs
 					</Button>
 					<Button
-						href="/playground"
+						href={`${assetPrefix}/playground`}
 						variant="contained"
 						color="primary"
 					>
@@ -285,3 +288,7 @@ function Wave({ str = "" }) {
 		</div>
 	);
 }
+
+IndexPage.getInitialProps = () => {
+	return {};
+};

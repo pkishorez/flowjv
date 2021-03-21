@@ -24,6 +24,17 @@ export const loadMonaco = (assetPrefix: string) =>
 			});
 		});
 	});
+export const initialValue = [
+	"const data: IUIFlowSchema = ",
+	"",
+	"{",
+	'   type: "object",',
+	"   properties: [",
+	"      {}",
+	"   ]",
+	"}",
+].join("\n");
+
 export const loadEditor = async (
 	ref: HTMLDivElement,
 	{
@@ -34,17 +45,6 @@ export const loadEditor = async (
 		onChange?: (v: string) => void;
 	}
 ) => {
-	const initialValue = [
-		"const data: IUIFlowSchema = ",
-		"",
-		"{",
-		'   type: "object",',
-		"   properties: [",
-		"      {}",
-		"   ]",
-		"}",
-	].join("\n");
-
 	await loadMonaco(assetPrefix);
 	if (!ref) return;
 

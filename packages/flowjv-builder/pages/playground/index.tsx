@@ -1,23 +1,23 @@
 import { AutoFlow } from "flowjv-react";
 import { FlowJVForm, SubmitButton } from "flowjv-react-custom";
 import React, { useEffect, useRef, useState } from "react";
-import { loadEditor } from "../../utils/editor";
+import { loadEditor, initialValue } from "../../utils/editor";
 import cx from "classnames";
 import Link from "next/link";
-import getConfig from "next/config";
 import { Button } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
+const assetPrefix = process.env.NEXT_PUBLIC_ASSET_PREFIX ?? "";
 export default function PlayGround() {
 	const ref = useRef<HTMLDivElement | null>(null);
-	const [value, setValue] = useState<any>({});
+	const [value, setValue] = useState<any>(initialValue);
 	const [error, setError] = useState<any>(false);
 	useEffect(() => {
 		if (!ref.current) {
 			return;
 		}
 		loadEditor(ref.current, {
-			assetPrefix: getConfig().publicRuntimeConfig.assetPrefix,
+			assetPrefix,
 			onChange: (v) => {
 				setError(false);
 				try {
@@ -56,9 +56,7 @@ export default function PlayGround() {
 					)}
 				>
 					<div className="-ml-3">
-						<Link
-							href={getConfig().publicRuntimeConfig.assetPrefix}
-						>
+						<Link href={`${assetPrefix}/`}>
 							<Button>
 								<ArrowBackIcon className="mr-2" />
 								Go Back To Home
@@ -133,7 +131,3 @@ export class ErrorBoundary extends React.Component<{ value: any }> {
 		);
 	}
 }
-
-PlayGround.getInitialProps = () => {
-	return {};
-};

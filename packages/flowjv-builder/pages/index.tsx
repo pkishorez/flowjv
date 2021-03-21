@@ -6,12 +6,11 @@ import video1 from "../public/demo/video1.mp4";
 import video2 from "../public/demo/video2.mp4";
 import video3 from "../public/demo/video3.mp4";
 import video4 from "../public/demo/video4.mp4";
-import getConfig from "next/config";
-import { Button as Button_ } from "@material-ui/core";
+import { Button as Button_, ButtonGroup } from "@material-ui/core";
 
 function Button({ children, href, className, ...props }: any) {
 	return (
-		<div className={className}>
+		<div className={cx(className, "uppercase")}>
 			<Link href={href}>
 				<Button_ {...props}>{children}</Button_>
 			</Link>
@@ -42,22 +41,20 @@ export default function IndexPage() {
 						<Wave str="A Flow based approach to JSON Validation" />
 					</div>
 				</div>
-				<div className="mt-5 flex">
-					<Button href="https://pkishorez.gitbook.io/flowjv/">
-						Docs
-					</Button>
-					<Button
-						href={`${
-							getConfig().publicRuntimeConfig.assetPrefix
-						}/playground`}
-						variant="contained"
-						color="primary"
-					>
-						Playground
-					</Button>
-					<Button href="https://www.github.com/pkishorez/flowjv">
-						Github
-					</Button>
+				<div className="mt-5 flex text-teal-700 items-center">
+					<ButtonGroup variant="text" color="primary">
+						<Button href="https://pkishorez.gitbook.io/flowjv/">
+							Docs
+						</Button>
+						<Button
+							href={`${process.env.NEXT_PUBLIC_ASSET_PREFIX}/playground`}
+						>
+							Playground
+						</Button>
+						<Button href="https://www.github.com/pkishorez/flowjv">
+							Github
+						</Button>
+					</ButtonGroup>
 				</div>
 			</div>
 			<Screen
@@ -288,7 +285,3 @@ function Wave({ str = "" }) {
 		</div>
 	);
 }
-
-IndexPage.getInitialProps = () => {
-	return {};
-};

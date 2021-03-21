@@ -1,6 +1,8 @@
-<p align="center">
-    <p align="center">A Flow based approach to JSON Validation.</p>
-    <p align="center" style="font-size: 12px; margin-top: 10px;">
+# flowjv
+
+<p>
+    <p >A Flow based approach to JSON Validation.</p>
+    <p >
         <sub><i>NOTE: The library is still in active development.</i></sub>
     </p>
 </p>

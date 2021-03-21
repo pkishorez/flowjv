@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.2](https://github.com/pkishorez/flowjv/compare/v0.13.1...v0.13.2) (2021-03-21)
+
+
+### Bug Fixes
+
+* 🐛 Add types to flowjv-react-custom ([d9a3e43](https://github.com/pkishorez/flowjv/commit/d9a3e43641d8a883bccf5d664155b8e13a526ada))
+
+
+
+
+
 ## [0.13.1](https://github.com/pkishorez/flowjv/compare/v0.13.0...v0.13.1) (2021-03-20)
 
 **Note:** Version bump only for package flowjv-react-custom

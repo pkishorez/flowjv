@@ -14,7 +14,7 @@ Let's suppose, you would like to create a registration form. The data requiremen
   * Should be a valid number.
   * Should be between 1 and 100
 * `gender` Gender
-  * Should be a string, ASAaaaone of `male` \| `female` \| `others`
+  * Should be a string, One of `male` \| `female` \| `others`
 * `email` Email
   * Should be a valid email id
 * `password` Password
@@ -32,18 +32,12 @@ Let's set how using `flowjv` we can approach this problem!
 ### Step 1 - Install the package
 
 ```bash
-npm install flowjv-react
+npm install flowjv-react-custom
 ```
 
 ### Step 2 - Create Flow Schema
 
-Just like the JSON schema, `flowjv` works in a similar way. You create a schema, give some data, and `flowJV` validates the data against it, and gives you a bunch of errors if invalid.
-
-The Next step after installing the package is to create the `flowSchema`.
-
-{% hint style="info" %}
-If you are a typescript user, you can use `IFlowSchema` type from `flowjv` for static type checking the schema.
-{% endhint %}
+FlowSchema is just a representation of the data requirements we've got. The requirements include data format, validations, and conditional logic.
 
 {% tabs %}
 {% tab title="JavaScript" %}
@@ -57,9 +51,9 @@ const schema = {
 
 {% tab title="Typescript" %}
 ```typescript
-import {IFlowSchema} from 'flowjv';
+import {IUIFlowSchema} from 'flowjv-react-custom';
 
-const schema: IFlowSchema = {
+const schema: IUIFlowSchema = {
     type: "object",
     properties: []
 };
@@ -69,7 +63,7 @@ const schema: IFlowSchema = {
 
 ### Step 3 - Add properties to the schema
 
-The schema defined in the previous step is for an empty object. Each property in the schema comprises of mandatory props, `key` and `type`. type corresponds to type of value expected.
+The schema defined in the previous step is for an empty object. Each property in the schema comprises of mandatory props, `key` and `type`. type corresponds to type of value expected and key represents the key of the property in the object.
 
 {% tabs %}
 {% tab title="JavaScript" %}
@@ -103,9 +97,9 @@ const schema = {
 
 {% tab title="Typescript" %}
 ```typescript
-import { IFlowSchema } from 'flowjv-react';
+import { IUIFlowSchema } from 'flowjv-react-custom';
 
-const schema: IFlowSchema = {
+const schema: IUIFlowSchema = {
 	type: "object",
 	properties: [
 		{ type: "string", key: "name" },
@@ -135,12 +129,12 @@ const schema: IFlowSchema = {
 
 ### Step 4 - Add Validations
 
-Validations can be added per property basis by adding a `validations` key. `validations` is an array, containing the logic for validation `logic` and corresponding validation error message `err`
+Validations can be added per property basis by adding a `validations` key. `validations` is an array, containing the `logic` for validation and corresponding validation error message to show on error `err`
 
-Validation logic can be written directly as a function. But, `flowjv` provides a serializable javascript expression format called `JSONExpression`. Using that makes code very readable, schema serializable and can be future-proofed with the tools that come along with `flowjv`.
+Validation logic can be written directly as a function. But, `flowjv` provides a serializable javascript expression format called `JSONExpression`. Using that makes schema readable, serializable, and performant.
 
 {% hint style="info" %}
-The code below uses, basic function notation for logic. The real power of `flowjv` lies in defining logic with JSONExpression.
+The code below uses, basic function notation for logic in validations.
 
 You can learn more about JSONExpression [here](guide/flow-schema/json-expression.md).
 {% endhint %}
@@ -276,9 +270,11 @@ const schema: IFlowSchema = {
 {% endtab %}
 {% endtabs %}
 
+Here `ref` represents property under validation.
+
 ### Step 5 - Add Flow Logic
 
-The field yearsOfExp is the interesting part here. It should be collected only if the field `isEmployed` is true. To facilitate this, Flow Schema provides some logic constructs within the schema for the logic to flow accordingly. One such construct is defining a property's `type` as `if` which takes `cond`, and if it evaluates to true, it goes through the flow of `true`, and otherwise `false`.
+The field `yearsOfExp` is the interesting part here. It should be collected only if the field `isEmployed` is true. To facilitate this, Flow Schema provides some logic constructs which facilitate logic to flow accordingly \(hence the name flowjv\). One such construct is defining a property's `type` as `if` which takes `cond`, and if it evaluates to `true`, it goes through the flow of `true`, and otherwise `false`.
 
 {% tabs %}
 {% tab title="JavaScript" %}
@@ -288,10 +284,16 @@ The field yearsOfExp is the interesting part here. It should be collected only i
     { type: "boolean", key: "isEmployed" },
     { 
         type: "if",
-        cond: ["$data", "isEmployed"],
+        cond: ({data})=>data.isEmployed,
+        /*
+            // In JSON Expression format.
+            cond: ["$data", "isEmployed"],
+        */
+        // When true, collect these properties
         true: [
             { type: "number", key: "yearsOfExp" }
         ],
+        // when false, go through this flow.
         false: []
     }    
 ]
@@ -311,7 +313,7 @@ The field yearsOfExp is the interesting part here. It should be collected only i
             // In JSON Expression format.
             cond: ["$data", "isEmployed"],
         */
-        // When true, add these properties
+        // When true, collect these properties
         true: [
             { type: "number", key: "yearsOfExp" }
         ],
@@ -325,15 +327,14 @@ The field yearsOfExp is the interesting part here. It should be collected only i
 
 ### Step 6 - Finally, UI
 
-Defining the schema is all that's required. After that, you can directly give this schema to `FlowJVForm`, a react component exported from `flowjv-react` package to create a nice UI.
+Defining the schema is all that's required. After that, you can directly give this schema to `FlowJVForm` , the react component exported from `flowjv-react-custom`. And it takes care of rest!
 
 But
 
-We've only described our data requirements. For the schema to be complete, we need to add a bit of UI parts to this schema. 
+We've only described our data requirements. For the schema to be complete, we need to add a bit of UI parts to this schema. \(As schema in flowjv is common for both UI and data requirements\).
 
 1. Enum type by default renders to select box. Change `uiType` to radio for showing radio Group rather.
-2. string type by default renders to textBox. For password, we need the type to be rendered a password field. Add `uiType` to be password.
-3. Add a bit of styling too.
+2. string type by default renders to input type `text`. For passwords we need a password field. For that we can set `uiType` to be password.
 
 {% tabs %}
 {% tab title="JavaScript" %}
@@ -354,5 +355,9 @@ We've only described our data requirements. For the schema to be complete, we ne
 
 {% embed url="https://codesandbox.io/embed/priceless-frog-700u6?autoresize=1&fontsize=14&hidenavigation=1&module=%2Fsrc%2FApp.js&theme=dark&view=preview" %}
 
-x
+You can open the above code sandbox to play with it.
+
+And yayyy! That is all the core of flowjv is about!
+
+Know about the inception behind flowjv next!
 

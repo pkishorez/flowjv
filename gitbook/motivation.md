@@ -2,14 +2,18 @@
 
 Just like a river flows, as a boat sail, everything goes with the flow. If one goes against it, it only makes things hard.
 
-This very idea of _flow_ is simple yet a very powerful one. FlowJV is inspired by this metaphor.
+Life is just like that. One who knows it lives and one who does not suffers!
+
+The idea of _flow_ is very simple yet very powerful and elegant!
+
+FlowJV is inspired by the very same metaphor.
 
 Defining a schema as a flow gives us a lot of advantages.
 
 1. It allows us to validate data from top to bottom. Hence, it's deterministic and logical to know if data is valid or not at the earliest!
-2. It opens up possibilities to create UI bindings. `flowjv-react` provides one such binding for creating a form out of flow Schema.
+2. It opens up possibilities to create UI bindings.
 
-It's heavily inspired by
+FlowJV is heavily inspired by
 
 * JSON Schema
 * JSON Logic
@@ -26,5 +30,11 @@ JSON logic is a JSON representation of the JavaScript expression. [http://jsonlo
 
 It allows you to have a serializable representation of logic within JSON which helps in serializing schema within a database or a file!
 
-For specific requirements of FlowJV, JSON Logic is redefined and named as **`JSON Expression`**.
+For specific requirements of FlowJV, JSON Logic is redefined as **`JSON Expression`**.
+
+{% hint style="info" %}
+Edit: It turns out Mapbox already has the same concept as JSON Expression. [https://docs.mapbox.com/mapbox-gl-js/style-spec/expressions/](https://docs.mapbox.com/mapbox-gl-js/style-spec/expressions/)
+
+This yet again reinforces that no idea in this world is original! There's always something that's already done 😄
+{% endhint %}
 

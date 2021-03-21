@@ -1,5 +1,5 @@
 ---
-description: JSON representation of Javascript expression.
+description: Serializable format for javascript expression!
 ---
 
 # JSON Expression
@@ -9,7 +9,7 @@ Logic defined in Flow Schema can be a normal javascript function as below.
 ```javascript
 {
     logic: ({data, ref})=>validate(data.anything, ref),
-    err: "Logic Error If any"
+    err: "A descriptive validation error message"
 }
 ```
 
@@ -17,24 +17,40 @@ It's very easy, and something we're so familiar with. But the code above is not 
 
 This also prevents us from using tools that can dynamically generate flow schema.
 
-To get over this `flowjv` also provides a utility called `JSONExpression`. With this, we can write any javascript expression as a JSON representation.
+To get over this `flowjv` also provides a utility called `JSONExpression`. With this, we can write a subset of javascript expressions as a JSON representation.
 
 {% hint style="info" %}
-JSON Expression is not a one to one mapping with Javascript expression. There are a lot of things that are not possible with JSON Expression and never will be. Based on the requirements, JSON Expression evolves with all the essentials over time. Raise an [issue](https://github.com/pkishoez/flowjv/issues/new/choose) if you think some kind of expression should be included into it.
+JSON Expression is not a one-to-one mapping with Javascript expression. There are a lot of things that are not possible with JSON expression yet. The ability to extend JSON expression is under work.
 {% endhint %}
 
-Javascript expression by nature has infix notation. But, a JSON Expression uses a prefix notation.
+JSON expression is just a JSON representation of prefix notation of a Javascript expression!
 
 ![Basic JS expression to JSON expression](../../.gitbook/assets/basic.gif)
 
-1. JSON expression takes its operands and operators in an array. Where the first param is an operator and the second element itself is an array of operands.
-2. An operand itself can be a JSON expression! Hence we can create compound javascript expression by nesting JSON expressions.
+Rules of JSON Expression.
+
+1. JSON Expression is always represented in an array.
+2. The Array contains at least 2 elements.
+3. 1st element in the array denotes the operation to be performed.
+4. The rest of the elements are the operands/parameters to the operation.
+
+Ex: `["+", 1,2,3]`
+
+Here `+` denotes the operation performed on `1,2,3` elements.
+
+Every element after the 1st element itself can be another JSON expression!
+
+To represent JSON expression in typescript form:
+
+`[ IOperand, ...IJSONExpression[]]`
+
+string/number/boolean itself is a valid JSON Expression!
 
 ![Composite JS expression to JSON expression](../../.gitbook/assets/composite.gif)
 
 {% hint style="info" %}
-JSON Expression is not mandatory for using `flowjv`. But getting used to it provides a lot of benefits from readability to predictability.
+JSON Expression is not mandatory for using `flowjv`. But using provides a lot of benefits. Serialization, performance to name a few.
 {% endhint %}
 
-You can look into all possible operators `JSONExpression` provides in the [source code](https://github.com/pkishoez/flowjv/blob/master/packages/flowjv/src/jsonlogic/index.ts) for now. We'll move that to documentation later.
+You can look into all possible operators `JSONExpression` provides in the [source code](https://github.com/pkishorez/flowjv/blob/master/packages/flowjv/src/jsonexpression/index.ts) for now. We'll move that to documentation later.
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.3](https://github.com/pkishorez/flowjv/compare/v0.13.2...v0.13.3) (2021-03-21)
+
+
+### Bug Fixes
+
+* 🐛 Do not add extra error block ([1d9fe3c](https://github.com/pkishorez/flowjv/commit/1d9fe3cd56ca95ddc603cbfbf4cce52dedefd02b))
+
+
+
+
+
 ## [0.13.2](https://github.com/pkishorez/flowjv/compare/v0.13.1...v0.13.2) (2021-03-21)
 
 

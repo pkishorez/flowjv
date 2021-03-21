@@ -197,11 +197,6 @@ export const { FlowJVForm, flowSchema } = setupFlowJV<
 									});
 								}}
 							/>
-							{touched && (
-								<FormHelperText>
-									{errors.join("\n")}
-								</FormHelperText>
-							)}
 						</Wrapper>
 					);
 				}

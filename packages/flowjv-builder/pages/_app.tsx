@@ -5,12 +5,12 @@ import {
 	createMuiTheme,
 	ThemeProvider,
 } from "@material-ui/core/styles";
-import { teal, deepOrange } from "@material-ui/core/colors";
+import { teal, brown } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
 	palette: {
 		primary: teal,
-		secondary: deepOrange,
+		secondary: brown,
 	},
 });
 function MyApp({ Component, pageProps }: any) {

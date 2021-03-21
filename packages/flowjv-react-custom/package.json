@@ -3,6 +3,7 @@
 	"version": "0.13.1",
 	"description": "Mateiral UI binding for FlowJV Form",
 	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"scripts": {
 		"prepare": "npm run build",
 		"build": "npm run tsc",

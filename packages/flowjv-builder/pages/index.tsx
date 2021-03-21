@@ -275,9 +275,13 @@ function Wave({ str = "" }) {
 						}
 					}}
 					key={i}
-					className={cx("ml-0 inline-block", {
-						"px-1": ch === " ",
-					})}
+					className={cx(
+						"ml-0 inline-block",
+						{
+							"px-1": ch === " ",
+						},
+						"transition-transform duration-75"
+					)}
 				>
 					{ch}
 				</span>

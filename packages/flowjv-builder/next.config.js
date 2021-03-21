@@ -5,8 +5,8 @@ const isProd = process.env.NODE_ENV === "production";
 module.exports = withVideos({
 	distDir: ".next",
 
-	assetPrefix: isProd ? "/flowjv" : "",
+	assetPrefix: isProd ? "" : "",
 	publicRuntimeConfig: {
-		assetPrefix: isProd ? "/flowjv" : "",
+		assetPrefix: isProd ? "" : "",
 	},
 });

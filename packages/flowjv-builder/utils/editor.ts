@@ -45,6 +45,12 @@ export const loadEditor = async (
 		onChange?: (v: string) => void;
 	}
 ) => {
+	const triggerChange = (value?: string) => {
+		if (value) {
+			onChange?.(value.substr(value.indexOf("{"), value.length));
+		}
+	};
+	triggerChange(initialValue);
 	await loadMonaco(assetPrefix);
 	if (!ref) return;
 
@@ -75,13 +81,7 @@ export const loadEditor = async (
 		insertSpaces: true,
 		formatOnType: true,
 	});
-	const triggerChange = () => {
-		const value = editor.getModel()?.getValue();
-		if (value) {
-			onChange?.(value.substr(value.indexOf("{"), value.length));
-		}
-	};
-	triggerChange();
+	triggerChange(editor.getModel()?.getValue());
 	editor.onDidChangeCursorPosition(function (e) {
 		if (e.position.lineNumber <= 2) {
 			editor.setPosition({

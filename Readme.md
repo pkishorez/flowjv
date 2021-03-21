@@ -1,5 +1,7 @@
 # flowjv
 
+[![npm version](https://badge.fury.io/js/flowjv.svg)](https://badge.fury.io/js/flowjv)
+
 <p>
     <p >A Flow based approach to JSON Validation.</p>
     <p >

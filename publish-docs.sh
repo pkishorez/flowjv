@@ -1,6 +1,8 @@
 #!/bin/sh
 
 cd packages/flowjv-builder
+rm -rf .next
+npm run build
 npm run export
 touch out/.nojekyll
 rm -rf ../../docs

@@ -6,6 +6,7 @@ import cx from "classnames";
 import Link from "next/link";
 import { Button } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import Head from "next/head";
 
 const assetPrefix = process.env.NEXT_PUBLIC_ASSET_PREFIX ?? "";
 export default function PlayGround() {
@@ -41,6 +42,10 @@ export default function PlayGround() {
 	}, []);
 	return (
 		<div className="p-5 overflow-y-auto">
+			<Head>
+				<meta name="theme-color" content="#109488" />
+				<title>FlowJV: Playground</title>
+			</Head>
 			<style jsx global>{`
 				body {
 					background: #eeeeee;

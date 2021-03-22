@@ -11,17 +11,19 @@ export const loadMonaco = (assetPrefix: string) =>
 			});
 			(window as any).require(
 				["vs/editor/editor.main.nls", "vs/editor/editor.main"],
-				resolve
+				() => {
+					resolve();
+					monaco.editor.defineTheme("myTheme", {
+						base: "vs",
+						inherit: true,
+						rules: [],
+						colors: {
+							"editor.lineHighlightBackground": "#00000000",
+							"editor.lineHighlightBorder": "#00000000",
+						},
+					});
+				}
 			);
-			monaco.editor.defineTheme("myTheme", {
-				base: "vs",
-				inherit: true,
-				rules: [],
-				colors: {
-					"editor.lineHighlightBackground": "#00000000",
-					"editor.lineHighlightBorder": "#00000000",
-				},
-			});
 		});
 	});
 export const initialValue = [
@@ -111,6 +113,7 @@ export const loadEditor = async (
 	}
 ) => {
 	const triggerChange = (value?: string) => {
+		console.log("VALUE : ", value);
 		if (value) {
 			onChange?.(value.substr(value.indexOf("{"), value.length));
 		}
@@ -146,7 +149,6 @@ export const loadEditor = async (
 		insertSpaces: true,
 		formatOnType: true,
 	});
-	triggerChange(editor.getModel()?.getValue());
 	editor.onDidChangeCursorPosition(function (e) {
 		if (e.position.lineNumber <= 2) {
 			editor.setPosition({
@@ -156,6 +158,6 @@ export const loadEditor = async (
 		}
 	});
 	editor.onDidChangeModelContent(() => {
-		triggerChange();
+		triggerChange(editor.getModel()?.getValue());
 	});
 };

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/pkishorez/flowjv/compare/v0.13.3...v0.14.0) (2021-04-10)
+
+
+### Features
+
+* 🎸 Change flowjv-react-custom to flowjv-react-material ([da6eb9c](https://github.com/pkishorez/flowjv/commit/da6eb9cbb6fc74296341a8698462f471d71d468d))
+
+
+### BREAKING CHANGES
+
+* 🧨 The package flowjv-react-custom is renamed to flowjv-react-material for
+sanity.
+
+
+
+
+
 ## [0.13.3](https://github.com/pkishorez/flowjv/compare/v0.13.2...v0.13.3) (2021-03-21)
 
 

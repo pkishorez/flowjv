@@ -29,7 +29,7 @@
 		"classnames": "^2.2.6",
 		"flowjv": "^0.13.3",
 		"flowjv-react": "^0.13.3",
-		"flowjv-react-custom": "^0.13.3",
+		"flowjv-react-material": "^0.13.3",
 		"loadjs": "^4.2.0",
 		"next": "^10.0.5",
 		"next-videos": "^1.4.0"

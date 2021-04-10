@@ -1,4 +1,4 @@
-import { FlowJVForm, flowSchema, SubmitButton } from "flowjv-react-custom";
+import { FlowJVForm, flowSchema, SubmitButton } from "flowjv-react-material";
 import { AutoFlow, FormSpy } from "flowjv-react";
 import React, { useState } from "react";
 

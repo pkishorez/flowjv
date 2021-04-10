@@ -8,31 +8,31 @@ description: FlowJV in 5 minutes.
 
 Let's suppose, you would like to create a registration form. The data requirements are as follows:
 
-* `name` Name
-  * Should be a valid string.
-* `age` Age
-  * Should be a valid number.
-  * Should be between 1 and 100
-* `gender` Gender
-  * Should be a string, One of `male` \| `female` \| `others`
-* `email` Email
-  * Should be a valid email id
-* `password` Password
-  * Should be a string and a minimum of 5 character length
-* `confirmPassword` Confirm Password
-  * Should match the password entered
-* `isEmployed` Is the user Employed?
-  * Should be a boolean
-* `yearsOfExp` Years of Experience
-  * Should be a valid number. 
-  * This field should be displayed only if `isEmployed` is `true`.
+-   `name` Name
+    -   Should be a valid string.
+-   `age` Age
+    -   Should be a valid number.
+    -   Should be between 1 and 100
+-   `gender` Gender
+    -   Should be a string, One of `male` \| `female` \| `others`
+-   `email` Email
+    -   Should be a valid email id
+-   `password` Password
+    -   Should be a string and a minimum of 5 character length
+-   `confirmPassword` Confirm Password
+    -   Should match the password entered
+-   `isEmployed` Is the user Employed?
+    -   Should be a boolean
+-   `yearsOfExp` Years of Experience
+    -   Should be a valid number.
+    -   This field should be displayed only if `isEmployed` is `true`.
 
 Let's set how using `flowjv` we can approach this problem!
 
 ### Step 1 - Install the package
 
 ```bash
-npm install flowjv-react-custom
+npm install flowjv-react-material
 ```
 
 ### Step 2 - Create Flow Schema
@@ -41,23 +41,27 @@ FlowSchema is just a representation of the data requirements we've got. The requ
 
 {% tabs %}
 {% tab title="JavaScript" %}
+
 ```javascript
 const schema = {
-    type: "object",
-    properties: []
-}
+	type: "object",
+	properties: [],
+};
 ```
+
 {% endtab %}
 
 {% tab title="Typescript" %}
+
 ```typescript
-import {IUIFlowSchema} from 'flowjv-react-custom';
+import { IUIFlowSchema } from "flowjv-react-material";
 
 const schema: IUIFlowSchema = {
-    type: "object",
-    properties: []
+	type: "object",
+	properties: [],
 };
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -67,6 +71,7 @@ The schema defined in the previous step is for an empty object. Each property in
 
 {% tabs %}
 {% tab title="JavaScript" %}
+
 ```javascript
 const schema = {
 	type: "object",
@@ -86,18 +91,20 @@ const schema = {
 		{ type: "string", key: "password" },
 		{
 			type: "string",
-			key: "confirmPassword"
+			key: "confirmPassword",
 		},
 		{ type: "boolean", key: "isEmployed" },
 		{ type: "number", key: "yearsOfExp" },
 	],
 };
 ```
+
 {% endtab %}
 
 {% tab title="Typescript" %}
+
 ```typescript
-import { IUIFlowSchema } from 'flowjv-react-custom';
+import { IUIFlowSchema } from "flowjv-react-material";
 
 const schema: IUIFlowSchema = {
 	type: "object",
@@ -117,13 +124,14 @@ const schema: IUIFlowSchema = {
 		{ type: "string", key: "password" },
 		{
 			type: "string",
-			key: "confirmPassword"
+			key: "confirmPassword",
 		},
 		{ type: "boolean", key: "isEmployed" },
 		{ type: "number", key: "yearsOfExp" },
 	],
 };
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -141,6 +149,7 @@ You can learn more about JSONExpression [here](guide/flow-schema/json-expression
 
 {% tabs %}
 {% tab title="JavaScript" %}
+
 ```javascript
 const schema = {
 	type: "object",
@@ -149,10 +158,12 @@ const schema = {
 		{
 			type: "number",
 			key: "age",
-			validations: [{
-				logic: ({ref})=>1<=ref && ref<=100,
-				err: "Age should be between 1 and 100",
-			}],
+			validations: [
+				{
+					logic: ({ ref }) => 1 <= ref && ref <= 100,
+					err: "Age should be between 1 and 100",
+				},
+			],
 		},
 		{
 			type: "enum",
@@ -166,25 +177,29 @@ const schema = {
 		{
 			type: "string",
 			key: "email",
-			validations: [{
-				logic: ({ref})=>(/emailregex/).test(ref),
-				err: "Should be a valid email id.",
-			}],
+			validations: [
+				{
+					logic: ({ ref }) => /emailregex/.test(ref),
+					err: "Should be a valid email id.",
+				},
+			],
 		},
 		{
 			type: "string",
 			key: "password",
-			validations: [{
-				logic: ({ref}) => 5 <= ref?.length,
-				err: "Password should be minimum of 5 character length",
-			}]
+			validations: [
+				{
+					logic: ({ ref }) => 5 <= ref?.length,
+					err: "Password should be minimum of 5 character length",
+				},
+			],
 		},
 		{
 			type: "string",
 			key: "confirmPassword",
 			validations: [
 				{
-					logic: ({ref}) => 5 <= ref?.length,
+					logic: ({ ref }) => 5 <= ref?.length,
 					err: "Confirm Password should match the password.",
 				},
 			],
@@ -194,9 +209,11 @@ const schema = {
 	],
 };
 ```
+
 {% endtab %}
 
 {% tab title="Typescript" %}
+
 ```typescript
 const schema: IFlowSchema = {
 	type: "object",
@@ -205,12 +222,12 @@ const schema: IFlowSchema = {
 		{
 			type: "number",
 			key: "age",
-			validations: [{
-				logic: [ "<=",
-					[1, ["$ref"], 100],
-				],
-				err: "Age should be between 1 and 100",
-			}],
+			validations: [
+				{
+					logic: ["<=", [1, ["$ref"], 100]],
+					err: "Age should be between 1 and 100",
+				},
+			],
 		},
 		{
 			type: "enum",
@@ -224,40 +241,29 @@ const schema: IFlowSchema = {
 		{
 			type: "string",
 			key: "email",
-			validations: [{
-				logic: [
-					"str:fmt:email",
-					["$ref"],
-				],
-				err: "Should be a valid email id.",
-			}],
+			validations: [
+				{
+					logic: ["str:fmt:email", ["$ref"]],
+					err: "Should be a valid email id.",
+				},
+			],
 		},
 		{
 			type: "string",
 			key: "password",
-			validations: [{
-				logic: [
-					"<=",
-					[
-						5,
-						["str:len", ["$ref"]],
-					],
-				],
-				err: "Password should be minimum of 5 character length",
-			}]
+			validations: [
+				{
+					logic: ["<=", [5, ["str:len", ["$ref"]]]],
+					err: "Password should be minimum of 5 character length",
+				},
+			],
 		},
 		{
 			type: "string",
 			key: "confirmPassword",
 			validations: [
 				{
-					logic: [
-						"===",
-						[
-							["$ref"],
-							["$data", "password"],
-						],
-					],
+					logic: ["===", [["$ref"], ["$data", "password"]]],
 					err: "Confirm Password should match the password.",
 				},
 			],
@@ -267,6 +273,7 @@ const schema: IFlowSchema = {
 	],
 };
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -278,56 +285,56 @@ The field `yearsOfExp` is the interesting part here. It should be collected only
 
 {% tabs %}
 {% tab title="JavaScript" %}
+
 ```javascript
 // Showing only relevant part of the schema for readability.
 [
-    { type: "boolean", key: "isEmployed" },
-    { 
-        type: "if",
-        cond: ({data})=>data.isEmployed,
-        /*
+	{ type: "boolean", key: "isEmployed" },
+	{
+		type: "if",
+		cond: ({ data }) => data.isEmployed,
+		/*
             // In JSON Expression format.
             cond: ["$data", "isEmployed"],
         */
-        // When true, collect these properties
-        true: [
-            { type: "number", key: "yearsOfExp" }
-        ],
-        // when false, go through this flow.
-        false: []
-    }    
-]
+		// When true, collect these properties
+		true: [{ type: "number", key: "yearsOfExp" }],
+		// when false, go through this flow.
+		false: [],
+	},
+];
 ```
+
 {% endtab %}
 
 {% tab title="Typescript" %}
+
 ```typescript
 // Showing only relevant part of the schema for readability.
 [
-    { type: "boolean", key: "isEmployed" },
-    { 
-        type: "if",
-        // Condition
-        cond: ({data})=>data?.isEmployed,
-        /*
+	{ type: "boolean", key: "isEmployed" },
+	{
+		type: "if",
+		// Condition
+		cond: ({ data }) => data?.isEmployed,
+		/*
             // In JSON Expression format.
             cond: ["$data", "isEmployed"],
         */
-        // When true, collect these properties
-        true: [
-            { type: "number", key: "yearsOfExp" }
-        ],
-        // Or if condition returns false, add none in this case.
-        false: []
-    }    
-]
+		// When true, collect these properties
+		true: [{ type: "number", key: "yearsOfExp" }],
+		// Or if condition returns false, add none in this case.
+		false: [],
+	},
+];
 ```
+
 {% endtab %}
 {% endtabs %}
 
 ### Step 6 - Finally, UI
 
-Defining the schema is all that's required. After that, you can directly give this schema to `FlowJVForm` , the react component exported from `flowjv-react-custom`. And it takes care of rest!
+Defining the schema is all that's required. After that, you can directly give this schema to `FlowJVForm` , the react component exported from `flowjv-react-material`. And it takes care of rest!
 
 But
 
@@ -338,6 +345,7 @@ We've only described our data requirements. For the schema to be complete, we ne
 
 {% tabs %}
 {% tab title="JavaScript" %}
+
 ```javascript
 // Showing only relevant part of the schema for readability.
 [
@@ -348,6 +356,7 @@ We've only described our data requirements. For the schema to be complete, we ne
     // ...
 ]
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -360,4 +369,3 @@ You can open the above code sandbox to play with it.
 And yayyy! That is all the core of flowjv is about!
 
 Know about the inception behind flowjv next!
-

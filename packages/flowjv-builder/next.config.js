@@ -9,4 +9,7 @@ module.exports = withVideos({
 	publicRuntimeConfig: {
 		assetPrefix: isProd ? "" : "",
 	},
+	future: {
+		webpack5: true,
+	},
 });

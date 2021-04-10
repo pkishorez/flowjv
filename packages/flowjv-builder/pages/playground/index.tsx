@@ -1,5 +1,5 @@
 import { AutoFlow } from "flowjv-react";
-import { FlowJVForm, SubmitButton } from "flowjv-react-custom";
+import { FlowJVForm, SubmitButton } from "flowjv-react-material";
 import React, { useEffect, useRef, useState } from "react";
 import { loadEditor, initialValue } from "../../utils/editor";
 import cx from "classnames";

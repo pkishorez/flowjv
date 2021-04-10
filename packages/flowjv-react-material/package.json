@@ -1,5 +1,5 @@
 {
-	"name": "flowjv-react-custom",
+	"name": "flowjv-react-material",
 	"version": "0.13.3",
 	"description": "Mateiral UI binding for FlowJV Form",
 	"main": "dist/index.js",

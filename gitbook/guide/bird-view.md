@@ -4,7 +4,7 @@ In a Web Application typically data moves from UI to Server.
 
 The flow comprised:
 
-1. Data collection \(UI\) and validations \(UX\) at the client 
+1. Data collection \(UI\) and validations \(UX\) at the client
 2. Data validation \(Security reasons\) for the data collected at the server side.
 
 ![Typical data flow from client to server.](../.gitbook/assets/screenshot-2020-07-05-at-10.51.47-pm.png)
@@ -29,5 +29,4 @@ The packages include:
 
 1. `flowjv` the core validation engine. Given a valid flowSchema \(schema in `flowjv` is called `flowSchema`\), `flowjv` provides a function for validating data against it. `flowjv` also provides utilities for compiling schema to get useful insights out of the schema.
 2. `flowjv-react` gives us tools to leverage the flow schema to create a form automatically from given data requirements. It takes care of UI, UX, and validations.
-3. `flowjv-react-custom` is the package that makes use of `flowjv-react` and creates UI with material-ui. One can think of this as an official UI binding example for flowjv-react.
-
+3. `flowjv-react-material` is the package that makes use of `flowjv-react` and creates UI with material-ui. One can think of this as an official UI binding example for flowjv-react.

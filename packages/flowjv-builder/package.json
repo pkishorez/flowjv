@@ -1,6 +1,6 @@
 {
 	"name": "flowjv-builder",
-	"version": "0.14.0",
+	"version": "0.14.1",
 	"description": "FlowJV Builder!",
 	"scripts": {
 		"prepare": "npm run build",
@@ -27,9 +27,9 @@
 	"dependencies": {
 		"@types/classnames": "^2.2.11",
 		"classnames": "^2.2.6",
-		"flowjv": "^0.14.0",
-		"flowjv-react": "^0.14.0",
-		"flowjv-react-material": "^0.14.0",
+		"flowjv": "^0.14.1",
+		"flowjv-react": "^0.14.1",
+		"flowjv-react-material": "^0.14.1",
 		"loadjs": "^4.2.0",
 		"next": "^10.0.5",
 		"next-videos": "^1.4.0"

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/pkishorez/flowjv/compare/v0.14.1...v0.15.0) (2021-04-11)
+
+
+### Features
+
+* 🎸 Change configuration ([a140448](https://github.com/pkishorez/flowjv/commit/a140448cc3128b52046b880e09e015b56886cdbe))
+
+
+### BREAKING CHANGES
+
+* 🧨 Change schemaType to type
+
+
+
+
+
 ## [0.14.1](https://github.com/pkishorez/flowjv/compare/v0.14.0...v0.14.1) (2021-04-10)
 
 **Note:** Version bump only for package flowjv-react

@@ -35,6 +35,9 @@ const schema = flowSchema<IData>({
 					key: "somuraju",
 					type: "string",
 					label: "Somu Raju",
+					ui: {
+						autoFocus: true,
+					},
 				},
 				{
 					key: "password",

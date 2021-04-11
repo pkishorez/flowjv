@@ -15,6 +15,18 @@ import {
 } from "@material-ui/core";
 import { UI } from "./type";
 import { ArrayUI } from "./components/array";
+import { IFlowSchema as IFlowSchema_ } from "flowjv";
+
+export type IFlowSchema = IFlowSchema_<
+	{},
+	{},
+	UI.StringUI,
+	UI.NumberUI,
+	UI.BooleanUI,
+	UI.EnumUI,
+	UI.CustomUI,
+	UI.ArrayUI
+>;
 
 export const { FlowJVForm, flowSchema } = setupFlowJV<
 	UI.StringUI,

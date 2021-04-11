@@ -55,22 +55,24 @@ export function SimpleFlow({ schema, keyPath }: ISimpleFlow) {
 
 	const result = useMemo(() => {
 		const result = schema ? (
-			<SchemaUI
-				{...{
-					type: "simple",
-					schema,
-					setValue,
-					deleteValue,
-					registerRef: (simpleRef) => {
-						ref.current = simpleRef;
-					},
-					onTouch: (isTouched = true) => setTouched(isTouched),
-					errors,
-					touched,
-					path: keyPath,
-					value: getValue(keyPath),
-				}}
-			/>
+			<SchemaUI type="propertyWrapper">
+				<SchemaUI
+					{...{
+						type: "simple",
+						schema,
+						setValue,
+						deleteValue,
+						registerRef: (simpleRef) => {
+							ref.current = simpleRef;
+						},
+						onTouch: (isTouched = true) => setTouched(isTouched),
+						errors,
+						touched,
+						path: keyPath,
+						value: getValue(keyPath),
+					}}
+				/>
+			</SchemaUI>
 		) : null;
 		return result;
 	}, [errors, schema, touched]);

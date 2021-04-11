@@ -1,18 +1,35 @@
 import { AutoFlow } from "flowjv-react";
 import { FlowJVForm, SubmitButton } from "flowjv-react-material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { loadEditor, initialValue } from "../../utils/editor";
 import cx from "classnames";
 import Link from "next/link";
-import { Button } from "@material-ui/core";
+import { Button, MenuItem, MenuList } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ListIcon from "@material-ui/icons/List";
 import Head from "next/head";
+import { Dropdown } from "../../components/dropdown";
+import { examples } from "../../components/playground/examples";
+
+type Await<T> = T extends {
+	then(onfulfilled?: (value: infer U) => unknown): unknown;
+}
+	? U
+	: T;
 
 const assetPrefix = process.env.NEXT_PUBLIC_ASSET_PREFIX ?? "";
 export default function PlayGround() {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const [value, setValue] = useState<any>(initialValue);
 	const [error, setError] = useState<any>(false);
+	const editorRef = useRef<Await<ReturnType<typeof loadEditor>>>();
+	const setEditorValue = useCallback(
+		(value: string) => () => {
+			editorRef.current?.setValue(value);
+		},
+		[]
+	);
+
 	useEffect(() => {
 		if (!ref.current) {
 			return;
@@ -31,7 +48,7 @@ export default function PlayGround() {
 					setError(true);
 				}
 			},
-		});
+		}).then((v) => (editorRef.current = v));
 		return () => {
 			try {
 				monaco.editor.getModels().forEach((model) => model.dispose());
@@ -53,7 +70,6 @@ export default function PlayGround() {
 			`}</style>
 
 			<div className="w-1/2">
-				{/* <pre>{JSON.stringify(value, null, "  ")}</pre> */}
 				<div
 					className={cx(
 						"mx-auto max-w-sm shadow-lg p-5 self-center overflow-y-auto",
@@ -87,6 +103,27 @@ export default function PlayGround() {
 				)}
 			>
 				<div className={cx("flex-grow ")} ref={ref} />
+				<div className="absolute top-3 right-3">
+					<Dropdown
+						button={
+							<Button variant="contained" color="primary">
+								<ListIcon className="mr-3" />
+								Examples
+							</Button>
+						}
+					>
+						<MenuList className="text-sm w-56">
+							{Object.entries(examples).map(([key, value], i) => (
+								<MenuItem
+									key={key}
+									onClick={setEditorValue(value)}
+								>
+									{i + 1}. {key}
+								</MenuItem>
+							))}
+						</MenuList>
+					</Dropdown>
+				</div>
 			</div>
 		</div>
 	);

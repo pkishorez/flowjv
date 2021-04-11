@@ -48,7 +48,9 @@ const schema = flowSchema<IData>({
 					],
 
 					label: "Password",
-					uiType: "password",
+					ui: {
+						type: "password",
+					},
 				},
 				{
 					key: "confirmPassword",
@@ -65,7 +67,9 @@ const schema = flowSchema<IData>({
 					],
 
 					label: "Confirm Password",
-					uiType: "password",
+					ui: {
+						type: "password",
+					},
 				},
 				{
 					key: "gender",
@@ -76,7 +80,9 @@ const schema = flowSchema<IData>({
 					],
 
 					label: "Gender",
-					uiType: "radio",
+					ui: {
+						type: "radio",
+					},
 				},
 				{
 					key: "array",
@@ -148,7 +154,7 @@ export default function Builder() {
 			renderMap={{
 				"personalDetails.name": (args) => {
 					if (
-						args.schemaType !== "simple" ||
+						args.type !== "simple" ||
 						args.schema.type !== "string"
 					) {
 						return null;
@@ -177,7 +183,7 @@ export default function Builder() {
 									setValue(path, e.target.value);
 								}}
 								style={{ padding: 10 }}
-								type={schema.uiType ?? "text"}
+								type={schema.ui?.type ?? "text"}
 								ref={(r) =>
 									registerRef({
 										setFocus: () => r?.focus(),

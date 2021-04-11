@@ -57,7 +57,7 @@ export function SimpleFlow({ schema, keyPath }: ISimpleFlow) {
 		const result = schema ? (
 			<SchemaUI
 				{...{
-					schemaType: "simple",
+					type: "simple",
 					schema,
 					setValue,
 					deleteValue,

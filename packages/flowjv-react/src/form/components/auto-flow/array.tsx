@@ -47,7 +47,7 @@ export function ArrayFlow({ schema, keyPath }: IArrayFlowProps) {
 			<>
 				<SchemaUI
 					{...{
-						schemaType: "array",
+						type: "array",
 						value: data,
 						uniqueIndexes: uniqueIndexes.current,
 						deleteAtIndex: (index) => {

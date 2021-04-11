@@ -220,10 +220,12 @@ export function FlowJVForm<
 			};
 		},
 		renderSchema: (props) => {
-			const path = props.path.join(".");
-			if (renderMap?.[path]) {
-				const result = renderMap[path](props as any);
-				if (result !== null) return result;
+			if (props.type === "array" || props.type === "simple") {
+				const path = props.path.join(".");
+				if (renderMap?.[path]) {
+					const result = renderMap[path](props as any);
+					if (result !== null) return result;
+				}
 			}
 			if (schemaUI) {
 				const result = schemaUI(props as any);

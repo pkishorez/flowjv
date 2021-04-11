@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.1](https://github.com/pkishorez/flowjv/compare/v0.15.0...v0.15.1) (2021-04-11)
+
+
+### Bug Fixes
+
+* 🐛 Change uiType to ui ([3e84917](https://github.com/pkishorez/flowjv/commit/3e8491750c018bf054cc72dc2566da0d164b584c))
+
+
+
+
+
 # [0.15.0](https://github.com/pkishorez/flowjv/compare/v0.14.1...v0.15.0) (2021-04-11)
 
 

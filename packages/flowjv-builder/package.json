@@ -1,6 +1,6 @@
 {
 	"name": "flowjv-builder",
-	"version": "0.15.0",
+	"version": "0.15.1",
 	"description": "FlowJV Builder!",
 	"scripts": {
 		"prepare": "npm run build",
@@ -27,12 +27,12 @@
 	"dependencies": {
 		"@types/classnames": "^2.2.11",
 		"classnames": "^2.2.6",
-		"flowjv": "^0.15.0",
-		"flowjv-react": "^0.15.0",
-		"flowjv-react-material": "^0.15.0",
+		"flowjv": "^0.15.1",
+		"flowjv-react": "^0.15.1",
+		"flowjv-react-material": "^0.15.1",
 		"loadjs": "^4.2.0",
 		"next": "^10.0.5",
 		"next-videos": "^1.4.0"
 	},
-	"gitHead": "ee6eea7d5e5c424fe87202e38661b218abf08e7f"
+	"gitHead": "e6f1b81957e1e8f4e84bdfbf38392450a0ac9366"
 }

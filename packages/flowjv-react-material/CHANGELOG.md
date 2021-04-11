@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.3](https://github.com/pkishorez/flowjv/compare/v0.15.2...v0.15.3) (2021-04-11)
+
+
+### Bug Fixes
+
+* 🐛 Fix propertyWrapper ([3976462](https://github.com/pkishorez/flowjv/commit/397646267d7807ad7e0853099892ccf66a39406f))
+
+
+
+
+
 ## [0.15.2](https://github.com/pkishorez/flowjv/compare/v0.15.1...v0.15.2) (2021-04-11)
 
 **Note:** Version bump only for package flowjv-react-material

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/pkishorez/flowjv/compare/v0.15.3...v0.16.0) (2021-04-17)
+
+**Note:** Version bump only for package flowjv-react-material
+
+
+
+
+
 ## [0.15.3](https://github.com/pkishorez/flowjv/compare/v0.15.2...v0.15.3) (2021-04-11)
 
 

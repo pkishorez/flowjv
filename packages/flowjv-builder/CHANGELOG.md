@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/pkishorez/flowjv/compare/v0.15.3...v0.16.0) (2021-04-17)
+
+
+### Features
+
+* 🎸 Add normalize funcitonality ([87d4627](https://github.com/pkishorez/flowjv/commit/87d462752e576f14a46dd5557e7c715f7eb57502))
+
+
+
+
+
 ## [0.15.3](https://github.com/pkishorez/flowjv/compare/v0.15.2...v0.15.3) (2021-04-11)
 
 

@@ -87,5 +87,6 @@ export function validateArrayType(
 	return {
 		isValid: !(allErrors.length > 0 || arrErrors.length > 0),
 		errors: allErrors,
+		payload,
 	};
 }

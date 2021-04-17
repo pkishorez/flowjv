@@ -10,6 +10,7 @@ import ListIcon from "@material-ui/icons/List";
 import Head from "next/head";
 import { Dropdown } from "../../components/dropdown";
 import { examples } from "../../components/playground/examples";
+import { validateJSONFlow } from "flowjv";
 
 type Await<T> = T extends {
 	then(onfulfilled?: (value: infer U) => unknown): unknown;
@@ -29,6 +30,8 @@ export default function PlayGround() {
 		},
 		[]
 	);
+
+	const [submission, setSubmission] = useState<any>(false);
 
 	useEffect(() => {
 		if (!ref.current) {
@@ -69,7 +72,10 @@ export default function PlayGround() {
 				}
 			`}</style>
 
-			<div className="w-1/2">
+			<div
+				className="w-1/2 relative"
+				style={{ minHeight: "calc(100vh - 150px)" }}
+			>
 				<div
 					className={cx(
 						"mx-auto max-w-sm shadow-lg p-5 self-center overflow-y-auto",
@@ -92,7 +98,20 @@ export default function PlayGround() {
 							</div>
 						)}
 					</div>
-					<ErrorBoundary value={value} />
+					<ErrorBoundary value={value} onsubmit={setSubmission} />
+					{submission && (
+						<div
+							className="fixed z-50 top-0 bottom-0 left-0 w-1/2 bg-gray-500 bg-opacity-75 flex items-center justify-center"
+							onClick={() => setSubmission(undefined)}
+						>
+							<pre
+								onClick={(e) => e.stopPropagation()}
+								className="p-5 bg-white shadow-lg"
+							>
+								{JSON.stringify(submission, null, "  ")}
+							</pre>
+						</div>
+					)}
 				</div>
 			</div>
 			<div
@@ -129,7 +148,10 @@ export default function PlayGround() {
 	);
 }
 
-export class ErrorBoundary extends React.Component<{ value: any }> {
+export class ErrorBoundary extends React.Component<{
+	value: any;
+	onsubmit: any;
+}> {
 	state = {
 		hasError: false,
 	};
@@ -163,6 +185,13 @@ export class ErrorBoundary extends React.Component<{ value: any }> {
 				<FlowJVForm<any, any>
 					schema={this.props.value}
 					initialData={this.data}
+					onSubmit={(v) => {
+						this.props.onsubmit(
+							validateJSONFlow(this.props.value, v, {
+								normalize: true,
+							})
+						);
+					}}
 					onChange={({ data }) => (this.data = data)}
 					key={this.i++}
 				>

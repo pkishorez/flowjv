@@ -134,5 +134,5 @@ export function validateObjectProperties(
 			}
 		}
 	}
-	return { isValid: errors.length === 0, errors };
+	return { isValid: errors.length === 0, errors, payload };
 }

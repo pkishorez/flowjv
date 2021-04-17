@@ -1,8 +1,7 @@
 import { IFlowConfig, IPayload, IValidationResult } from "../helper";
-import { IKeyPath } from "../../../helper/immutable";
+import { IKeyPath, unset } from "../../../helper/immutable";
 import {
-	IObjectCondition,
-	IObjectProperty,
+	IObjectPropertyAndCondition,
 	validateObjectProperties,
 } from "../composite/object";
 import { execJSONExpression, IJSONExpression } from "../../../jsonexpression";
@@ -19,14 +18,8 @@ export type IIfConditionType<
 > = {
 	type: "if";
 	cond: IJSONExpression<IData, IContext>;
-	true: (
-		| IObjectProperty<IData, IContext, A, B, C, D, E, F>
-		| IObjectCondition<IData, IContext, A, B, C, D, E, F>
-	)[];
-	false?: (
-		| IObjectProperty<IData, IContext, A, B, C, D, E, F>
-		| IObjectCondition<IData, IContext, A, B, C, D, E, F>
-	)[];
+	true: IObjectPropertyAndCondition<IData, IContext, A, B, C, D, E, F>[];
+	false?: IObjectPropertyAndCondition<IData, IContext, A, B, C, D, E, F>[];
 };
 
 export type IIfPayload = IPayload & { refPath: IKeyPath };
@@ -37,6 +30,19 @@ export function validateIfCondition(
 	config: IFlowConfig
 ): IValidationResult {
 	const cond = execJSONExpression(schema.cond, payload);
+
+	if (config.normalize) {
+		schema[cond ? "false" : "true"]?.map((prop) => {
+			if (prop.type === "if" || prop.type === "switch") {
+				validateObjectProperties([prop], payload, config);
+			} else {
+				payload.data = unset(payload.data, [
+					...payload.refPath,
+					prop.key,
+				]);
+			}
+		});
+	}
 	if (!!cond) {
 		// execute true object.
 		return validateObjectProperties(schema.true, payload, config);
@@ -44,5 +50,5 @@ export function validateIfCondition(
 	if (schema.false) {
 		return validateObjectProperties(schema.false, payload, config);
 	}
-	return { isValid: true, errors: [] };
+	return { isValid: true, errors: [], payload };
 }

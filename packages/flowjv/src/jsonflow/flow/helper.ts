@@ -10,6 +10,7 @@ export interface IValidation<IData = {}, IContext = {}> {
 export interface IValidationResult {
 	isValid: boolean;
 	errors: { key: IKeyPath; msgs: string[] }[];
+	payload: IPayload;
 }
 
 export interface IPayload<IData = any, IContext = any> {
@@ -20,7 +21,7 @@ export interface IPayload<IData = any, IContext = any> {
 export interface IFlowConfig {
 	aggressive?: boolean;
 	typeCheck?: boolean;
-	enforseSchema?: boolean;
+	normalize?: boolean;
 }
 
 // Error Messages

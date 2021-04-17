@@ -1,7 +1,6 @@
 # Table of contents
 
 * [Getting Started](README.md)
-* [Inception](inception.md)
 
 ## Guide
 

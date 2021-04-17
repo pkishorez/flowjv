@@ -1,6 +1,6 @@
 # Flow Schema
 
-Everything in FlowJV starts with a Flow Schema. Whether it's for creating UI or validating data. It's just a fancy term for the schema in `flowjv`.
+Everything in FlowJV happens using a Flow Schema whether it's for creating UI or validating data. It's just a fancy term for the schema in `flowjv`.
 
 Flow Schema describes the data requirements along with validations and UI configurations.
 
@@ -8,7 +8,7 @@ Flow Schema is similar to JSON Schema, that it expects the specification of how 
 
 Flow Schema only expects a value of type "`object` at the root level. `properties` field contains the data requirements that this object expects. 
 
-Each entry in the object `properties` can be one of data requirement or flow logic that steers flow based on a condition.
+Each entry in the object `properties` can be one of data requirement or flow logic that steers the flow based on a logic.
 
 {% hint style="info" %}
 JSON Schema describes a data snapshot. Rules determining what the data should adhere to. But Flow Schema describes data as a flow. As a series of steps.
@@ -63,7 +63,7 @@ The `key` is just a valid string. Nothing fancy here.
 
 #### type
 
-Type of value that a property can expect could be one of
+Type of value that the property expects. It could be one of
 
 number \| string \| enum \| boolean \| array \| custom
 

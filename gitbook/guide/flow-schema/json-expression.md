@@ -20,7 +20,7 @@ This also prevents us from using tools that can dynamically generate flow schema
 To get over this `flowjv` also provides a utility called `JSONExpression`. With this, we can write a subset of javascript expressions as a JSON representation.
 
 {% hint style="info" %}
-JSON Expression is not a one-to-one mapping with Javascript expression. There are a lot of things that are not possible with JSON expression yet. The ability to extend JSON expression is under work.
+JSON Expression is not a one-to-one mapping with Javascript expression. There are a lot of things that are not possible with JSON expression yet. The ability to extend JSON expression is under consideration.
 {% endhint %}
 
 JSON expression is just a JSON representation of prefix notation of a Javascript expression!
@@ -49,7 +49,7 @@ string/number/boolean itself is a valid JSON Expression!
 ![Composite JS expression to JSON expression](../../.gitbook/assets/composite.gif)
 
 {% hint style="info" %}
-JSON Expression is not mandatory for using `flowjv`. But using provides a lot of benefits. Serialization, performance to name a few.
+JSON Expression is not mandatory for using `flowjv`. But using it provides a lot of benefits. Serialization and performance to name a few.
 {% endhint %}
 
 You can look into all possible operators `JSONExpression` provides in the [source code](https://github.com/pkishorez/flowjv/blob/master/packages/flowjv/src/jsonexpression/index.ts) for now. We'll move that to documentation later.

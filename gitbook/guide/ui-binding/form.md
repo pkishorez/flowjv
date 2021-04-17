@@ -2,21 +2,21 @@
 
 The Form is a basic building block in the web for collecting data from a user. 
 
-For the very reason, `flowjv-react` provides a specifically a Form component\(`FlowJVForm`\) to help you automatically create form from a Flow Schema.
+For this very reason, `flowjv-react-material` provides specifically a Form component\(`FlowJVForm`\) to help you automatically create a form from a Flow Schema.
 
-To use it, you need to import `FlowJVForm` from the package and also should include relevant CSS as below.
+To use it, you need to import `FlowJVForm` from the package.
 
 ```javascript
-import { FLOWJVForm } from 'flowjv-react';
-import "flowjv-react/dist/main.css";
+import { FLOWJVForm } from 'flowjv-react-material';
 
 export ()=>{
-    const [value, setValue] = useState({isValid: false, data: {}}};
-    return <FlowJVForm schema={flowSchema} value={value} onChange={setValue}/>
+    return <FlowJVForm
+        schema={flowSchema}
+        initialData={initialData}
+        onSubmit={({isValid, data})=>{/*logic*/}}
+    />
 }
 ```
-
-As seen, the component exported: `FlowJVForm` is a controlled component. And that's it! You have a form ready!
 
 ## Customization:
 
